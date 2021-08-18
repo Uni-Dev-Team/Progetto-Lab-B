@@ -19,7 +19,7 @@ CREATE TABLE CentriVaccinali (
     comune VARCHAR(50) NOT NULL,
     provincia CHAR(2) NOT NULL,
     CAP CHAR(5) NOT NULL,
-    tipologia TipologiaCentroVaccinale NOT NULL,
+    tipologia TipologiaCentroVaccinale NOT NULL
 );
 
 /* Questa definizione sarà soltanto un modello da utilizzare per la creazione dinamica
@@ -53,13 +53,13 @@ CREATE TABLE Cittadini_Registrati(
 );
 
 CREATE TABLE Eventi_Avversi (
-    idEvento INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    idEvento SERIAL NOT NULL PRIMARY KEY,
     tipoEvento TipoEvento NOT NULL,
     tipoVaccino TipoVaccino NOT NULL,
     gradoSeverita SMALLINT CHECK (gradoSeverita < 5 AND gradoSeverita > 1) NOT NULL,
     dataSomministrazione DATE CHECK (dataAvvenimento > dataSomministrazione) NOT NULL,
     dataAvvenimento DATE CHECK (dataAvvenimento > dataSomministrazione) NOT NULL,
-    note VARCHAR(256),
+    note VARCHAR(256)
 );
 
 
