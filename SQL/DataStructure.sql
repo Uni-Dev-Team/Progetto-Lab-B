@@ -5,10 +5,10 @@
 /* DATA DEFINITION */
 
 /* Enum Definition */
-CREATE TYPE QualificatoreIndirizzo AS ENUM ('Via', 'Viale', 'Piazza');
-CREATE TYPE TipologiaCentroVaccinale AS ENUM ('Ospedaliero', 'Aziendale', 'Hub');
-CREATE TYPE TipoEvento AS ENUM ('mal di testa', 'febbre', 'dolori muscolari e articolari', 'linfoadenopatia', 'tachicardia', 'crisi ipertensiva');
-CREATE TYPE TipoVaccino AS ENUM ('Pfizer', 'AstraZeneca', 'Moderna', 'J&J');
+CREATE TYPE QualificatoreIndirizzo AS ENUM ('VIA', 'VIALE', 'PIAZZA');
+CREATE TYPE TipologiaCentroVaccinale AS ENUM ('OSPEDALIERO', 'AZIENDALE', 'HUB');
+CREATE TYPE TipoEvento AS ENUM ('MAL_DI_TESTA', 'FEBBRE', 'DOLORI_MUSCOLARI_ARTICOLARI', 'LINFOADENOPATIA', 'TACHICARDIA', 'CRISI_IPERTENSIVA');
+CREATE TYPE TipoVaccino AS ENUM ('PFIZER', 'ASTRAZENECA', 'MODERNA', 'J_AND__J');
 
 /* Table Definition */
 CREATE TABLE CentriVaccinali (
