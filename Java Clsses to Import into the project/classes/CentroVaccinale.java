@@ -1,7 +1,6 @@
-package classes;
+package com.unidevteam.classes;
 
-import enumerators.QualificatoreIndirizzo;
-import enumerators.TipologiaCentroVaccinale;
+import com.unidevteam.enumerators.*;
 
 public class CentroVaccinale {
     private String nome;

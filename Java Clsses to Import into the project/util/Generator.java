@@ -1,4 +1,4 @@
-package util;
+package com.unidevteam.util;
 /**
      * Generator Class
      *

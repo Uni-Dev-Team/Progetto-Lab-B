@@ -1,9 +1,11 @@
-package util;
+package com.unidevteam.util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import classes.*;
-import enumerators.*;
+
+import com.unidevteam.classes.CentroVaccinale;
+import com.unidevteam.enumerators.*;
+
 
 /**
      * Manager for the Database
@@ -23,6 +25,12 @@ public class DBManager {
         this.password = password;
     }
 
+    public DBManager() {
+        this.url = "jdbc:postgresql://tai.db.elephantsql.com/igabhvra";
+        this.user = "igabhvra";
+        this.password = "pM8kEKh0soYm_ZRR_DcpIlelPAFb2UFv";
+    }
+
    /**
      * Connect to the PostgreSQL database
      *
@@ -32,6 +40,11 @@ public class DBManager {
      * @author AndrewF17
      */
     public Connection connect() throws SQLException {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return DriverManager.getConnection(url, user, password);
     }
 
