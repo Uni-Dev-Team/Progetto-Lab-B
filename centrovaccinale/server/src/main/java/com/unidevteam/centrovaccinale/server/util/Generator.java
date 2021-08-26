@@ -1,4 +1,4 @@
-package com.unidevteam.util;
+package com.unidevteam.centrovaccinale.server.util;
 /**
      * Generator Class
      *

@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.unidevteam.centrovaccinale.server.util.DBManager;
+
 
 public class MainApp extends Application {
     private static Stage stage;
@@ -36,6 +38,12 @@ public class MainApp extends Application {
 
 
     public static void main(String[] args) {
+        DBManager dbManager = new DBManager();
+        try {
+            dbManager.connect();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         launch(args);
     }
 

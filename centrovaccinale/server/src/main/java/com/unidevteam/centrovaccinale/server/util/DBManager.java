@@ -1,10 +1,10 @@
-package com.unidevteam.util;
+package com.unidevteam.centrovaccinale.server.util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.unidevteam.classes.CentroVaccinale;
-import com.unidevteam.enumerators.*;
+import com.unidevteam.centrovaccinale.server.classes.CentroVaccinale;
+import com.unidevteam.centrovaccinale.server.enumerators.*;
 
 
 /**
@@ -44,6 +44,7 @@ public class DBManager {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            System.exit(1);
         }
         return DriverManager.getConnection(url, user, password);
     }

@@ -1,6 +1,6 @@
-package com.unidevteam.classes;
+package com.unidevteam.centrovaccinale.server.classes;
 
-import com.unidevteam.enumerators.*;
+import com.unidevteam.centrovaccinale.server.enumerators.*;
 
 public class CentroVaccinale {
     private String nome;

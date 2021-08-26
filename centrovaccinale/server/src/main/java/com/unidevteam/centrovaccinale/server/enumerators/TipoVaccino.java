@@ -1,4 +1,4 @@
-package com.unidevteam.enumerators;
+package com.unidevteam.centrovaccinale.server.enumerators;
 
 public enum TipoVaccino {
     PFIZER,
