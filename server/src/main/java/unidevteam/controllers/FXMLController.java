@@ -9,40 +9,105 @@ Put header here
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import unidevteam.util.DBManager;
+import unidevteam.util.Regex;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 
 
 public class FXMLController implements Initializable {
 
-    @FXML
-    private Label lb_test;
+    DBManager dbManager;
 
     @FXML
-    private Button btnClicked;
+    private TextField hostNameTextField;
 
     @FXML
-    void onClick(ActionEvent event) {
-        if (lb_test.isVisible()) {
-            lb_test.setVisible(false);
-        } else {
-            lb_test.setVisible(true);
+    private TextField dbNameTextField;
+
+    @FXML
+    private TextField userNameTextField;
+
+    @FXML
+    private PasswordField passwordTextField;
+
+    @FXML
+    private Button loginButton;
+
+    @FXML
+    private Label errorMessageLabel;
+
+    @FXML
+    void onClickLoginButton(ActionEvent event) {
+        String hostName = hostNameTextField.getText();
+        String dbName = dbNameTextField.getText();
+        String userName = userNameTextField.getText();
+        String password = passwordTextField.getText();
+
+        if(hostName != null && dbName != null && userName != null && password != null) {
+            if(hostName.trim() != "" && dbName.trim() != "" && userName.trim() != "" && password.trim() != "") {
+                
+                dbManager = new DBManager(hostName, dbName, userName, password);
+
+                Task<Void> dbConnectTask = new Task<Void>() {
+                    protected Void call() throws Exception {
+                        dbManager.connect();
+                        return null;
+                    }
+                };
+
+                dbConnectTask.setOnSucceeded(e -> { 
+                    System.out.println("Connectione established.");
+                    loginButton.setText("Accedi");
+                    errorMessageLabel.setText("Connessione stabilita.");
+                    errorMessageLabel.setTextFill(Color.GREEN);
+                    errorMessageLabel.setVisible(true);
+
+                    dbManager.getCountCentriVaccinali();
+                });
+                dbConnectTask.setOnFailed(e -> {
+                    loginButton.setText("Accedi");
+                    System.out.println("Connection not estabilished!");
+                    errorMessageLabel.setText("Connessione non stabilita, ritenta.");
+                    errorMessageLabel.setVisible(true);
+                    loginButton.setDisable(false);
+
+                    hostNameTextField.setDisable(false);
+                    dbNameTextField.setDisable(false);
+                    userNameTextField.setDisable(false);
+                    passwordTextField.setDisable(false);
+                });
+
+                Thread localThread = new Thread(dbConnectTask);
+                localThread.start();
+                loginButton.setText("Caricamento...");
+                loginButton.setDisable(true);
+
+                hostNameTextField.setDisable(true);
+                dbNameTextField.setDisable(true);
+                userNameTextField.setDisable(true);
+                passwordTextField.setDisable(true);
+
+                return;
+            }
         }
+        
+        errorMessageLabel.setText("Compila tutti i campi.");
+        errorMessageLabel.setVisible(true);
+        System.out.println("Compila tutti i campi.");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       lb_test.setVisible(false);
-       DBManager mDbManager = new DBManager();
-       try {
-           mDbManager.connect();
-           System.out.println("Connection estabilished!");
-       } catch (Exception e) {
-            System.out.println("Connection not estabilished!");
-       }
+        
     }
 }

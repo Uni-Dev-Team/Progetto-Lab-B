@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import unidevteam.classes.CentroVaccinale;
+import unidevteam.classes.*;
 import unidevteam.enumerators.*;
 
 
@@ -58,7 +58,7 @@ public class DBManager {
      * @throws java.sql.SQLException
      * @author AndrewF17
      */
-    public Boolean insertCentroVaccinale(CentroVaccinale object) {
+    public Boolean addCentroVaccinale(CentroVaccinale object) {
         String sql = "INSERT INTO CentriVaccinali(nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia) "
                 + "VALUES(?,?::qualificatoreindirizzo,?,?,?,?,?,?::tipologiacentrovaccinale)";
         try (
@@ -79,6 +79,36 @@ public class DBManager {
                 return false;
             }
         return true;
+    }
+
+
+    /**
+     * Insert a new Cittadino
+     * 
+     * @return a Boolean
+     * @category INSERT
+     * @throws java.sql.SQLException
+     * @author AndrewF17
+     */
+    public Boolean addCittadino(Cittadino object) {
+        String sql = "INSERT INTO Cittadini_Registrati(codiceFiscale, nome, cognome, email, idVaccinazione, password) VALUES (?,?,?,?,?,?)";
+        try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);) {
+                statement.setString(1, object.getCodiceFiscale());
+                statement.setString(2, object.getNome());
+                statement.setString(3, object.getCognome());
+                statement.setString(4, object.getEmail());
+                statement.setString(5, object.getIdVaccinazione());
+                statement.setString(6, object.getPassword());
+
+                statement.executeQuery();
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+            return false;
+        }
+        return true;
+        
     }
 
     /**
@@ -318,8 +348,55 @@ public class DBManager {
                 
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
-
             }
         return resl;
     }
+
+    /**
+     * get Numbers of CentriVaccinali
+     * 
+     * @return long
+     * @category COUNT
+     * @throws java.sql.SQLException
+     * @author AndrewF17
+     */
+    public long getCountCentriVaccinali() {
+        String sql = "SELECT COUNT(nome) FROM CentriVaccinali";
+         try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);) {
+                ResultSet rs = statement.executeQuery();
+                while(rs.next()){
+                        return rs.getLong(1);
+                }
+            } catch (SQLException exception) {
+                System.err.println(exception.getMessage());
+            }
+        return 0;
+    }
+
+    /**
+     * get Numbers of Cittadini
+     * 
+     * @return long
+     * @category COUNT
+     * @throws java.sql.SQLException
+     * @author AndrewF17
+     */
+    public long getCountCittadini() {
+        String sql = "SELECT COUNT(codiceFiscale) FROM Cittadini_Registrati";
+         try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);) {
+                ResultSet rs = statement.executeQuery();
+                while(rs.next()){
+                        return rs.getLong(1);
+                }
+            } catch (SQLException exception) {
+                System.err.println(exception.getMessage());
+            }
+        return 0;
+    }
+
+
 }
