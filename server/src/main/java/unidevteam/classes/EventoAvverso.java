@@ -77,7 +77,11 @@ class EventoAvverso {
         this.dataAvventimento = dataAvventimento;
     }
 
-    public String toString(){
-        return "";
+    @Override
+    public String toString() {
+        return "EventoAvverso [dataAvventimento=" + dataAvventimento + ", dataSomministrazione=" + dataSomministrazione
+                + ", gradoSeverita=" + gradoSeverita + ", idEvento=" + idEvento + ", note=" + note + ", tipoEvento="
+                + tipoEvento + ", tipoVaccino=" + tipoVaccino + "]";
     }
+
 }
