@@ -18,12 +18,14 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
 
         System.out.println("Registering ...");
         Registry registry = LocateRegistry.createRegistry(1099);
+        System.setProperty("java.security.policy","./security.policy");
         registry.rebind("server", this);
         System.out.println("Registered");
     }
 
     @Override
     public CentroVaccinale getCentroVaccinaleById(String id) throws RemoteException {
+        System.out.println("GET CENTRO VACCINALE");
         if(!id.isBlank() && id != null) {
             try {
                 CentroVaccinale centro = DBManager.getInstance().getCentroVaccinaleById(id);
