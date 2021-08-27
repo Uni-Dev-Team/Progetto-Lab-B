@@ -76,4 +76,8 @@ class EventoAvverso {
         this.dataSomministrazione = dataSomministrazione;
         this.dataAvventimento = dataAvventimento;
     }
+
+    public String toString(){
+        return "";
+    }
 }

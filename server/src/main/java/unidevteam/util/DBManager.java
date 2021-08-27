@@ -6,31 +6,42 @@ import java.util.List;
 import unidevteam.classes.*;
 import unidevteam.enumerators.*;
 
-
-
 /**
-     * Manager for the Database
-     *
-     * @version 1.0
-     * @category Database Comunicaion
-     * @author AndrewF17
-     */
+ * Manager for the Database
+ *
+ * @version 1.0
+ * @category Database Comunicaion
+ * @author AndrewF17
+ */
 public class DBManager {
     private String url;
     private String user;
     private String password;
 
-    public DBManager(String hostname, String dbName, String user, String password) {
+    private static DBManager instance = null;
+
+    public static DBManager getInstance() throws Exception {
+        if(instance != null) return instance;
+        throw new Exception("Database manager is not initialized.");
+    }
+
+    public static DBManager getInstance(String hostname, String dbName, String user, String password) {
+        if(instance == null) instance = new DBManager(hostname, dbName, user, password);
+
+        return instance;
+    }
+
+    private DBManager(String hostname, String dbName, String user, String password) {
         this.url = "jdbc:postgresql://"+ hostname +"/" + dbName;
         this.user = user;
         this.password = password;
     }
 
-    public DBManager() {
-        this.url = "jdbc:postgresql://tai.db.elephantsql.com/igabhvra";
-        this.user = "igabhvra";
-        this.password = "pM8kEKh0soYm_ZRR_DcpIlelPAFb2UFv";
-    }
+    // public DBManager() {
+    //     this.url = "jdbc:postgresql://tai.db.elephantsql.com/igabhvra";
+    //     this.user = "igabhvra";
+    //     this.password = "pM8kEKh0soYm_ZRR_DcpIlelPAFb2UFv";
+    // }
 
    /**
      * Connect to the PostgreSQL database

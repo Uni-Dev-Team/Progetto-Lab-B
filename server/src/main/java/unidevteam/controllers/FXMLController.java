@@ -1,8 +1,10 @@
 package unidevteam.controllers;
 
+import unidevteam.util.DBManager;
+import unidevteam.util.SceneManager;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import unidevteam.util.DBManager;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
@@ -47,7 +48,7 @@ public class FXMLController implements Initializable {
         if(hostName != null && dbName != null && userName != null && password != null) {
             if(hostName.trim() != "" && dbName.trim() != "" && userName.trim() != "" && password.trim() != "") {
                 
-                dbManager = new DBManager(hostName, dbName, userName, password);
+                dbManager = DBManager.getInstance(hostName, dbName, userName, password);
 
                 Task<Void> dbConnectTask = new Task<Void>() {
                     protected Void call() throws Exception {
@@ -62,6 +63,8 @@ public class FXMLController implements Initializable {
                     errorMessageLabel.setText("Connessione stabilita.");
                     errorMessageLabel.setTextFill(Color.GREEN);
                     errorMessageLabel.setVisible(true);
+
+                    new SceneManager().switchToNewScene(event, "metrics");
                 });
                 dbConnectTask.setOnFailed(e -> {
                     loginButton.setText("Accedi");
@@ -97,6 +100,9 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        hostNameTextField.setText("tai.db.elephantsql.com");
+        dbNameTextField.setText("igabhvra");
+        userNameTextField.setText("igabhvra");
+        passwordTextField.setText("pM8kEKh0soYm_ZRR_DcpIlelPAFb2UFv");
     }
 }

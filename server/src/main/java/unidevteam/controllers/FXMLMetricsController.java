@@ -1,5 +1,8 @@
 package unidevteam.controllers;
 
+import unidevteam.util.DBManager;
+import unidevteam.util.SceneManager;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -32,11 +35,21 @@ public class FXMLMetricsController {
 
     @FXML
     void onClickKillServer(ActionEvent event) {
-
+        // TODO: Chiudere sessione server per ascolto ed esecuzione di metodi
+        new SceneManager().switchToNewScene(event, "login");
     }
 
     @FXML
     void initialize() {
-        
+        DBManager dbManager;
+        try {
+            dbManager = DBManager.getInstance();
+
+            numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
+            numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
     }
 }
