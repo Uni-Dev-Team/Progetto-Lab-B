@@ -10,7 +10,7 @@ import java.util.List;
 import unidevteam.enumerators.TipoVaccino;
 import unidevteam.interfaces.CentroVaccinaleInterfaccia;
 
-class Server extends UnicastRemoteObject implements CentroVaccinaleInterfaccia{
+public class Server extends UnicastRemoteObject implements CentroVaccinaleInterfaccia{
 
     public Server() throws RemoteException {
         super();

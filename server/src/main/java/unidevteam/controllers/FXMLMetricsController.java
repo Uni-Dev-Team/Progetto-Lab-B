@@ -2,6 +2,7 @@ package unidevteam.controllers;
 
 import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
+import unidevteam.classes.Server;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -47,6 +48,9 @@ public class FXMLMetricsController {
 
             numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
             numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
+
+            Server s = new Server();
+
         } catch(Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);
