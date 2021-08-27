@@ -42,7 +42,7 @@
             <Font name="Montserrat Bold" size="16.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="709.0" layoutY="275.0" prefHeight="21.0" prefWidth="56.0" text="Online" textFill="#75b85b" wrapText="true">
+      <Label fx:id="serverStatusLabel" alignment="TOP_LEFT" layoutX="709.0" layoutY="275.0" prefHeight="21.0" prefWidth="56.0" text="Online" textFill="#75b85b" wrapText="true">
          <font>
             <Font name="Montserrat Bold" size="16.0" />
          </font>
@@ -52,7 +52,7 @@
             <Font name="Montserrat Bold" size="16.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="709.0" layoutY="306.0" prefHeight="21.0" prefWidth="56.0" text="0" wrapText="true">
+      <Label fx:id="numOfVaccineCentersLabel" alignment="TOP_LEFT" layoutX="709.0" layoutY="306.0" prefHeight="21.0" prefWidth="56.0" text="0" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
@@ -62,7 +62,7 @@
             <Font name="Montserrat Bold" size="16.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="709.0" layoutY="339.0" prefHeight="21.0" prefWidth="56.0" text="0" wrapText="true">
+      <Label fx:id="numOfCitizensLabel" alignment="TOP_LEFT" layoutX="709.0" layoutY="339.0" prefHeight="21.0" prefWidth="56.0" text="0" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
@@ -72,12 +72,12 @@
             <Font name="Montserrat Bold" size="16.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="709.0" layoutY="372.0" prefHeight="21.0" prefWidth="56.0" text="0" wrapText="true">
+      <Label fx:id="numOfAdverseEventsLabel" alignment="TOP_LEFT" layoutX="709.0" layoutY="372.0" prefHeight="21.0" prefWidth="56.0" text="0" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="loginButton" layoutX="438.0" layoutY="435.0" mnemonicParsing="false" onAction="#onClickLoginButton" prefHeight="35.0" prefWidth="400.0" style="-fx-background-color: #E3381E; -fx-color: white; -fx-text-fill: #FFF; -fx-border-radius: 5px;" text="Termina server">
+      <Button fx:id="killServerButton" layoutX="438.0" layoutY="435.0" mnemonicParsing="false" onAction="#onClickKillServer" prefHeight="35.0" prefWidth="400.0" style="-fx-background-color: #E3381E; -fx-color: white; -fx-text-fill: #FFF; -fx-border-radius: 5px;" text="Termina server">
          <font>
             <Font name="Montserrat Regular" size="15.0" />
          </font>
