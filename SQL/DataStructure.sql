@@ -25,17 +25,18 @@ CREATE TABLE CentriVaccinali (
 /* Questa definizione sarà soltanto un modello da utilizzare per la creazione dinamica
    della tabella vaccinati relativa ad un centro vaccinale particolare */
 CREATE TABLE Vaccinati_NomeCentro (
-    nomeCentro VARCHAR(40) NOT NULL PRIMARY KEY,
+    /*nomeCentro VARCHAR(40) NOT NULL, */
+
+    idVaccinazione INT NOT NULL PRIMARY KEY,
     nomeCittadino VARCHAR(40) NOT NULL,
     cognomeCittadino VARCHAR(40) NOT NULL,
     codiceFiscale CHAR(16) NOT NULL UNIQUE,
     dataSomministrazione DATE NOT NULL,
-    tipoVaccino TipoVaccino NOT NULL,
-    idVaccinazione CHAR(8) NOT NULL UNIQUE,
-
-    FOREIGN KEY (nomeCentro) REFERENCES CentriVaccinali(nome)
+    tipoVaccino TipoVaccino NOT NULL
+    
+    /*FOREIGN KEY (nomeCentro) REFERENCES CentriVaccinali(nome)
     ON UPDATE CASCADE
-    ON DELETE CASCADE
+    ON DELETE CASCADE */
 );
 
 CREATE TABLE Cittadini_Registrati(
@@ -43,7 +44,7 @@ CREATE TABLE Cittadini_Registrati(
     nome VARCHAR(40) NOT NULL,
     cognome VARCHAR(40) NOT NULL,
     email VARCHAR(40) NOT NULL UNIQUE,
-    idVaccinazione CHAR(8) NOT NULL UNIQUE,
+    idVaccinazione INT NOT NULL UNIQUE,
     passwd CHAR(60) NOT NULL,
 
     /* Vaccinati_NomeCentro da sostituire con il nome del centro in cui si è vaccinato */
@@ -53,7 +54,7 @@ CREATE TABLE Cittadini_Registrati(
 );
 
 CREATE TABLE Eventi_Avversi (
-    idEvento SERIAL NOT NULL PRIMARY KEY,
+    idEvento VARCHAR(45) NOT NULL PRIMARY KEY,
     tipoEvento TipoEvento NOT NULL,
     tipoVaccino TipoVaccino NOT NULL,
     gradoSeverita SMALLINT CHECK (gradoSeverita < 5 AND gradoSeverita > 1) NOT NULL,
