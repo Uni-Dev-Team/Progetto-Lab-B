@@ -1,25 +1,16 @@
 package unidevteam.controllers;
 
-/*
-Put header here
-
-
- */
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import unidevteam.util.DBManager;
-import unidevteam.util.Regex;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
@@ -71,8 +62,6 @@ public class FXMLController implements Initializable {
                     errorMessageLabel.setText("Connessione stabilita.");
                     errorMessageLabel.setTextFill(Color.GREEN);
                     errorMessageLabel.setVisible(true);
-
-                    dbManager.getCountCentriVaccinali();
                 });
                 dbConnectTask.setOnFailed(e -> {
                     loginButton.setText("Accedi");
