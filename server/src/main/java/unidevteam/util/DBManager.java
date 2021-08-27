@@ -130,7 +130,7 @@ public class DBManager {
      * @throws java.sql.SQLException
      * @author AndrewF17
      */
-    public Boolean deletetCentroVaccinale(CentroVaccinale object) {
+    public Boolean deleteCentroVaccinale(CentroVaccinale object) {
         String sql = "DELETE FROM CentriVaccinali WHERE nome = ?";
         try (
             Connection connection = connect();
