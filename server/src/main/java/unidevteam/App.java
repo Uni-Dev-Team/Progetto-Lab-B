@@ -26,5 +26,6 @@ public class App extends Application
         stage.setTitle("Server Dashboard");
         stage.getIcons().add(new Image(new File("src/main/resources/primula.png").toURI().toURL().toString()));
         stage.show();
+        root.requestFocus();
     }
 }
