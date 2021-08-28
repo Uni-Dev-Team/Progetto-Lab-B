@@ -1,5 +1,9 @@
 package unidevteam.classes;
 
+import unidevteam.util.BCrypt;
+import unidevteam.util.DBManager;
+import unidevteam.util.Generator;
+
 public class Cittadino {
     private String codiceFiscale;
     private String nome;
@@ -7,6 +11,24 @@ public class Cittadino {
     private String email;
     private String idVaccinazione;
     private String password;
+
+    // Debugging porpuces
+    public Cittadino() {
+        this.codiceFiscale = "FSSDSA80A01L682N";
+        this.nome = "DSA";
+        this.cognome = "FASS";
+        this.email = "a@a.a";
+        String tempId = null;
+        try {
+            do{
+                tempId = Generator.getAlphaNumericString(16);
+            } while(DBManager.getInstance().verifyId("idVaccinazione" , tempId, "cittadini_registrati") >= 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.idVaccinazione = tempId;
+        this.password = BCrypt.gensalt(60);
+    }
 
     public Cittadino(String codiceFiscale, String nome, String cognome, String email, String idVaccinazione, String password){
         this.codiceFiscale = codiceFiscale;
@@ -16,6 +38,8 @@ public class Cittadino {
         this.idVaccinazione = idVaccinazione;
         this.password = password;
     }
+
+
 
     public String getCodiceFiscale() {
         return codiceFiscale;

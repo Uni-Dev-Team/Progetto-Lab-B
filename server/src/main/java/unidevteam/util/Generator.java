@@ -13,7 +13,7 @@ public class Generator {
      * @return a String
      * @author AndrewF17
      */
-    static String getAlphaNumericString(int length) 
+    public static String getAlphaNumericString(int length) 
     { 
   
         // chose a Character random from this String 

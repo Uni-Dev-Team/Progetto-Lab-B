@@ -1,5 +1,7 @@
 package unidevteam.controllers;
 
+import unidevteam.classes.CentroVaccinale;
+import unidevteam.classes.Cittadino;
 import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
 
@@ -53,12 +55,13 @@ public class FXMLController implements Initializable {
                 Task<Void> dbConnectTask = new Task<Void>() {
                     protected Void call() throws Exception {
                         dbManager.connect();
+                        System.out.println("Query result:" + dbManager.addCittadino(new Cittadino()));
+                        
                         return null;
                     }
                 };
 
                 dbConnectTask.setOnSucceeded(e -> { 
-                    System.out.println("Connectione established.");
                     loginButton.setText("Accedi");
                     errorMessageLabel.setText("Connessione stabilita.");
                     errorMessageLabel.setTextFill(Color.GREEN);

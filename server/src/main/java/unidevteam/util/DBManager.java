@@ -6,6 +6,8 @@ import java.util.List;
 import unidevteam.classes.*;
 import unidevteam.enumerators.*;
 
+//  TODO: Controllare i return dei boolean non sembrano corretti
+
 /**
  * Manager for the Database
  *
@@ -37,12 +39,6 @@ public class DBManager {
         this.password = password;
     }
 
-    // public DBManager() {
-    //     this.url = "jdbc:postgresql://tai.db.elephantsql.com/igabhvra";
-    //     this.user = "igabhvra";
-    //     this.password = "pM8kEKh0soYm_ZRR_DcpIlelPAFb2UFv";
-    // }
-
    /**
      * Connect to the PostgreSQL database
      *
@@ -61,6 +57,29 @@ public class DBManager {
         return DriverManager.getConnection(url, user, password);
     }
 
+     /**
+     * See if an id is already used
+     * 
+     * @return Integer
+     * @category INSERT
+     * @throws java.sql.SQLException
+     * @author AndrewF17
+     */
+    public int verifyId(String columnName, String id, String table) {
+        String sql = "SELECT COUNT("+ columnName +") FROM " + table + " WHERE "+ columnName +" =?";
+        try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);) {
+                statement.setString(1, id);
+                ResultSet rs = statement.executeQuery();
+                while(rs.next()){
+                        return rs.getInt(1);
+                }
+            } catch (SQLException exception) {
+                System.err.println(exception.getMessage());
+            }
+            return 0;
+    }
     /**
      * Insert a new Centro vaccinale
      * 
@@ -70,26 +89,27 @@ public class DBManager {
      * @author AndrewF17
      */
     public Boolean addCentroVaccinale(CentroVaccinale object) {
-        String sql = "INSERT INTO CentriVaccinali(nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia) "
-                + "VALUES(?,?::qualificatoreindirizzo,?,?,?,?,?,?::tipologiacentrovaccinale)";
+        String sql = "INSERT INTO CentriVaccinali(id, nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia) "
+                + "VALUES(?,?,?::qualificatoreindirizzo,?,?,?,?,?,?::tipologiacentrovaccinale);";
         try (
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
-                statement.setString(1, object.getNome());
-                statement.setString(2, object.getQualificatoreIndirizzo().name());
-                statement.setString(3, object.getNomeIndirizzo());
-                statement.setString(4, object.getNumeroCivico());
-                statement.setString(5, object.getComune());
-                statement.setString(6, object.getProvincia());
-                statement.setString(7, object.getCAP());
-                statement.setString(8, object.getTipologiaCentroVaccinale().name());
-
-                statement.executeQuery();
+                statement.setString(1, object.getId());
+                statement.setString(2, object.getNome());
+                statement.setString(3, object.getQualificatoreIndirizzo().name());
+                statement.setString(4, object.getNomeIndirizzo());
+                statement.setString(5, object.getNumeroCivico());
+                statement.setString(6, object.getComune());
+                statement.setString(7, object.getProvincia());
+                statement.setString(8, object.getCAP());
+                statement.setString(9, object.getTipologiaCentroVaccinale().name());
+                statement.executeUpdate();
+                return true;
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
                 return false;
             }
-        return true;
+        
     }
 
 
@@ -102,7 +122,7 @@ public class DBManager {
      * @author AndrewF17
      */
     public Boolean addCittadino(Cittadino object) {
-        String sql = "INSERT INTO Cittadini_Registrati(codiceFiscale, nome, cognome, email, idVaccinazione, password) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO Cittadini_Registrati(codiceFiscale, nome, cognome, email, idVaccinazione, passwd) VALUES (?,?,?,?,?,?)";
         try (
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
@@ -113,12 +133,33 @@ public class DBManager {
                 statement.setString(5, object.getIdVaccinazione());
                 statement.setString(6, object.getPassword());
 
-                statement.executeQuery();
+                statement.executeUpdate();
+                return true;
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+            return false;
+        }   
+    }
+
+    public Boolean addVaccinati(Cittadino object, String idCentro) {
+        String sql = "INSERT INTO Vaccinati(id, nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?,?)";
+        try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);) {
+                statement.setString(1, object.getCodiceFiscale());
+                statement.setString(2, object.getNome());
+                statement.setString(3, object.getCognome());
+                statement.setString(4, object.getEmail());
+                statement.setString(5, object.getIdVaccinazione());
+                statement.setString(6, object.getPassword());
+
+                statement.executeUpdate();
+                return true;
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
             return false;
         }
-        return true;
+        
         
     }
 
@@ -136,7 +177,7 @@ public class DBManager {
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
                 statement.setString(1, object.getNome());
-                statement.executeQuery();
+                statement.executeUpdate();
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
                 return false;
@@ -161,14 +202,15 @@ public class DBManager {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(rs.getString("nome"), 
-                                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                    rs.getString("nomeIndirizzo"),
-                                                                    rs.getString("numeroCivico"),
-                                                                    rs.getString("comune"),
-                                                                    rs.getString("provincia"),
-                                                                    rs.getString("cap"),
-                                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
+                                                                        rs.getString("nome"), 
+                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                                                                        rs.getString("nomeIndirizzo"),
+                                                                        rs.getString("numeroCivico"),
+                                                                        rs.getString("comune"),
+                                                                        rs.getString("provincia"),
+                                                                        rs.getString("cap"),
+                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
                         resl.add(centro);
                     }
                 }
@@ -198,14 +240,15 @@ public class DBManager {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(rs.getString("nome"), 
-                                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                    rs.getString("nomeIndirizzo"),
-                                                                    rs.getString("numeroCivico"),
-                                                                    rs.getString("comune"),
-                                                                    rs.getString("provincia"),
-                                                                    rs.getString("cap"),
-                                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
+                                                                        rs.getString("nome"), 
+                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                                                                        rs.getString("nomeIndirizzo"),
+                                                                        rs.getString("numeroCivico"),
+                                                                        rs.getString("comune"),
+                                                                        rs.getString("provincia"),
+                                                                        rs.getString("cap"),
+                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
                         resl.add(centro);
                     }
                 }
@@ -235,14 +278,15 @@ public class DBManager {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        resl = new CentroVaccinale(rs.getString("nome"), 
-                                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                    rs.getString("nomeIndirizzo"),
-                                                                    rs.getString("numeroCivico"),
-                                                                    rs.getString("comune"),
-                                                                    rs.getString("provincia"),
-                                                                    rs.getString("cap"),
-                                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                        resl = new CentroVaccinale( rs.getString("id"),
+                                                    rs.getString("nome"), 
+                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                                                    rs.getString("nomeIndirizzo"),
+                                                    rs.getString("numeroCivico"),
+                                                    rs.getString("comune"),
+                                                    rs.getString("provincia"),
+                                                    rs.getString("cap"),
+                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
                     }
                 }
                 
@@ -271,15 +315,16 @@ public class DBManager {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(rs.getString("nome"), 
-                                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                    rs.getString("nomeIndirizzo"),
-                                                                    rs.getString("numeroCivico"),
-                                                                    rs.getString("comune"),
-                                                                    rs.getString("provincia"),
-                                                                    rs.getString("cap"),
-                                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
-                        resl.add(centro);
+                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
+                                                                        rs.getString("nome"), 
+                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                                                                        rs.getString("nomeIndirizzo"),
+                                                                        rs.getString("numeroCivico"),
+                                                                        rs.getString("comune"),
+                                                                        rs.getString("provincia"),
+                                                                        rs.getString("cap"),
+                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                                                                        resl.add(centro);
                     }
                 }
                 
@@ -308,15 +353,17 @@ public class DBManager {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(rs.getString("nome"), 
-                                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                    rs.getString("nomeIndirizzo"),
-                                                                    rs.getString("numeroCivico"),
-                                                                    rs.getString("comune"),
-                                                                    rs.getString("provincia"),
-                                                                    rs.getString("cap"),
-                                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
-                        resl.add(centro);
+                        CentroVaccinale centro =new CentroVaccinale(    rs.getString("id"),
+                                                                        rs.getString("nome"), 
+                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                                                                        rs.getString("nomeIndirizzo"),
+                                                                        rs.getString("numeroCivico"),
+                                                                        rs.getString("comune"),
+                                                                        rs.getString("provincia"),
+                                                                        rs.getString("cap"),
+                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                                                                        resl.add(centro);
+                                                                        resl.add(centro);
                     }
                 }
                 
@@ -345,15 +392,17 @@ public class DBManager {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(rs.getString("nome"), 
-                                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                    rs.getString("nomeIndirizzo"),
-                                                                    rs.getString("numeroCivico"),
-                                                                    rs.getString("comune"),
-                                                                    rs.getString("provincia"),
-                                                                    rs.getString("cap"),
-                                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
-                        resl.add(centro);
+                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
+                                                                        rs.getString("nome"), 
+                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                                                                        rs.getString("nomeIndirizzo"),
+                                                                        rs.getString("numeroCivico"),
+                                                                        rs.getString("comune"),
+                                                                        rs.getString("provincia"),
+                                                                        rs.getString("cap"),
+                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                                                                        resl.add(centro);
+                                                                        resl.add(centro);
                     }
                 }
                 

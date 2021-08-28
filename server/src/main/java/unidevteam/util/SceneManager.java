@@ -17,7 +17,7 @@ public class SceneManager {
 
     public void switchToNewScene(ActionEvent event, String fileName) {
         try {
-            root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("Server/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

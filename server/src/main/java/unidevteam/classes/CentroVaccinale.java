@@ -2,8 +2,11 @@ package unidevteam.classes;
 
 import unidevteam.enumerators.QualificatoreIndirizzo;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
+import unidevteam.util.DBManager;
+import unidevteam.util.Generator;
 
 public class CentroVaccinale {
+    private String id;
     private String nome;
     private QualificatoreIndirizzo qualificatoreIndirizzo;
     private String nomeIndirizzo;
@@ -19,6 +22,15 @@ public class CentroVaccinale {
      * @author AndrewF17
      */
     public CentroVaccinale() {
+        String tempId = null;
+        try {
+            do{
+                tempId = Generator.getAlphaNumericString(16);
+            } while(DBManager.getInstance().verifyId("id", tempId, "centrivaccinali") >= 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.id = tempId;
         this.nome = "Drive-through Parco Trenno";
         this.qualificatoreIndirizzo = QualificatoreIndirizzo.VIA;
         this.nomeIndirizzo = "Novara";
@@ -32,7 +44,31 @@ public class CentroVaccinale {
 
 
     public CentroVaccinale(String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
+            String numeroCivico, String comune, String provincia, String cAP,TipologiaCentroVaccinale tipologiaCentroVaccinale) {
+
+        String tempId = null;
+        try {
+            do{
+                tempId = Generator.getAlphaNumericString(16);
+            } while(DBManager.getInstance().verifyId("id", tempId, "centrivaccinali") >= 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.id = tempId;
+        this.nome = nome;
+        this.qualificatoreIndirizzo = qualificatoreIndirizzo;
+        this.nomeIndirizzo = nomeIndirizzo;
+        this.numeroCivico = numeroCivico;
+        this.comune = comune;
+        this.provincia = provincia;
+        CAP = cAP;
+        this.tipologiaCentroVaccinale = tipologiaCentroVaccinale;
+    }
+
+
+    public CentroVaccinale(String id, String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
             String numeroCivico, String comune, String provincia, String cap, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
+        this.id = id;
         this.nome = nome;
         this.qualificatoreIndirizzo = qualificatoreIndirizzo;
         this.nomeIndirizzo = nomeIndirizzo;
@@ -41,6 +77,14 @@ public class CentroVaccinale {
         this.provincia = provincia;
         this.CAP = cap;
         this.tipologiaCentroVaccinale = tipologiaCentroVaccinale;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNome() {

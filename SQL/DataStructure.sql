@@ -12,7 +12,8 @@ CREATE TYPE TipoVaccino AS ENUM ('PFIZER', 'ASTRAZENECA', 'MODERNA', 'J_AND__J')
 
 /* Table Definition */
 CREATE TABLE CentriVaccinali (
-    nome VARCHAR(40) NOT NULL PRIMARY KEY,
+    id CHAR(16) PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL,
     qualificatoreIndirizzo QualificatoreIndirizzo NOT NULL,
     nomeIndirizzo VARCHAR(50) NOT NULL,
     numeroCivico VARCHAR(5) NOT NULL,
@@ -22,39 +23,38 @@ CREATE TABLE CentriVaccinali (
     tipologia TipologiaCentroVaccinale NOT NULL
 );
 
-/* Questa definizione sarà soltanto un modello da utilizzare per la creazione dinamica
+/*Questa definizione sarà soltanto un modello da utilizzare per la creazione dinamica
    della tabella vaccinati relativa ad un centro vaccinale particolare */
-CREATE TABLE Vaccinati_NomeCentro (
-    /*nomeCentro VARCHAR(40) NOT NULL, */
-
-    idVaccinazione INT NOT NULL PRIMARY KEY,
+CREATE TABLE Vaccinati (
+    id CHAR(16) PRIMARY KEY,
     nomeCittadino VARCHAR(40) NOT NULL,
     cognomeCittadino VARCHAR(40) NOT NULL,
     codiceFiscale CHAR(16) NOT NULL UNIQUE,
     dataSomministrazione DATE NOT NULL,
-    tipoVaccino TipoVaccino NOT NULL
+    tipoVaccino TipoVaccino NOT NULL,
+    idCentro CHAR(16),
     
-    /*FOREIGN KEY (nomeCentro) REFERENCES CentriVaccinali(nome)
+    FOREIGN KEY (idCentro) REFERENCES CentriVaccinali(id)
     ON UPDATE CASCADE
-    ON DELETE CASCADE */
+    ON DELETE CASCADE
 );
 
 CREATE TABLE Cittadini_Registrati(
-    codiceFiscale CHAR(16) NOT NULL PRIMARY KEY,
+    idVaccinazione CHAR(16) PRIMARY KEY,
     nome VARCHAR(40) NOT NULL,
     cognome VARCHAR(40) NOT NULL,
     email VARCHAR(40) NOT NULL UNIQUE,
-    idVaccinazione INT NOT NULL UNIQUE,
+    codiceFiscale CHAR(16) NOT NULL UNIQUE,
     passwd CHAR(60) NOT NULL,
 
     /* Vaccinati_NomeCentro da sostituire con il nome del centro in cui si è vaccinato */
-    FOREIGN KEY (idVaccinazione) REFERENCES Vaccinati_NomeCentro(idVaccinazione)
+    FOREIGN KEY (idVaccinazione) REFERENCES Vaccinati(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
 
 CREATE TABLE Eventi_Avversi (
-    idEvento VARCHAR(45) NOT NULL PRIMARY KEY,
+    idEvento CHAR(16) NOT NULL PRIMARY KEY,
     tipoEvento TipoEvento NOT NULL,
     tipoVaccino TipoVaccino NOT NULL,
     gradoSeverita SMALLINT CHECK (gradoSeverita < 5 AND gradoSeverita > 1) NOT NULL,
@@ -62,6 +62,8 @@ CREATE TABLE Eventi_Avversi (
     dataAvvenimento DATE CHECK (dataAvvenimento > dataSomministrazione) NOT NULL,
     note VARCHAR(256)
 );
+
+
 
 
 

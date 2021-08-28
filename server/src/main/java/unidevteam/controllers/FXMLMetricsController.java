@@ -38,6 +38,7 @@ public class FXMLMetricsController {
     void onClickKillServer(ActionEvent event) {
         // TODO: Chiudere sessione server per ascolto ed esecuzione di metodi
         new SceneManager().switchToNewScene(event, "login");
+        System.exit(0);
     }
 
     @FXML
@@ -49,8 +50,8 @@ public class FXMLMetricsController {
             numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
             numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
 
-            Server s = new Server();
-
+            // Server s = new Server();
+            
         } catch(Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);
