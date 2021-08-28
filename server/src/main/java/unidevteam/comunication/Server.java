@@ -15,11 +15,11 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
 
     public Server() throws RemoteException {
         super();
-        System.out.println("Service Starting");
+        System.out.println("RMI Server Starting");
         try {
             registry = LocateRegistry.createRegistry(port);
             registry.rebind("Server_centroVaccinale", this);
-            System.out.println("Server ready! On port: " + port);
+            System.out.println("RMI Server ready and listening on port: " + port);
         } catch (Exception e) {
             e.printStackTrace();
         }

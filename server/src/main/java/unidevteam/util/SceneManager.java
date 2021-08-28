@@ -28,6 +28,8 @@ public class SceneManager {
                 if(fileName.equals("metrics")) {
                     stage.setOnCloseRequest(onCLickEvent -> {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Attenzione");
+                        alert.setHeaderText("Attenzione");
                         alert.setContentText("Impossibile chiudere la pagina. \n Se vuoi terminare il programma termina il server e poi esci.");
                         alert.showAndWait();
                         onCLickEvent.consume();
