@@ -22,12 +22,14 @@ public class App extends Application
         Parent root = null;
         try {
             root = FXMLLoader.load(new File("Server/src/main/resources/login.fxml").toURI().toURL());
+            stage.getIcons().add(new Image(new File("Server/src/main/resources/primula.png").toURI().toURL().toString()));
         } catch (FileNotFoundException e) {
             root = FXMLLoader.load(new File("src/main/resources/login.fxml").toURI().toURL());
+            stage.getIcons().add(new Image(new File("src/main/resources/primula.png").toURI().toURL().toString()));
         } finally {
             stage.setScene(new Scene(root));
             stage.setTitle("Server Dashboard");
-            stage.getIcons().add(new Image(new File("Server/src/main/resources/primula.png").toURI().toURL().toString()));
+            
             stage.show();
             root.requestFocus();
         }
