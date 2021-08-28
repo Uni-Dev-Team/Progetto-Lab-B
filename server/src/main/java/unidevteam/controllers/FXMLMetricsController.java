@@ -52,7 +52,6 @@ public class FXMLMetricsController {
             numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
             numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
 
-            System.out.println("ID generato: " + dbManager.getValidId("id", "centrivaccinali"));
             rmiServer = new Server();
             
         } catch(Exception e) {
