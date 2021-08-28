@@ -1,9 +1,14 @@
 package unidevteam.classes;
 
+import java.io.Serializable;
+
 import unidevteam.enumerators.QualificatoreIndirizzo;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 
-public class CentroVaccinale {
+public class CentroVaccinale implements Serializable {
+    // Serializable ID
+    private static final long serialVersionUID = 1;
+
     private String id;
     private String nome;
     private QualificatoreIndirizzo qualificatoreIndirizzo;
@@ -13,6 +18,7 @@ public class CentroVaccinale {
     private String provincia;
     private String CAP;
     private TipologiaCentroVaccinale tipologiaCentroVaccinale;
+
 
     public CentroVaccinale(String id, String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
             String numeroCivico, String comune, String provincia, String cap, TipologiaCentroVaccinale tipologiaCentroVaccinale) {

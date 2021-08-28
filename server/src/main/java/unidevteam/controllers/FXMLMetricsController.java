@@ -13,8 +13,6 @@ import javafx.scene.control.Label;
 
 public class FXMLMetricsController {
 
-    Server rmiServer; 
-
     @FXML
     private ResourceBundle resources;
 
@@ -48,12 +46,10 @@ public class FXMLMetricsController {
         DBManager dbManager;
         try {
             dbManager = DBManager.getInstance();
-
             numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
             numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
-
-            rmiServer = new Server();
             
+            new Server();
         } catch(Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);

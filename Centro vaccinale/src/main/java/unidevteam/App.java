@@ -1,30 +1,22 @@
 package unidevteam;
 
 import java.io.File;
-import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
-import comunication.interfaces.CentroVaccinaleInterfaccia;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import unidevteam.comunication.Client;
 
 
 public class App extends Application{
     public static void main( String[] args ) throws RemoteException, NotBoundException {
-        try {
-            Registry registry = LocateRegistry.getRegistry(2000);
-            CentroVaccinaleInterfaccia server = (CentroVaccinaleInterfaccia) registry.lookup("server");
-            System.out.println(server.getCentroVaccinaleById("AzvJCIuEMRLCsK0o"));
-        } catch (ConnectException e) {
-            System.err.println("Server not opened or no connection");
-        }
-        launch(args);
+        //launch(args);
+        new Client();
+
     }
 
     @Override

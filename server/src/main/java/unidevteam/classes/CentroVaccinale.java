@@ -1,10 +1,15 @@
 package unidevteam.classes;
 
+import java.io.Serializable;
+
 import unidevteam.enumerators.QualificatoreIndirizzo;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.util.DBManager;
 
-public class CentroVaccinale {
+public class CentroVaccinale implements Serializable {
+    // Serializable ID
+    private static final long serialVersionUID = 1;
+
     private String id;
     private String nome;
     private QualificatoreIndirizzo qualificatoreIndirizzo;
