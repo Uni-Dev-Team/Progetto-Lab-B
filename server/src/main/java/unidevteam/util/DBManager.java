@@ -58,27 +58,33 @@ public class DBManager {
     }
 
      /**
-     * See if an id is already used
+     * It gets a valid id
      * 
-     * @return Integer
+     * @return String
      * @category INSERT
-     * @throws java.sql.SQLException
      * @author AndrewF17
      */
-    public int verifyId(String columnName, String id, String table) {
-        String sql = "SELECT COUNT("+ columnName +") FROM " + table + " WHERE "+ columnName +" =?";
+    public String getValidId(String columnName, String tableName) {
+       String sql = "SELECT COUNT("+ columnName +") FROM "+ tableName + " WHERE " + columnName +"=?";
+       String resl;
+       int count = 0;
+       ResultSet sqlResultSet;
+       do {
+        resl = Generator.getAlphaNumericString(16);
         try (
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
-                statement.setString(1, id);
-                ResultSet rs = statement.executeQuery();
-                while(rs.next()){
-                        return rs.getInt(1);
+                statement.setString(1, resl);
+                sqlResultSet = statement.executeQuery();
+                while (sqlResultSet.next()) {
+                    count = sqlResultSet.getInt(1);
                 }
-            } catch (SQLException exception) {
-                System.err.println(exception.getMessage());
             }
-            return 0;
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+       } while(count > 0);
+       return resl;
     }
     /**
      * Insert a new Centro vaccinale
@@ -269,7 +275,7 @@ public class DBManager {
      * @author AndrewF17
      */
     public CentroVaccinale getCentroVaccinaleById(String id) {
-        String sql = "SELECT * FROM CentriVaccinali WHERE nome = ?";
+        String sql = "SELECT * FROM CentriVaccinali WHERE id = ?";
         CentroVaccinale resl = null;
         try (
             Connection connection = connect();

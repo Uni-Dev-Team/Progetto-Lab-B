@@ -1,8 +1,8 @@
 package unidevteam.controllers;
 
+import unidevteam.comunication.Server;
 import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
-import unidevteam.classes.Server;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class FXMLMetricsController {
+
+    Server rmiServer; 
 
     @FXML
     private ResourceBundle resources;
@@ -50,7 +52,8 @@ public class FXMLMetricsController {
             numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
             numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
 
-            // Server s = new Server();
+            System.out.println("ID generato: " + dbManager.getValidId("id", "centrivaccinali"));
+            rmiServer = new Server();
             
         } catch(Exception e) {
             System.err.println(e.getMessage());

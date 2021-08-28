@@ -3,7 +3,6 @@ package unidevteam.classes;
 import unidevteam.enumerators.QualificatoreIndirizzo;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.util.DBManager;
-import unidevteam.util.Generator;
 
 public class CentroVaccinale {
     private String id;
@@ -22,15 +21,11 @@ public class CentroVaccinale {
      * @author AndrewF17
      */
     public CentroVaccinale() {
-        String tempId = null;
         try {
-            do{
-                tempId = Generator.getAlphaNumericString(16);
-            } while(DBManager.getInstance().verifyId("id", tempId, "centrivaccinali") >= 1);
+            this.id = DBManager.getInstance().getValidId("id", "centrivaccinali");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.id = tempId;
         this.nome = "Drive-through Parco Trenno";
         this.qualificatoreIndirizzo = QualificatoreIndirizzo.VIA;
         this.nomeIndirizzo = "Novara";
@@ -40,29 +35,6 @@ public class CentroVaccinale {
         this.CAP = "20153";
         this.tipologiaCentroVaccinale = TipologiaCentroVaccinale.HUB;
 
-    }
-
-
-    public CentroVaccinale(String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
-            String numeroCivico, String comune, String provincia, String cAP,TipologiaCentroVaccinale tipologiaCentroVaccinale) {
-
-        String tempId = null;
-        try {
-            do{
-                tempId = Generator.getAlphaNumericString(16);
-            } while(DBManager.getInstance().verifyId("id", tempId, "centrivaccinali") >= 1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.id = tempId;
-        this.nome = nome;
-        this.qualificatoreIndirizzo = qualificatoreIndirizzo;
-        this.nomeIndirizzo = nomeIndirizzo;
-        this.numeroCivico = numeroCivico;
-        this.comune = comune;
-        this.provincia = provincia;
-        CAP = cAP;
-        this.tipologiaCentroVaccinale = tipologiaCentroVaccinale;
     }
 
 
