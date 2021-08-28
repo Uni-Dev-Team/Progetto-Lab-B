@@ -1,6 +1,5 @@
 package unidevteam.controllers;
 
-import unidevteam.classes.Cittadino;
 import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
 
