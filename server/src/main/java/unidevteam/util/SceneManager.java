@@ -9,7 +9,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
+
 public class SceneManager {
     private Stage stage;
     private Scene scene;
@@ -24,13 +28,16 @@ public class SceneManager {
             } finally {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 if(fileName.equals("metrics")) {
-                    stage.setOnCloseRequest(event1 -> {
-                        event1.consume();
+                    stage.setOnCloseRequest(onCLickEvent -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setContentText("Impossibile chiudere la pagina. \n Se vuoi terminare il programma termina il server e poi esci.");
+                        alert.showAndWait();
+                        onCLickEvent.consume();
                 });
                 } else {
-                    stage.setOnCloseRequest(event1 -> {
+                    stage.setOnCloseRequest(onCLickEvent -> {
                         stage.close();
-                });
+                    });
                 }
                 scene = new Scene(root);
                 stage.setScene(scene);
