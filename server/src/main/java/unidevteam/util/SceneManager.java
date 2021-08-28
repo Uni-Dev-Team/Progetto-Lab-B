@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 public class SceneManager {
     private Stage stage;
     private Scene scene;
@@ -24,6 +23,15 @@ public class SceneManager {
                 root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
             } finally {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                if(fileName.equals("metrics")) {
+                    stage.setOnCloseRequest(event1 -> {
+                        event1.consume();
+                });
+                } else {
+                    stage.setOnCloseRequest(event1 -> {
+                        stage.close();
+                });
+                }
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
