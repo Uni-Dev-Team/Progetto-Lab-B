@@ -5,6 +5,7 @@ import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,8 +40,14 @@ public class FXMLMetricsController {
     @FXML
     void onClickKillServer(ActionEvent event) {
         // TODO: Chiudere sessione server per ascolto ed esecuzione di metodi
-        new SceneManager().switchToNewScene(event, "login");
-        System.exit(0);
+        try {
+            rmiServer.exit();
+            new SceneManager().switchToNewScene(event, "login");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        
     }
 
     @FXML
