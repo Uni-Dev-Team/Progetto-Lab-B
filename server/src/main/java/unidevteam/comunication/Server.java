@@ -18,7 +18,7 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
     public Server() throws RemoteException {
         super();
         Registry registry = LocateRegistry.createRegistry(2000);
-        System.setProperty("java.security.policy","./policy/security.policy");
+        // System.setProperty("java.security.policy","policy/security.policy");
         registry.rebind("server", this);
         System.out.println("Server: RMI started and listening");
     }

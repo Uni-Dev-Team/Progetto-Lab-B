@@ -20,7 +20,7 @@ public class App extends Application{
         try {
             Registry registry = LocateRegistry.getRegistry(2000);
             CentroVaccinaleInterfaccia server = (CentroVaccinaleInterfaccia) registry.lookup("server");
-            // System.out.println(server.getCentroVaccinaleById("AzvJCIuEMRLCsK0o"));
+            System.out.println(server.getCentroVaccinaleById("AzvJCIuEMRLCsK0o"));
         } catch (ConnectException e) {
             System.err.println("Server not opened or no connection");
         }
