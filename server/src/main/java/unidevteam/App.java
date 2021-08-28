@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import unidevteam.comunication.Server;
 
 
 public class App extends Application
@@ -29,7 +32,6 @@ public class App extends Application
         } finally {
             stage.setScene(new Scene(root));
             stage.setTitle("Server Dashboard");
-            
             stage.show();
             root.requestFocus();
         }

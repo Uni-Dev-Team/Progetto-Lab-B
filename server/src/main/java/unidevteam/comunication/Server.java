@@ -11,12 +11,13 @@ import unidevteam.util.DBManager;
 
 public class Server extends UnicastRemoteObject implements CentroVaccinaleInterfaccia{
     static final int port = 1099;
+    Registry registry;
 
     public Server() throws RemoteException {
         super();
         System.out.println("Service Starting");
         try {
-            Registry registry = LocateRegistry.createRegistry(port);
+            registry = LocateRegistry.createRegistry(port);
             registry.rebind("Server_centroVaccinale", this);
             System.out.println("Server ready! On port: " + port);
         } catch (Exception e) {
@@ -42,5 +43,18 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
         }
     }
 
+    public void exit() throws RemoteException {
+    try{
+        // Unregister ourself
+        registry.unbind("Server_centroVaccinale");
+
+        // Unexport; this will also remove us from the RMI runtime
+        UnicastRemoteObject.unexportObject(this, true);
+
+        System.out.println("RMI Server: exiting.");
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
+}
     
 }

@@ -5,13 +5,20 @@ import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.stage.WindowEvent;
 
 public class FXMLMetricsController {
+
+    Server rmiServer;
 
     @FXML
     private ResourceBundle resources;
@@ -47,9 +54,9 @@ public class FXMLMetricsController {
         try {
             dbManager = DBManager.getInstance();
             numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
-            numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
-            
-            new Server();
+            numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));    
+            rmiServer = new Server();
+        
         } catch(Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);
