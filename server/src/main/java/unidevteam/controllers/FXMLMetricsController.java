@@ -5,16 +5,11 @@ import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
 
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.stage.WindowEvent;
 
 public class FXMLMetricsController {
 
