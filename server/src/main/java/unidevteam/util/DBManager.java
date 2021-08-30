@@ -89,12 +89,12 @@ public class DBManager {
     /**
      * Insert a new Centro vaccinale
      * 
-     * @return a Boolean
+     * @return a String
      * @category INSERT
      * @throws java.sql.SQLException
      * @author AndrewF17
      */
-    public Boolean addCentroVaccinale(CentroVaccinale object) {
+    public String addCentroVaccinale(CentroVaccinale object) {
         String sql = "INSERT INTO CentriVaccinali(id, nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia) "
                 + "VALUES(?,?,?::qualificatoreindirizzo,?,?,?,?,?,?::tipologiacentrovaccinale);";
         try (
@@ -110,10 +110,10 @@ public class DBManager {
                 statement.setString(8, object.getCAP());
                 statement.setString(9, object.getTipologiaCentroVaccinale().name());
                 statement.executeUpdate();
-                return true;
+                return object.getId();
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
-                return false;
+                return null;
             }
         
     }
@@ -147,23 +147,25 @@ public class DBManager {
         }   
     }
 
-    public Boolean addVaccinati(Cittadino object, String idCentro) {
-        String sql = "INSERT INTO Vaccinati(id, nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?,?)";
+    public String addVaccinati(String idVaccinazione, String nomeCittadino, String cognomeCittadino, 
+                                String codiceFiscale, Date dataSomministrazione, TipoVaccino typeVaccino, String idCentro) {
+        String sql = "INSERT INTO Vaccinati(id ,nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?::TipoVaccino,?)";
         try (
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
-                statement.setString(1, object.getCodiceFiscale());
-                statement.setString(2, object.getNome());
-                statement.setString(3, object.getCognome());
-                statement.setString(4, object.getEmail());
-                statement.setString(5, object.getIdVaccinazione());
-                statement.setString(6, object.getPassword());
+                statement.setString(1, idVaccinazione);
+                statement.setString(2, nomeCittadino);
+                statement.setString(3, cognomeCittadino);
+                statement.setString(4, codiceFiscale);
+                statement.setDate(5, dataSomministrazione);
+                statement.setString(6, typeVaccino.getValue());
+                statement.setString(7, idCentro);
 
                 statement.executeUpdate();
-                return true;
+                return "true";
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
-            return false;
+            return null;
         }
         
         

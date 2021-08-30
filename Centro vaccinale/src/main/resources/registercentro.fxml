@@ -12,22 +12,22 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unidevteam.controllers.FXMLRegistraCentroController">
    <children>
-      <ImageView fitHeight="50.0" fitWidth="51.0" layoutX="564.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="51.0" layoutX="557.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../server/src/main/resources/primula.png" />
          </image>
       </ImageView>
-      <Label layoutX="621.0" layoutY="50.0" prefHeight="37.0" prefWidth="68.0" text="Centro" textFill="#e3381e">
+      <Label layoutX="614.0" layoutY="50.0" prefHeight="37.0" prefWidth="68.0" text="Centro" textFill="#e3381e">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="621.0" layoutY="68.0" prefHeight="39.0" prefWidth="95.0" text="Vaccinale" textFill="#089050">
+      <Label layoutX="614.0" layoutY="68.0" prefHeight="39.0" prefWidth="95.0" text="Vaccinale" textFill="#089050">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="621.0" layoutY="89.0" prefHeight="37.0" prefWidth="95.0" text="Operatori" textFill="#75b85b">
+      <Label layoutX="614.0" layoutY="89.0" prefHeight="37.0" prefWidth="95.0" text="Operatori" textFill="#75b85b">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
@@ -48,44 +48,49 @@
             <Image url="@arrow-left-solid.png" />
          </image>
       </ImageView>
-      <TextField fx:id="nomeCentroTextField" layoutX="450.0" layoutY="303.0" prefHeight="30.0" prefWidth="400.0" promptText="Inserisci il nome del centro vaccinale" style="-fx-appearence: none; -fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3;">
+      <TextField fx:id="nomeCentroTextField" layoutX="440.0" layoutY="303.0" prefHeight="30.0" prefWidth="400.0" promptText="Inserisci il nome del centro vaccinale" style="-fx-appearence: none; -fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3;">
          <font>
             <Font name="Montserrat Regular" size="15.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="450.0" layoutY="279.0" prefHeight="23.0" prefWidth="234.0" text="Nome del centro vaccinale" textAlignment="CENTER">
+      <Label alignment="TOP_LEFT" layoutX="440.0" layoutY="279.0" prefHeight="23.0" prefWidth="234.0" text="Nome del centro vaccinale" textAlignment="CENTER">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="registerButton" layoutX="450.0" layoutY="559.0" mnemonicParsing="false" onAction="#onClickRegistraCentro" prefHeight="35.0" prefWidth="400.0" style="-fx-background-color: #75B85B; -fx-color: white; -fx-text-fill: #FFF; -fx-border-radius: 5px;" text="Registra">
+      <Button fx:id="registerButton" layoutX="440.0" layoutY="558.0" mnemonicParsing="false" onAction="#onClickRegistraCentro" prefHeight="35.0" prefWidth="400.0" style="-fx-background-color: #75B85B; -fx-color: white; -fx-text-fill: #FFF; -fx-border-radius: 5px;" text="Registra">
          <font>
             <Font name="Montserrat Regular" size="15.0" />
          </font>
       </Button>
-      <TextField fx:id="nomeStradaTextField" layoutX="555.0" layoutY="377.0" prefHeight="30.0" prefWidth="204.0" promptText="Nome via" style="-fx-appearence: none; -fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3;">
+      <TextField fx:id="nomeStradaTextField" layoutX="545.0" layoutY="377.0" prefHeight="30.0" prefWidth="204.0" promptText="Nome via" style="-fx-appearence: none; -fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3;">
          <font>
             <Font name="Montserrat Regular" size="15.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="451.0" layoutY="353.0" prefHeight="23.0" prefWidth="234.0" text="Indirizzo" textAlignment="CENTER">
+      <Label alignment="TOP_LEFT" layoutX="441.0" layoutY="353.0" prefHeight="23.0" prefWidth="234.0" text="Indirizzo" textAlignment="CENTER">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <ComboBox fx:id="qualificatoreIndirizzoComboBox" layoutX="451.0" layoutY="377.0" prefHeight="28.0" prefWidth="95.0" promptText="Via" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
-      <TextField fx:id="numeroAbitazioneTextField" layoutX="769.0" layoutY="377.0" prefHeight="30.0" prefWidth="81.0" promptText="N°" style="-fx-appearence: none; -fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3;">
+      <ComboBox fx:id="qualificatoreIndirizzoComboBox" layoutX="441.0" layoutY="377.0" prefHeight="28.0" prefWidth="95.0" promptText="Via" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
+      <TextField fx:id="numeroAbitazioneTextField" layoutX="759.0" layoutY="377.0" prefHeight="30.0" prefWidth="81.0" promptText="N°" style="-fx-appearence: none; -fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3;">
          <font>
             <Font name="Montserrat Regular" size="15.0" />
          </font>
       </TextField>
-      <ComboBox fx:id="provinciaComboBox" layoutX="451.0" layoutY="427.0" prefHeight="31.0" prefWidth="192.0" promptText="Provincia" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
-      <ComboBox fx:id="comuneComboBox" layoutX="657.0" layoutY="427.0" prefHeight="31.0" prefWidth="192.0" promptText="Comune" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
-      <Label alignment="TOP_LEFT" layoutX="450.0" layoutY="475.0" prefHeight="23.0" prefWidth="234.0" text="Tipologia" textAlignment="CENTER">
+      <ComboBox fx:id="provinciaComboBox" layoutX="441.0" layoutY="427.0" onAction="#onActionProvincia" prefHeight="31.0" prefWidth="192.0" promptText="Provincia" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
+      <ComboBox fx:id="comuneComboBox" layoutX="647.0" layoutY="427.0" prefHeight="31.0" prefWidth="192.0" promptText="Comune" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
+      <Label alignment="TOP_LEFT" layoutX="440.0" layoutY="475.0" prefHeight="23.0" prefWidth="234.0" text="Tipologia" textAlignment="CENTER">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <ComboBox fx:id="tipologiaCentroComboBox" layoutX="450.0" layoutY="499.0" prefHeight="31.0" prefWidth="400.0" promptText="Ospedaliero" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
+      <ComboBox fx:id="tipologiaCentroComboBox" layoutX="440.0" layoutY="499.0" prefHeight="31.0" prefWidth="400.0" promptText="Ospedaliero" style="-fx-background-color: #fff; -fx-border-color: #ddd; -fx-border-radius: 3; -fx-font-size: 13px;" />
+      <Label fx:id="errorMessage" alignment="TOP_CENTER" layoutX="243.0" layoutY="614.0" prefHeight="24.0" prefWidth="795.0" text="Messaggio di errore" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
+         <font>
+            <Font name="Montserrat Regular" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

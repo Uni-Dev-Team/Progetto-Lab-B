@@ -20,9 +20,8 @@ public class CentroVaccinale implements Serializable {
     private TipologiaCentroVaccinale tipologiaCentroVaccinale;
 
 
-    public CentroVaccinale(String id, String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
+    public CentroVaccinale(String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
             String numeroCivico, String comune, String provincia, String cap, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
-        this.id = id;
         this.nome = nome;
         this.qualificatoreIndirizzo = qualificatoreIndirizzo;
         this.nomeIndirizzo = nomeIndirizzo;

@@ -14,16 +14,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import unidevteam.classes.CentroVaccinale;
+import unidevteam.comunication.Client;
 import unidevteam.enumerators.*;
 import unidevteam.util.JsonReader;
+import unidevteam.util.Regex;
 import unidevteam.util.SceneManager;
 
 public class FXMLRegistraCentroController implements Initializable {
 
     JsonReader jsonReader;
     List<String> province;
+    List<String> comuni;
 
     @FXML
     private ResourceBundle resources;
@@ -59,8 +64,49 @@ public class FXMLRegistraCentroController implements Initializable {
     private ImageView goBackButton;
 
     @FXML
-    void onClickRegistraCentro(ActionEvent event) {
+    private Label errorMessage;
 
+    @FXML
+    void onClickRegistraCentro(ActionEvent event) {
+        String nomeCentro = nomeCentroTextField.getText();
+        QualificatoreIndirizzo qualificatoreIndirizzo = QualificatoreIndirizzo.valueOf(qualificatoreIndirizzoComboBox.getSelectionModel().getSelectedItem().toUpperCase());
+        String nomeStrada = nomeStradaTextField.getText();
+        String numeroAbitazione = numeroAbitazioneTextField.getText();
+        String comune = comuneComboBox.getSelectionModel().getSelectedItem();
+        String provincia = provinciaComboBox.getSelectionModel().getSelectedItem();
+        String CAP = jsonReader.getCAPfromComune(comune);
+        TipologiaCentroVaccinale tipologiaCentro = TipologiaCentroVaccinale.valueOf(tipologiaCentroComboBox.getSelectionModel().getSelectedItem().toUpperCase());
+
+        // Validazione campi
+        // Controllo se sono vuoti
+        if(nomeCentro != null && nomeStrada != null && numeroAbitazione != null && comune != null && provincia != null) {
+            if(nomeCentro.trim() != "" && nomeStrada.trim() != "" && numeroAbitazione.trim() != "" && comune.trim() != "" && provincia.trim() != "") {
+
+                // Controllo se sono validi
+                if(Regex.check(nomeCentro, "^[a-zA-Z0-9 ]*$")) {
+                    System.out.println("Valido");
+                } else {
+                    System.out.println("Non valido");
+                }
+
+                CentroVaccinale centroVaccinale = new CentroVaccinale(
+                    nomeCentro, 
+                    qualificatoreIndirizzo, 
+                    nomeStrada,
+                    numeroAbitazione,
+                    comune, 
+                    provincia, 
+                    CAP, 
+                    tipologiaCentro
+                );
+
+                // String resl = new Client().addCentroVaccinale(centroVaccinale);
+                // System.out.print(resl);
+            }
+        }
+
+        errorMessage.setVisible(true);
+        errorMessage.setText("Compila tutti i campi.");
     }
 
     @FXML
@@ -68,9 +114,39 @@ public class FXMLRegistraCentroController implements Initializable {
         new SceneManager().switchToNewScene(event, "scene");
     }
 
+    @FXML
+    void onActionProvincia(ActionEvent event) {
+        String fullProvincia = provinciaComboBox.getValue();
+        String siglaProvincia = fullProvincia.substring(fullProvincia.length()-3, fullProvincia.length()-1);
+        
+        Task<Void> getComuniTask = new Task<Void>() {
+            protected Void call() throws Exception {
+                comuni = jsonReader.getComuniByProvincia(siglaProvincia);
+                return null;
+            }
+        };
+
+        getComuniTask.setOnSucceeded(e -> {
+            comuneComboBox.getItems().setAll(comuni);
+            comuneComboBox.setDisable(false);
+            errorMessage.setVisible(false);
+        });
+
+        getComuniTask.setOnFailed(e -> {
+            // Errore
+            errorMessage.setVisible(true);
+            errorMessage.setText("Errore inaspettato, chiudi e riapri l'applicazione");
+            registerButton.setDisable(true);
+        });
+
+        new Thread(getComuniTask).start();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         jsonReader = new JsonReader();
+
+        errorMessage.setVisible(false);
 
         provinciaComboBox.setDisable(true);
         comuneComboBox.setDisable(true);
@@ -84,24 +160,30 @@ public class FXMLRegistraCentroController implements Initializable {
         getProvinceTask.setOnSucceeded(e -> {
             provinciaComboBox.getItems().addAll(province);
             provinciaComboBox.setDisable(false);
+            errorMessage.setVisible(false);
         });
 
         getProvinceTask.setOnFailed(e -> {
             // Errore
+            errorMessage.setVisible(true);
+            errorMessage.setText("Errore inaspettato, chiudi e riapri l'applicazione");
+            registerButton.setDisable(true);
         });
 
         new Thread(getProvinceTask).start();
 
         qualificatoreIndirizzoComboBox.getItems().addAll(
-            QualificatoreIndirizzo.VIA.toString().toLowerCase(),
-            QualificatoreIndirizzo.VIALE.toString().toLowerCase(),
-            QualificatoreIndirizzo.PIAZZA.toString().toLowerCase()
+            QualificatoreIndirizzo.VIA.getValue(),
+            QualificatoreIndirizzo.VIALE.getValue(),
+            QualificatoreIndirizzo.PIAZZA.getValue()
         );
+        qualificatoreIndirizzoComboBox.getSelectionModel().select(0);
 
         tipologiaCentroComboBox.getItems().addAll(
-            TipologiaCentroVaccinale.OSPEDALIERO.toString().toLowerCase(),
-            TipologiaCentroVaccinale.AZIENDALE.toString().toLowerCase(),
-            TipologiaCentroVaccinale.HUB.toString().toLowerCase()
+            TipologiaCentroVaccinale.OSPEDALIERO.getValue(),
+            TipologiaCentroVaccinale.AZIENDALE.getValue(),
+            TipologiaCentroVaccinale.HUB.getValue()
         );
+        tipologiaCentroComboBox.getSelectionModel().select(0);
     }
 }

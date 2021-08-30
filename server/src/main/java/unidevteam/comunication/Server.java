@@ -43,6 +43,17 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
         }
     }
 
+    @Override
+	public String registraCentroVaccinale(CentroVaccinale centro) throws RemoteException {
+        try {
+            String token = DBManager.getInstance().getValidId("id", "centrivaccinali");
+            centro.setId(token);
+            return DBManager.getInstance().addCentroVaccinale(centro);
+        } catch (Exception e) {
+            return null;
+        }
+	}
+
     public void exit() throws RemoteException {
     try{
         // Unregister ourself
