@@ -1,13 +1,10 @@
 package unidevteam.enumerators;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 public enum TipoVaccino {
     PFIZER("Pfizer"),
     ASTRAZENECA("Astrazeneca"),
     MODERNA("Moderna"),
-    J_AND__J("Johnson&Johnson");
+    J_AND_J("Johnson&Johnson");
 
     private final String value;
 
@@ -17,10 +14,19 @@ public enum TipoVaccino {
         this.value = value;
     }
 
-    public static Optional<TipoVaccino> valueFromString(String value) {
-        return Arrays.stream(values())
+    public static TipoVaccino valueFromString(String value) {
+        /*return Arrays.stream(values())
         .filter(q -> q.value == value)
-        .findFirst();
+        .findFirst();*/
+
+        switch(value) {
+            case "PFIZER": return TipoVaccino.PFIZER;
+            case "ASTRAZENECA": return TipoVaccino.ASTRAZENECA;
+            case "MODERNA": return TipoVaccino.MODERNA;
+            case "JOHNSON&JOHNSON": return TipoVaccino.J_AND_J;
+        }
+
+        return null;
     }
 
     public int getSize() {

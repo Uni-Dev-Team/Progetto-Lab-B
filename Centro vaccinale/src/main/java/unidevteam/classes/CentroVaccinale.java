@@ -93,7 +93,7 @@ public class CentroVaccinale implements Serializable {
     }
 
     public void setCAP(String cAP) {
-        CAP = cAP;
+        this.CAP = cAP;
     }
 
     public TipologiaCentroVaccinale getTipologiaCentroVaccinale() {
@@ -106,12 +106,8 @@ public class CentroVaccinale implements Serializable {
 
     @Override
     public String toString() {
-        return "CentroVaccinale [CAP=" + CAP + ", comune=" + comune + ", nome=" + nome + ", nomeIndirizzo="
-                + nomeIndirizzo + ", numeroCivico=" + numeroCivico + ", qualificatoreIndirizzo="
-                + qualificatoreIndirizzo + ", tipologiaCentroVaccinale=" + tipologiaCentroVaccinale + "]";
+        return this.nome + " Indirizzo: " + this.qualificatoreIndirizzo.getValue()  + " " + this.nomeIndirizzo + ", " +  this.numeroCivico + ", " + this.provincia + ", " + this.CAP;
     }
-
-    
 
     
 }

@@ -84,6 +84,9 @@ public class DBManager {
             e.printStackTrace();
         }
        } while(count > 0);
+
+       System.out.println(resl);
+
        return resl;
     }
     /**
@@ -99,7 +102,8 @@ public class DBManager {
                 + "VALUES(?,?,?::qualificatoreindirizzo,?,?,?,?,?,?::tipologiacentrovaccinale);";
         try (
             Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ) {
                 statement.setString(1, object.getId());
                 statement.setString(2, object.getNome());
                 statement.setString(3, object.getQualificatoreIndirizzo().name());
@@ -109,6 +113,9 @@ public class DBManager {
                 statement.setString(7, object.getProvincia());
                 statement.setString(8, object.getCAP());
                 statement.setString(9, object.getTipologiaCentroVaccinale().name());
+
+                System.out.println(statement.toString());
+
                 statement.executeUpdate();
                 return object.getId();
             } catch (SQLException exception) {
@@ -158,7 +165,7 @@ public class DBManager {
                 statement.setString(3, cognomeCittadino);
                 statement.setString(4, codiceFiscale);
                 statement.setDate(5, dataSomministrazione);
-                statement.setString(6, typeVaccino.getValue());
+                statement.setString(6, typeVaccino.name());
                 statement.setString(7, idCentro);
                 statement.executeUpdate();
                 return idVaccinazione;

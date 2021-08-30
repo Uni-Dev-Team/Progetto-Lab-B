@@ -6,6 +6,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
+import java.util.List;
 
 import unidevteam.classes.CentroVaccinale;
 import unidevteam.enumerators.TipoVaccino;
@@ -68,9 +69,20 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
             String token = DBManager.getInstance().getValidId("id", "vaccinati");
             return DBManager.getInstance().addVaccinato(token, nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, typeVaccino, idCentro);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
+
+    @Override
+	public List<CentroVaccinale> getAllCentriVaccinali() throws RemoteException {
+        try {
+			return DBManager.getInstance().getAllCentriVaccinali();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+    
 
     public void exit() throws RemoteException {
     try{
@@ -81,5 +93,4 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
             e.printStackTrace();
         }
     }
-    
 }

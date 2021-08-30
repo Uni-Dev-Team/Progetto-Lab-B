@@ -32,7 +32,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     void onClickRegistraVaccinato(MouseEvent event) {
-
+        new SceneManager().switchToNewScene(event, "registervaccinato");
     }
 
     @Override
