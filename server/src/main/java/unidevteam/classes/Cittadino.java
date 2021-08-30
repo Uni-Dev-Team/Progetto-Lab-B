@@ -80,7 +80,7 @@ public class Cittadino {
         return password;
     }
 
-    // TODO: incriptazione
+    // TODO: incriptazione della password
     public void setPassword(String password) {
         this.password = password;
     }
