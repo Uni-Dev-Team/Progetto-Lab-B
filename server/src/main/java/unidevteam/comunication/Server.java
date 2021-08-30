@@ -4,8 +4,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Date;
 
 import unidevteam.classes.CentroVaccinale;
+import unidevteam.enumerators.TipoVaccino;
 import unidevteam.interfaces.CentroVaccinaleInterfaccia;
 import unidevteam.util.DBManager;
 
@@ -54,18 +56,25 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
         }
 	}
 
+    @Override
+    public String addVaccinato(String nomeCittadino, String cognomeCittadino,
+            String codiceFiscale, Date dataSomministrazione, TipoVaccino typeVaccino, String idCentro) throws RemoteException {
+        try {
+            String token = DBManager.getInstance().getValidId("id", "vaccinati");
+            return DBManager.getInstance().addVaccinato(token, nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, typeVaccino, idCentro);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public void exit() throws RemoteException {
     try{
-        // Unregister ourself
         registry.unbind("Server_centroVaccinale");
-
-        // Unexport; this will also remove us from the RMI runtime
         UnicastRemoteObject.unexportObject(this, true);
-
         System.out.println("RMI Server: exiting.");
     } catch(Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
+        }
     }
-}
     
 }

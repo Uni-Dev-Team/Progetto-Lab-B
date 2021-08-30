@@ -147,7 +147,7 @@ public class DBManager {
         }   
     }
 
-    public String addVaccinati(String idVaccinazione, String nomeCittadino, String cognomeCittadino, 
+    public String addVaccinato(String idVaccinazione, String nomeCittadino, String cognomeCittadino, 
                                 String codiceFiscale, Date dataSomministrazione, TipoVaccino typeVaccino, String idCentro) {
         String sql = "INSERT INTO Vaccinati(id ,nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?::TipoVaccino,?)";
         try (
@@ -160,9 +160,8 @@ public class DBManager {
                 statement.setDate(5, dataSomministrazione);
                 statement.setString(6, typeVaccino.getValue());
                 statement.setString(7, idCentro);
-
                 statement.executeUpdate();
-                return "true";
+                return idVaccinazione;
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
             return null;
