@@ -3,6 +3,7 @@ package unidevteam.comunication;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 
@@ -20,6 +21,10 @@ public class Server extends UnicastRemoteObject implements CentroVaccinaleInterf
         System.out.println("RMI Server Starting");
         try {
             registry = LocateRegistry.createRegistry(port);
+            registry.rebind("Server_centroVaccinale", this);
+            System.out.println("RMI Server ready and listening on port: " + port);
+        } catch(ExportException e) {
+            registry = LocateRegistry.getRegistry(port);
             registry.rebind("Server_centroVaccinale", this);
             System.out.println("RMI Server ready and listening on port: " + port);
         } catch (Exception e) {

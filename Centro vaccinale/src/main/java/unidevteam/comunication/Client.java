@@ -1,5 +1,6 @@
 package unidevteam.comunication;
 
+import java.net.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -15,17 +16,19 @@ public class Client {
         try {
             Registry registry = LocateRegistry.getRegistry(1099);
             stub = (CentroVaccinaleInterfaccia) registry.lookup("Server_centroVaccinale");
+            // if(stub == null) throw new Exception("Impossibile connettersi al server");
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
         }
     }
     
-    public String addCentroVaccinale(CentroVaccinale centro) {
+    public String addCentroVaccinale(CentroVaccinale centro) throws Exception {
         try {
-			return stub.registraCentroVaccinale(centro);
+            if(stub != null) {
+                return stub.registraCentroVaccinale(centro);
+            }
+            throw new Exception("Impossibile connettersi al server");
 		} catch (RemoteException e) {
-            e.printStackTrace();
 			return null;
 		}
     }
