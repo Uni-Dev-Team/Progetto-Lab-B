@@ -28,6 +28,7 @@ public class App extends Application
             root = FXMLLoader.load(new File("src/main/resources/login.fxml").toURI().toURL());
             stage.getIcons().add(new Image(new File("src/main/resources/primula.png").toURI().toURL().toString()));
         } finally {
+            stage.setResizable(false);
             stage.setScene(new Scene(root));
             stage.setTitle("Server Dashboard");
             stage.show();
