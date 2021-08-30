@@ -11,12 +11,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import unidevteam.comunication.Client;
 
-
 public class App extends Application{
     public static void main( String[] args ) throws RemoteException, NotBoundException {
-        //launch(args);
-        new Client();
-
+        launch(args);
+        // new Client();
     }
 
     @Override
@@ -27,15 +25,11 @@ public class App extends Application{
         } catch (Exception e) {
             root = FXMLLoader.load(new File("src/main/resources/scene.fxml").toURI().toURL());
         } finally {
-            
+            stage.setResizable(false);
             stage.setScene(new Scene(root));
             stage.setTitle("Client: Centro vaccinale");
             stage.show();
             root.requestFocus();
         }
-        
-
-        
-        
     }
 }

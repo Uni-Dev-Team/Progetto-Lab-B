@@ -42,6 +42,7 @@ public class SceneManager {
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                root.requestFocus();
             }
         } catch (IOException e) {
             e.printStackTrace();

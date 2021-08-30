@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class SceneManager {
@@ -17,31 +18,18 @@ public class SceneManager {
     private Scene scene;
     private Parent root;
 
-    public void switchToNewScene(ActionEvent event, String fileName) {
+    public void switchToNewScene(MouseEvent event, String fileName) {
         try {
             try{
-                root = FXMLLoader.load(new File("Server/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("Centro vaccinale/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
             } catch (FileNotFoundException e) {
                 root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
             } finally {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                if(fileName.equals("metrics")) {
-                    stage.setOnCloseRequest(onCLickEvent -> {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Attenzione");
-                        alert.setHeaderText("Attenzione");
-                        alert.setContentText("Impossibile chiudere la pagina. \n Se vuoi terminare il programma termina il server e poi esci.");
-                        alert.showAndWait();
-                        onCLickEvent.consume();
-                });
-                } else {
-                    stage.setOnCloseRequest(onCLickEvent -> {
-                        stage.close();
-                    });
-                }
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                root.requestFocus();
             }
         } catch (IOException e) {
             e.printStackTrace();
