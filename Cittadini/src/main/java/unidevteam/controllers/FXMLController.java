@@ -1,40 +1,48 @@
 package unidevteam.controllers;
 
-/*
-Put header here
-
-
- */
-
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import unidevteam.util.SceneManager;
 
 public class FXMLController implements Initializable {
 
     @FXML
-    private Label lb_test;
+    private ResourceBundle resources;
 
     @FXML
-    private Button btnClicked;
+    private URL location;
 
     @FXML
-    void onClick(ActionEvent event) {
-        if (lb_test.isVisible()) {
-            lb_test.setVisible(false);
-        } else {
-            lb_test.setVisible(true);
-        }
+    private AnchorPane accediButton;
+
+    @FXML
+    private AnchorPane registratiButton;
+
+    @FXML
+    private Label ospiteButton;
+
+    @FXML
+    void onClickAccessoCittadino(MouseEvent event) {
+        new SceneManager().switchToNewScene(event, "accesso");
+    }
+
+    @FXML
+    void onClickAccessoOspite(MouseEvent event) {
+        new SceneManager().switchToNewScene(event, "home");
+    }
+
+    @FXML
+    void onClickRegistraCittadino(MouseEvent event) {
+        new SceneManager().switchToNewScene(event, "registrazione");
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-       lb_test.setVisible(false);
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        
     }
 }
