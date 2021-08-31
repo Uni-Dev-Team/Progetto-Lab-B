@@ -11,11 +11,13 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -89,11 +91,11 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                                 try {
 
                                     // Task aggiunta vaccinato
-                                    Task<Void> addVaccinatoTask = new Task<Void>(){
-                                        protected Void call() throws Exception {
+                                    Task<String> addVaccinatoTask = new Task<String>(){
+                                        protected String call() throws Exception {
                                             try {
                                                 Client c = new Client();
-                                                c.addVaccinato(nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, TipoVaccino.valueFromString(tipoVaccino.toUpperCase()), nomeCentroComboBox.getSelectionModel().getSelectedItem().getId());
+                                                return c.addVaccinato(nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, TipoVaccino.valueFromString(tipoVaccino.toUpperCase()), nomeCentroComboBox.getSelectionModel().getSelectedItem().getId());
                                             } catch(Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -116,6 +118,15 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                                         errorMessage.setVisible(true);
                                         errorMessage.setText("Registrazione andata a buon fine!");
                                         errorMessage.setTextFill(Color.GREEN);
+
+                                        String res = addVaccinatoTask.getValue();
+                                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                                        alert.setTitle("Registrazione andata a buon fine!");
+                                        alert.setHeaderText(res);
+                                        alert.setAlertType(AlertType.INFORMATION);
+                                        alert.setContentText("Fornisci questo codice al cittadino vaccinato per permettergli di registrarsi a sistema.");
+                                        alert.showAndWait();
+                                        e.consume();
                                     });
 
                                     addVaccinatoTask.setOnFailed(e -> {
