@@ -12,6 +12,7 @@ import unidevteam.classes.Cittadino;
 import unidevteam.classes.EventoAvverso;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.interfaces.CittadiniInterfaccia;
+import unidevteam.util.DBManager;
 
 public class ServerCittadino extends UnicastRemoteObject implements CittadiniInterfaccia {
     static final int port = 2099;
@@ -48,7 +49,14 @@ public class ServerCittadino extends UnicastRemoteObject implements CittadiniInt
 
     @Override
     public boolean registraCittadino(Cittadino cittadino) throws RemoteException {
-        // TODO Auto-generated method stub
+        System.out.println("CHIAMATO METODO REGISTRA CITTADINO SERVER");
+
+        try {
+            DBManager.getInstance().addCittadino(cittadino);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

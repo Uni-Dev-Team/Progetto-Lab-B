@@ -1,12 +1,17 @@
 package unidevteam.classes;
 
-public class Cittadino {
+import java.io.Serializable;
+
+public class Cittadino implements Serializable {
+    // Serializable ID
+    private static final long serialVersionUID = 1;
+
     private String nome;
     private String cognome;
     private String codiceFiscale;
     private String email;
     private String idVaccinazione;
-    // Password? Hash password)
+    private String hashedPassword;
 
     public String getNome() {
         return nome;
@@ -38,6 +43,14 @@ public class Cittadino {
     public void setIdVaccinazione(String idVaccinazione) {
         this.idVaccinazione = idVaccinazione;
     }
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+    public void setHashedPassword(String password) {
+        this.hashedPassword = password;
+    }
+
+    public Cittadino() {}
 
     public Cittadino(String nome, String cognome, String codiceFiscale, String email, String idVaccinazione) {
         this.nome = nome;

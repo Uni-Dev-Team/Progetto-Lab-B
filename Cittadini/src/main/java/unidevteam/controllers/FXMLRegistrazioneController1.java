@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import unidevteam.util.Regex;
+import unidevteam.util.RegistrationHandler;
 import unidevteam.util.SceneManager;
 
 public class FXMLRegistrazioneController1 implements Initializable {
@@ -43,7 +45,51 @@ public class FXMLRegistrazioneController1 implements Initializable {
 
     @FXML
     void onClickAvanti(ActionEvent event) {
+        String nome = nomeTextField.getText();
+        String cognome = cognomeTextField.getText();
+        String codiceFiscale = codiceFiscaleTextField.getText();
+        String email = emailTextField.getText();
 
+        String codiceFiscaleRegex = "^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$";
+
+        if(nome != null && cognome != null && codiceFiscale != null && email != null) {
+            if(nome.trim() != "" && cognome.trim() != "" && codiceFiscale.trim() != "" && email.trim() != "") {
+
+                // Controlli formato regex
+                if(Regex.check(nome, "^[a-zA-Z]*$")) {
+                    if(Regex.check(cognome, "^[a-zA-Z]*$")) {
+                        if(Regex.check(codiceFiscale, codiceFiscaleRegex)) {
+
+                            if(Regex.check(email, "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+                                // Setta oggetto registrazione e spostati alla pagina nuova
+                                RegistrationHandler.setData1(nome, cognome, codiceFiscale, email);
+                                new SceneManager().switchToNewScene(event, "registrazione2");
+                            } else {
+                                errorMessage.setText("Email non valida.");
+                                errorMessage.setVisible(true);    
+                            }
+
+                        } else {
+                            errorMessage.setText("Codice fiscale non valido.");
+                            errorMessage.setVisible(true);
+                        }
+                    } else {
+                        errorMessage.setText("Cognome non valido.");
+                        errorMessage.setVisible(true);
+                    }
+                } else {
+                    errorMessage.setText("Nome non valido.");
+                    errorMessage.setVisible(true);
+                }
+
+            } else {
+                errorMessage.setText("Compila tutti i campi.");
+                errorMessage.setVisible(true);
+            }
+        } else {
+            errorMessage.setText("Compila tutti i campi.");
+            errorMessage.setVisible(true);
+        }
     }
 
     @FXML

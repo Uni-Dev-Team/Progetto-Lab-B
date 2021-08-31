@@ -2,6 +2,8 @@ package unidevteam.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +13,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import unidevteam.util.SceneManager;
+import javafx.scene.paint.Color;
+import unidevteam.util.*;
+import unidevteam.classes.*;
+import unidevteam.communication.*;
 
 public class FXMLRegistrazioneController2 implements Initializable {
 
@@ -28,7 +33,7 @@ public class FXMLRegistrazioneController2 implements Initializable {
     private Button registraCittadinoButton;
 
     @FXML
-    private Label errorMessage;
+    private Label errorMessage1;
 
     @FXML
     private TextField idVaccinazioneTextField;
@@ -40,7 +45,7 @@ public class FXMLRegistrazioneController2 implements Initializable {
     private PasswordField confermaPasswordTextField;
 
     @FXML
-    private Label errorMessage1;
+    private Label errorMessage11;
 
     @FXML
     void onClickGoBack(MouseEvent event) {
@@ -49,7 +54,93 @@ public class FXMLRegistrazioneController2 implements Initializable {
 
     @FXML
     void onClickRegistraCittadino(ActionEvent event) {
+        String idVaccinazione = idVaccinazioneTextField.getText();
+        String password1 = passwordTextField.getText();
+        String password2 = confermaPasswordTextField.getText();
 
+        if(idVaccinazione != null && password1 != null && password2 != null) {
+            if(idVaccinazione.trim() != "" && password1.trim() != "" && password2.trim() != "") {
+
+                // Controlli formato regex
+                if(Regex.check(idVaccinazione, "^[a-zA-Z0-9]{16}$")) {
+                    if(Regex.checkPsw(password1)) {
+                        if(Regex.checkPsw(password2)) {
+
+                            if(password1.equals(password2)) {
+                                
+                                RegistrationHandler.setData2(idVaccinazione, password1);
+                                Cittadino c = RegistrationHandler.getCittadino();
+
+                                Task<Void> registraCittadinoTask = new Task<Void>() {
+                                    @Override
+                                    protected Void call() throws Exception {
+                                        Client client = new Client();
+                                        client.registraCittadino(c);
+                                        return null;
+                                    }
+                                };
+
+                                registraCittadinoTask.setOnSucceeded(e -> {
+                                    registraCittadinoButton.setText("Registra");
+                                    registraCittadinoButton.setDisable(false);
+    
+                                    idVaccinazioneTextField.setDisable(false);
+                                    passwordTextField.setDisable(false);
+                                    confermaPasswordTextField.setDisable(false);
+
+                                    errorMessage1.setVisible(true);
+                                    errorMessage1.setTextFill(Color.GREEN);
+                                    errorMessage1.setText("Registrazione andata a buon fine, ora puoi accedere.");
+                                });
+
+                                registraCittadinoTask.setOnFailed(e -> {
+                                    registraCittadinoButton.setText("Registra");
+                                    registraCittadinoButton.setDisable(false);
+    
+                                    idVaccinazioneTextField.setDisable(false);
+                                    passwordTextField.setDisable(false);
+                                    confermaPasswordTextField.setDisable(false);
+
+                                    errorMessage1.setVisible(true);
+                                    errorMessage1.setTextFill(Color.RED);
+                                    errorMessage1.setText("Errore nella registrazione, riprova.");
+                                });
+
+                                new Thread(registraCittadinoTask).start();
+
+                                registraCittadinoButton.setText("Caricamento...");
+                                registraCittadinoButton.setDisable(true);
+
+                                idVaccinazioneTextField.setDisable(true);
+                                passwordTextField.setDisable(true);
+                                confermaPasswordTextField.setDisable(true);
+
+                            } else {
+                                errorMessage1.setText("Le due password non combaciano.");
+                                errorMessage1.setVisible(true);
+                            }
+
+                        } else {
+                            errorMessage1.setText("Formato password non valido: da 8 a 40 caratteri, almeno una lettera maiuscola, almeno una lettera minuscola, almeno una cifra e almeno un carattere speciale: !%*?&$@.");
+                            errorMessage1.setVisible(true);
+                        }
+                    } else {
+                        errorMessage1.setText("Formato password non valido: da 8 a 40 caratteri, almeno una lettera maiuscola, almeno una lettera minuscola, almeno una cifra e almeno un carattere speciale: !%*?&$@.");
+                        errorMessage1.setVisible(true);
+                    }
+                } else {
+                    errorMessage1.setText("ID Vaccinazione non valido.");
+                    errorMessage1.setVisible(true);
+                }
+
+            } else {
+                errorMessage1.setText("Compila tutti i campi.");
+                errorMessage1.setVisible(true);
+            }
+        } else {
+            errorMessage1.setText("Compila tutti i campi.");
+            errorMessage1.setVisible(true);
+        }
     }
 
     @Override

@@ -1,7 +1,9 @@
 package unidevteam.communication;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.*;
 
+import unidevteam.classes.Cittadino;
 import unidevteam.interfaces.CittadiniInterfaccia;
 
 public class Client {
@@ -13,10 +15,20 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry(port);
             stub = (CittadiniInterfaccia) registry.lookup("Server_cittadini");
 
-            stub.cercaCentroVaccinale("Piermario");
             // if(stub == null) throw new Exception("Impossibile connettersi al server");
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
         }
+    }
+
+    public boolean registraCittadino(Cittadino cittadino) throws Exception {
+        try {
+            if(stub != null) {
+                return stub.registraCittadino(cittadino);
+            }    
+            throw new Exception("Impossibile connettersi al server");
+		} catch (RemoteException e) {
+			return false;
+		}
     }
 }

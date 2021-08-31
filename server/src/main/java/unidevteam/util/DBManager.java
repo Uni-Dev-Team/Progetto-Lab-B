@@ -136,6 +136,9 @@ public class DBManager {
      */
     public Boolean addCittadino(Cittadino object) {
         String sql = "INSERT INTO Cittadini_Registrati(codiceFiscale, nome, cognome, email, idVaccinazione, passwd) VALUES (?,?,?,?,?,?)";
+
+        System.out.println("Password hashata: " + object.getHashedPassword());
+
         try (
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
@@ -144,7 +147,7 @@ public class DBManager {
                 statement.setString(3, object.getCognome());
                 statement.setString(4, object.getEmail());
                 statement.setString(5, object.getIdVaccinazione());
-                statement.setString(6, object.getPassword());
+                statement.setString(6, object.getHashedPassword());
 
                 statement.executeUpdate();
                 return true;
@@ -156,7 +159,7 @@ public class DBManager {
 
     public String addVaccinato(String idVaccinazione, String nomeCittadino, String cognomeCittadino, 
                                 String codiceFiscale, Date dataSomministrazione, TipoVaccino typeVaccino, String idCentro) {
-        String sql = "INSERT INTO Vaccinati(id ,nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?::TipoVaccino,?)";
+        String sql = "INSERT INTO Vaccinati(id, nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?::TipoVaccino,?)";
         try (
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
