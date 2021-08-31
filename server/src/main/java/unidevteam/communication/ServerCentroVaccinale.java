@@ -1,4 +1,4 @@
-package unidevteam.comunication;
+package unidevteam.communication;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -13,11 +13,11 @@ import unidevteam.enumerators.TipoVaccino;
 import unidevteam.interfaces.CentroVaccinaleInterfaccia;
 import unidevteam.util.DBManager;
 
-public class Server extends UnicastRemoteObject implements CentroVaccinaleInterfaccia{
+public class ServerCentroVaccinale extends UnicastRemoteObject implements CentroVaccinaleInterfaccia {
     static final int port = 1099;
     Registry registry;
 
-    public Server() throws RemoteException {
+    public ServerCentroVaccinale() throws RemoteException {
         super();
         System.out.println("RMI Server Starting");
         try {

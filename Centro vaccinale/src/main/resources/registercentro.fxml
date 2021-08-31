@@ -14,7 +14,7 @@
    <children>
       <ImageView fitHeight="50.0" fitWidth="51.0" layoutX="557.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../server/src/main/resources/primula.png" />
+            <Image url="@primula.png" />
          </image>
       </ImageView>
       <Label layoutX="614.0" layoutY="50.0" prefHeight="37.0" prefWidth="68.0" text="Centro" textFill="#e3381e">

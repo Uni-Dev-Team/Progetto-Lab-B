@@ -1,6 +1,5 @@
-package unidevteam.comunication;
+package unidevteam.communication;
 
-import java.net.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

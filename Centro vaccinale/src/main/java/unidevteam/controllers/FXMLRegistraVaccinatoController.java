@@ -22,7 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import unidevteam.classes.CentroVaccinale;
-import unidevteam.comunication.Client;
+import unidevteam.communication.Client;
 import unidevteam.enumerators.TipoVaccino;
 import unidevteam.util.*;
 

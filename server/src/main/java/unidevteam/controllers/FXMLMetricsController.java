@@ -1,6 +1,6 @@
 package unidevteam.controllers;
 
-import unidevteam.comunication.Server;
+import unidevteam.communication.*;
 import unidevteam.util.DBManager;
 import unidevteam.util.SceneManager;
 
@@ -14,7 +14,8 @@ import javafx.scene.control.Label;
 
 public class FXMLMetricsController {
 
-    Server rmiServer;
+    ServerCentroVaccinale rmiServerCentroVaccinale;
+    ServerCittadino rmiServerCittadini;
 
     @FXML
     private ResourceBundle resources;
@@ -39,15 +40,13 @@ public class FXMLMetricsController {
 
     @FXML
     void onClickKillServer(ActionEvent event) {
-        // TODO: Chiudere sessione server per ascolto ed esecuzione di metodi
         try {
-            rmiServer.exit();
+            rmiServerCentroVaccinale.exit();
+            rmiServerCittadini.exit();
             new SceneManager().switchToNewScene(event, "login");
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        
-        
     }
 
     @FXML
@@ -56,8 +55,10 @@ public class FXMLMetricsController {
         try {
             dbManager = DBManager.getInstance();
             numOfVaccineCentersLabel.setText(Long.toString(dbManager.getCountCentriVaccinali()));
-            numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));    
-            rmiServer = new Server();
+            numOfCitizensLabel.setText(Long.toString(dbManager.getCountCittadini()));
+
+            rmiServerCentroVaccinale = new ServerCentroVaccinale();
+            rmiServerCittadini = new ServerCittadino();
         
         } catch(Exception e) {
             System.err.println(e.getMessage());

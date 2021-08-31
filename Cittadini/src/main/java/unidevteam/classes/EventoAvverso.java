@@ -3,7 +3,7 @@ package unidevteam.classes;
 import java.sql.Date;
 import unidevteam.enumerators.TipoEvento;
 
-public class EventoAvverso {
+class EventoAvverso {
     private int idEvento;
     private TipoEvento tipoEvento;
     private TipoEvento tipoVaccino;
