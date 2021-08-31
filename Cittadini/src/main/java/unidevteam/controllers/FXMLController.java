@@ -38,7 +38,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     void onClickRegistraCittadino(MouseEvent event) {
-        new SceneManager().switchToNewScene(event, "registrazione");
+        new SceneManager().switchToNewScene(event, "registrazione1");
     }
 
     @Override
