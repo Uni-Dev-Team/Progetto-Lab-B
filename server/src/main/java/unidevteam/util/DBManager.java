@@ -165,7 +165,7 @@ public class DBManager {
                 statement.setString(3, cognomeCittadino);
                 statement.setString(4, codiceFiscale);
                 statement.setDate(5, dataSomministrazione);
-                statement.setString(6, typeVaccino.name());
+                statement.setString(6, typeVaccino.name().toUpperCase());
                 statement.setString(7, idCentro);
                 statement.executeUpdate();
                 return idVaccinazione;

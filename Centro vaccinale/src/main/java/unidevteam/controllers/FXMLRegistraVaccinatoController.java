@@ -89,18 +89,19 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                         if(Regex.check(codiceFiscale, codiceFiscaleRegex)) {
                             if(dataSomministrazione.before(new Date(Calendar.getInstance().getTime().getTime()))) {
                                 try {
-
                                     // Task aggiunta vaccinato
                                     Task<String> addVaccinatoTask = new Task<String>(){
                                         protected String call() throws Exception {
+                                            String resl = null;
+
                                             try {
                                                 Client c = new Client();
-                                                return c.addVaccinato(nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, TipoVaccino.valueFromString(tipoVaccino.toUpperCase()), nomeCentroComboBox.getSelectionModel().getSelectedItem().getId());
+                                                resl = c.addVaccinato(nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, TipoVaccino.valueFromString(tipoVaccino.toUpperCase()), nomeCentroComboBox.getSelectionModel().getSelectedItem().getId());
                                             } catch(Exception e) {
                                                 e.printStackTrace();
                                             }
 
-                                            return null;
+                                            return resl;
                                         }
                                     };
 
@@ -126,7 +127,6 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                                         alert.setAlertType(AlertType.INFORMATION);
                                         alert.setContentText("Fornisci questo codice al cittadino vaccinato per permettergli di registrarsi a sistema.");
                                         alert.showAndWait();
-                                        e.consume();
                                     });
 
                                     addVaccinatoTask.setOnFailed(e -> {
