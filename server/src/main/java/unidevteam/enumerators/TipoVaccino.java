@@ -1,8 +1,5 @@
 package unidevteam.enumerators;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 public enum TipoVaccino {
     PFIZER("Pfizer"),
     ASTRAZENECA("Astrazeneca"),

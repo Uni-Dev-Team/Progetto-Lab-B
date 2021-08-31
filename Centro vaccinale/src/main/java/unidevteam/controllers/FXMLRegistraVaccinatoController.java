@@ -103,18 +103,53 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                                     };
 
                                     addVaccinatoTask.setOnSucceeded(e -> {
+                                        registerButton.setText("Registra");
+                                        registerButton.setDisable(false);
+
+                                        nomeCentroComboBox.setDisable(false);
+                                        nomeCittadinoTextField.setDisable(false);
+                                        cognomeCittadinoTextField.setDisable(false);
+                                        codiceFiscaleTextField.setDisable(false);
+                                        dataSomministrazioneDatePicker.setDisable(false);
+                                        tipoVaccinoComboBox.setDisable(false);
+
                                         errorMessage.setVisible(true);
                                         errorMessage.setText("Registrazione andata a buon fine!");
                                         errorMessage.setTextFill(Color.GREEN);
                                     });
 
                                     addVaccinatoTask.setOnFailed(e -> {
+                                        registerButton.setText("Registra");
+                                        registerButton.setDisable(false);
+
+                                        nomeCentroComboBox.setDisable(false);
+                                        nomeCittadinoTextField.setDisable(false);
+                                        cognomeCittadinoTextField.setDisable(false);
+                                        codiceFiscaleTextField.setDisable(false);
+                                        dataSomministrazioneDatePicker.setDisable(false);
+                                        tipoVaccinoComboBox.setDisable(false);
+
                                         errorMessage.setVisible(true);
                                         errorMessage.setText("Errore nella registrazione.");
                                         errorMessage.setTextFill(Color.RED);
                                     });
 
                                     new Thread(addVaccinatoTask).start();
+                                    registerButton.setText("Caricamento...");
+                                    registerButton.setDisable(true);
+
+                                    nomeCentroComboBox.getSelectionModel().select(0);
+                                    nomeCittadinoTextField.setText(null);
+                                    cognomeCittadinoTextField.setText(null);
+                                    codiceFiscaleTextField.setText(null);
+                                    tipoVaccinoComboBox.getSelectionModel().select(0);
+
+                                    nomeCentroComboBox.setDisable(true);
+                                    nomeCittadinoTextField.setDisable(true);
+                                    cognomeCittadinoTextField.setDisable(true);
+                                    codiceFiscaleTextField.setDisable(true);
+                                    dataSomministrazioneDatePicker.setDisable(true);
+                                    tipoVaccinoComboBox.setDisable(true);
 
                                 } catch (Exception e) {
                                     errorMessage.setVisible(true);
