@@ -75,4 +75,14 @@ public class ServerCittadino extends UnicastRemoteObject implements CittadiniInt
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Cittadino autenticaUtente(String email, String plainPassword) {
+        try {
+            return DBManager.getInstance().autenticaUtente(email, plainPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

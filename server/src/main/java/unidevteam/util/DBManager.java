@@ -490,4 +490,32 @@ public class DBManager {
         }
         return 0;
     }
+
+    public Cittadino autenticaUtente(String email, String plainPassword) {
+        String sql = "SELECT * FROM Cittadini_Registrati WHERE email = ?";
+        Cittadino res = null;
+        try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);
+        ) {
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                String hashedPsw = rs.getString(6);
+                if(BCrypt.checkpw(plainPassword, hashedPsw)) {
+                    String _idVaccinazione = rs.getString(1);
+                    String _nome = rs.getString(2);
+                    String _cognome = rs.getString(3);
+                    String _email = rs.getString(4);
+                    String _codiceFiscale = rs.getString(5);
+
+                    res = new Cittadino(_nome, _cognome, _codiceFiscale, _email, _idVaccinazione);
+                }
+            }
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+        }
+
+        return res;
+    }
 }

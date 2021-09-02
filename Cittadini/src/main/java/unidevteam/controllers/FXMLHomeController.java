@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import unidevteam.classes.Cittadino;
+import unidevteam.util.SessionHandler;
 
 public class FXMLHomeController implements Initializable {
 
@@ -85,7 +87,10 @@ public class FXMLHomeController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        
+        if(SessionHandler.getUtente() != null) {
+            Cittadino utente = SessionHandler.getUtente();
+            nomeUtenteLabel.setText(String.format("%s %s", utente.getNome(), utente.getCognome()));
+        }
     }
 
 }

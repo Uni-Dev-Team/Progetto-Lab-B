@@ -31,4 +31,14 @@ public class Client {
 			return false;
 		}
     }
+
+    public Cittadino autenticaUtente(String email, String plainPassword) {
+        try {
+            if(stub != null) {
+                return stub.autenticaUtente(email, plainPassword);
+            }
+		} catch (RemoteException e) {}
+
+        return null;
+    }
 }
