@@ -475,5 +475,19 @@ public class DBManager {
         return 0;
     }
 
-
+    public long getCountEventiAvversi() {
+        String sql = "SELECT COUNT(*) FROM Eventi_Avversi";
+        try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);
+        ) {
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                return rs.getLong(1);
+            }
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+        }
+        return 0;
+    }
 }
