@@ -75,7 +75,7 @@
       <ListView fx:id="risultatiRicercaListView" layoutX="62.0" layoutY="382.0" prefHeight="289.0" prefWidth="448.0" style="-fx-border-radius: 4; -fx-background-color: #FFF; -fx-border-color: #DDD;" />
       <ImageView fx:id="fotoUtenteImageView" fitHeight="70.0" fitWidth="70.0" layoutX="1163.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Raggruppa%208.png" />
+            <Image url="@Raggruppa8.png" />
          </image>
       </ImageView>
       <Label fx:id="nomeUtenteLabel" alignment="CENTER_RIGHT" layoutX="809.0" layoutY="52.0" prefHeight="23.0" prefWidth="338.0" text="Ospite" textAlignment="RIGHT" wrapText="true">
@@ -85,7 +85,7 @@
       </Label>
       <ImageView fx:id="fotoCentroImageView" fitHeight="120.0" fitWidth="120.0" layoutX="589.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Raggruppa%209.png" />
+            <Image url="@Raggruppa9.png" />
          </image>
       </ImageView>
       <Label fx:id="nomeCentroLabel" alignment="TOP_LEFT" layoutX="732.0" layoutY="197.0" prefHeight="28.0" prefWidth="461.0" text="-" wrapText="true">

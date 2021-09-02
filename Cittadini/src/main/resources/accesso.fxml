@@ -68,7 +68,7 @@
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="errorMessage" alignment="TOP_CENTER" layoutX="263.0" layoutY="537.0" prefHeight="24.0" prefWidth="795.0" text="Messaggio di errore" textAlignment="CENTER" textFill="RED" wrapText="true">
+      <Label fx:id="errorMessage" alignment="TOP_CENTER" layoutX="263.0" layoutY="537.0" prefHeight="24.0" prefWidth="795.0" text="Messaggio di errore" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
