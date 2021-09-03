@@ -7,4 +7,8 @@ public class SessionHandler {
 
     public static Cittadino getUtente() { return utente; }
     public static void setUtente(Cittadino c) { utente = c; }
+
+    public static void logout() {
+        utente = null;
+    }
 }

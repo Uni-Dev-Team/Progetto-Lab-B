@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unidevteam.controllers.FXMLHomeController">
    <children>
       <ImageView fitHeight="50.0" fitWidth="51.0" layoutX="61.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
@@ -73,12 +72,12 @@
          </font>
       </Label>
       <ListView fx:id="risultatiRicercaListView" layoutX="62.0" layoutY="382.0" prefHeight="289.0" prefWidth="448.0" style="-fx-border-radius: 4; -fx-background-color: #FFF; -fx-border-color: #DDD;" />
-      <ImageView fx:id="fotoUtenteImageView" fitHeight="70.0" fitWidth="70.0" layoutX="1163.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="fotoUtenteImageView" fitHeight="70.0" fitWidth="70.0" layoutX="1118.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Raggruppa8.png" />
          </image>
       </ImageView>
-      <Label fx:id="nomeUtenteLabel" alignment="CENTER_RIGHT" layoutX="809.0" layoutY="52.0" prefHeight="23.0" prefWidth="338.0" text="Ospite" textAlignment="RIGHT" wrapText="true">
+      <Label fx:id="nomeUtenteLabel" alignment="CENTER_RIGHT" layoutX="764.0" layoutY="54.0" prefHeight="23.0" prefWidth="338.0" text="Ospite" textAlignment="RIGHT" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="18.0" />
          </font>
@@ -153,5 +152,10 @@
             <Font name="Montserrat Regular" size="15.0" />
          </font>
       </Button>
+      <ImageView fx:id="logoutButton" fitHeight="24.0" fitWidth="24.0" layoutX="1202.0" layoutY="56.0" onMousePressed="#onClickLogout" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@sign-out-alt-solid.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

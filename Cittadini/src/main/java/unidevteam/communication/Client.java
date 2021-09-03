@@ -6,8 +6,10 @@ import java.util.List;
 
 import unidevteam.classes.CentroVaccinale;
 import unidevteam.classes.Cittadino;
+import unidevteam.enumerators.TipoEvento;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.interfaces.CittadiniInterfaccia;
+import unidevteam.classes.EventoAvverso;
 
 public class Client {
     static final int port = 2099;
@@ -69,5 +71,29 @@ public class Client {
         }
 
         return null;
+    }
+
+    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione) {
+        try {
+            if(stub != null) {
+                return stub.inserisciEventoAvverso(eventoAvverso, idVaccinazione);
+            }
+		} catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean controlloVaccinatoInCentro(String idVaccinazione, String idCentro) {
+        try {
+            if(stub != null) {
+                return stub.controlloVaccinatoInCentro(idVaccinazione, idCentro);
+            }
+		} catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

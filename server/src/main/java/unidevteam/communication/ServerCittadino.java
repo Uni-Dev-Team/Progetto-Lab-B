@@ -73,8 +73,12 @@ public class ServerCittadino extends UnicastRemoteObject implements CittadiniInt
     }
 
     @Override
-    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso) throws RemoteException {
-        // TODO Auto-generated method stub
+    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione) throws RemoteException {
+        try {
+            return DBManager.getInstance().inserisciEventoAvverso(eventoAvverso, idVaccinazione);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
     
@@ -96,5 +100,15 @@ public class ServerCittadino extends UnicastRemoteObject implements CittadiniInt
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean controlloVaccinatoInCentro(String idVaccinazione, String idCentro) throws RemoteException {
+        try {
+            return DBManager.getInstance().controlloVaccinatoInCentro(idVaccinazione, idCentro);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

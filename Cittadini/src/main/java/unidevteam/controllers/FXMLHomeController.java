@@ -4,7 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+// import java.util.stream.Collectors;
+import java.util.concurrent.ExecutionException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,17 +13,20 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import unidevteam.classes.CentroVaccinale;
 import unidevteam.classes.Cittadino;
 import unidevteam.communication.Client;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.util.JsonReader;
+import unidevteam.util.SceneManager;
 import unidevteam.util.SessionHandler;
 
 public class FXMLHomeController implements Initializable {
@@ -85,6 +89,9 @@ public class FXMLHomeController implements Initializable {
 
     @FXML
     private Button inserisciEventoButton;
+
+    @FXML
+    private ImageView logoutButton;
 
     @FXML
     void onClickRicercaPerNome(ActionEvent event) {
@@ -180,8 +187,63 @@ public class FXMLHomeController implements Initializable {
     }
 
     @FXML
-    void onClickInserisciEvento(ActionEvent event) {
+    void onClickLogout(MouseEvent event) {
+        SessionHandler.logout();
+        new SceneManager().switchToNewScene(event, "accesso");
+    }
 
+    @FXML
+    void onClickInserisciEvento(ActionEvent event) {
+        if(SessionHandler.getUtente() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attenzione");
+            alert.setHeaderText("Attenzione");
+            alert.setContentText("Per inserire un evento avverso devi aver prima effettuato l'accesso.");
+            alert.showAndWait();
+        } else {
+            if(risultatiRicercaListView.getSelectionModel().getSelectedItem() != null) {
+                // Controllo se il cittadino si e' effettivamente vaccinato in quel centro vaccinale
+                CentroVaccinale centroVaccinale = risultatiRicercaListView.getSelectionModel().getSelectedItem();
+                Task<Boolean> checkPuoInserireEvento = new Task<Boolean>() {
+                    @Override
+                    protected Boolean call() throws Exception {
+                        System.out.println(SessionHandler.getUtente().getIdVaccinazione());
+                        System.out.println(centroVaccinale.getId());
+                        return new Client().controlloVaccinatoInCentro(SessionHandler.getUtente().getIdVaccinazione(), centroVaccinale.getId());
+                    }
+                };
+
+                checkPuoInserireEvento.setOnSucceeded(e -> {
+                    try {
+                        if(checkPuoInserireEvento.get()) {
+                            FXMLAggiungiEventoController.setCentroVaccinale(risultatiRicercaListView.getSelectionModel().getSelectedItem());
+                            new SceneManager().switchToNewScene(event, "aggiungievento");
+                        } else {
+                            // Errore: Non ti sei vaccinato in questo centro
+                            Alert alert = new Alert(Alert.AlertType.WARNING);
+                            alert.setTitle("Attenzione");
+                            alert.setHeaderText("Attenzione");
+                            alert.setContentText("Puoi inserire eventi avversi solo nei centri vaccinali in cui ti sei effettivamente vaccinato.");
+                            alert.showAndWait();
+                        }
+                    } catch (InterruptedException | ExecutionException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    inserisciEventoButton.setText("Inserisci evento avverso");
+                    inserisciEventoButton.setDisable(false);
+                });
+
+                checkPuoInserireEvento.setOnFailed(e -> {
+                    inserisciEventoButton.setText("Inserisci evento avverso");
+                    inserisciEventoButton.setDisable(false);
+                });
+
+                new Thread(checkPuoInserireEvento).start();
+                inserisciEventoButton.setText("Caricamento...");
+                inserisciEventoButton.setDisable(true);
+            }
+        }
     }
 
     public void setComuniComboBox() {
@@ -253,7 +315,7 @@ public class FXMLHomeController implements Initializable {
                     if(newValue != null) {
                         nomeCentroLabel.setText(newValue.getNome());
                         String indirizzoCentro = String.format(
-                            "%s, %s %s %s %s (%s)", 
+                            "%s, %s %s %s - %s (%s)", 
                             newValue.getComune(), 
                             newValue.getQualificatoreIndirizzo().getValue(),
                             newValue.getNomeIndirizzo(),

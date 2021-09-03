@@ -1,12 +1,17 @@
 package unidevteam.classes;
 
+import java.io.Serializable;
 import java.sql.Date;
 import unidevteam.enumerators.TipoEvento;
+import unidevteam.enumerators.TipoVaccino;
 
-public class EventoAvverso {
+public class EventoAvverso implements Serializable {
+    // Serializable ID
+    private static final long serialVersionUID = 1;
+
     private int idEvento;
     private TipoEvento tipoEvento;
-    private TipoEvento tipoVaccino;
+    private TipoVaccino tipoVaccino;
     private int gradoSeverita;
     private Date dataSomministrazione;
     private Date dataAvventimento;
@@ -28,11 +33,11 @@ public class EventoAvverso {
         this.tipoEvento = tipoEvento;
     }
 
-    public TipoEvento getTipoVaccino() {
+    public TipoVaccino getTipoVaccino() {
         return tipoVaccino;
     }
 
-    public void setTipoVaccino(TipoEvento tipoVaccino) {
+    public void setTipoVaccino(TipoVaccino tipoVaccino) {
         this.tipoVaccino = tipoVaccino;
     }
 
@@ -68,7 +73,7 @@ public class EventoAvverso {
         this.note = note;
     }
 
-    public EventoAvverso(int idEvento, TipoEvento tipoEvento, TipoEvento tipoVaccino, int gradoSeverita, Date dataSomministrazione, Date dataAvventimento){
+    public EventoAvverso(int idEvento, TipoEvento tipoEvento, TipoVaccino tipoVaccino, int gradoSeverita, Date dataSomministrazione, Date dataAvventimento){
         this.idEvento = idEvento;
         this.tipoEvento = tipoEvento;
         this.tipoVaccino = tipoVaccino;

@@ -1,6 +1,7 @@
 package unidevteam.util;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import unidevteam.classes.*;
@@ -19,6 +20,7 @@ public class DBManager {
     private String password;
 
     private static DBManager instance = null;
+    private Connection connection = null;
 
     public static DBManager getInstance() throws Exception {
         if(instance != null) return instance;
@@ -35,6 +37,12 @@ public class DBManager {
         this.url = "jdbc:postgresql://"+ hostname +"/" + dbName;
         this.user = user;
         this.password = password;
+
+        try {
+            connection = connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
    /**
@@ -69,9 +77,9 @@ public class DBManager {
        ResultSet sqlResultSet;
        do {
         resl = Generator.getAlphaNumericString(16);
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, resl);
                 sqlResultSet = statement.executeQuery();
                 while (sqlResultSet.next()) {
@@ -96,10 +104,10 @@ public class DBManager {
     public String addCentroVaccinale(CentroVaccinale object) {
         String sql = "INSERT INTO CentriVaccinali(id, nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia)"
                 + "VALUES(?,?,?::qualificatoreindirizzo,?,?,?,?,?,?::tipologiacentrovaccinale);";
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
+
                 statement.setString(1, object.getId());
                 statement.setString(2, object.getNome());
                 statement.setString(3, object.getQualificatoreIndirizzo().name());
@@ -129,9 +137,10 @@ public class DBManager {
     public Boolean addCittadino(Cittadino object) {
         String sql = "INSERT INTO Cittadini_Registrati(codiceFiscale, nome, cognome, email, idVaccinazione, passwd) VALUES (?,?,?,?,?,?)";
 
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
+                
                 statement.setString(1, object.getCodiceFiscale());
                 statement.setString(2, object.getNome());
                 statement.setString(3, object.getCognome());
@@ -150,9 +159,9 @@ public class DBManager {
     public String addVaccinato(String idVaccinazione, String nomeCittadino, String cognomeCittadino, 
                                 String codiceFiscale, Date dataSomministrazione, TipoVaccino typeVaccino, String idCentro) {
         String sql = "INSERT INTO Vaccinati(id, nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?::TipoVaccino,?)";
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, idVaccinazione);
                 statement.setString(2, nomeCittadino);
                 statement.setString(3, cognomeCittadino);
@@ -178,9 +187,9 @@ public class DBManager {
      */
     public Boolean deleteCentroVaccinale(CentroVaccinale object) {
         String sql = "DELETE FROM CentriVaccinali WHERE nome = ?";
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, object.getNome());
                 statement.executeUpdate();
             } catch (SQLException exception) {
@@ -201,10 +210,9 @@ public class DBManager {
     public List<CentroVaccinale> getAllCentriVaccinali() {
         String sql = "SELECT * FROM CentriVaccinali";
         List<CentroVaccinale> resl = new ArrayList<CentroVaccinale>();
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
@@ -232,10 +240,9 @@ public class DBManager {
     public List<CentroVaccinale> getCentriVaccinaliByNome(String nomeCentro) {
         String sql = "SELECT * FROM CentriVaccinali WHERE nome ILIKE ?";
         List<CentroVaccinale> resl =  new ArrayList<CentroVaccinale>();
-        try (
-            Connection connection = connect();
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);
-        ) {
             statement.setString(1, "%"+nomeCentro+"%");
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
@@ -271,9 +278,9 @@ public class DBManager {
     public List<CentroVaccinale> getCentriVaccinaliByComuneETipologiaCentro(String comune, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
         String sql = "SELECT * FROM CentriVaccinali WHERE comune = ? AND tipologia = ?::TipologiaCentroVaccinale";
         List<CentroVaccinale> resl = new ArrayList<CentroVaccinale>();
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, comune);
                 statement.setString(2, tipologiaCentroVaccinale.name().toUpperCase());
                 ResultSet rs = statement.executeQuery();
@@ -312,9 +319,9 @@ public class DBManager {
     public CentroVaccinale getCentroVaccinaleById(String id) {
         String sql = "SELECT * FROM CentriVaccinali WHERE id = ?";
         CentroVaccinale resl = null;
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+        try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, id);
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
@@ -350,9 +357,9 @@ public class DBManager {
      */
     public long getCountCentriVaccinali() {
         String sql = "SELECT COUNT(nome) FROM CentriVaccinali";
-         try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+         try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery();
                 while(rs.next()){
                         return rs.getLong(1);
@@ -373,9 +380,9 @@ public class DBManager {
      */
     public long getCountCittadini() {
         String sql = "SELECT COUNT(codiceFiscale) FROM Cittadini_Registrati";
-         try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+         try {
+                if(connection == null && !connection.isClosed()) connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery();
                 while(rs.next()){
                         return rs.getLong(1);
@@ -386,12 +393,61 @@ public class DBManager {
         return 0;
     }
 
+    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione) {
+        // Ottieni tutte le informazioni
+        TipoVaccino tipoVaccino = null;
+        Date dataSomministrazione = null;
+
+        String sql = "SELECT dataSomministrazione, tipoVaccino FROM Vaccinati WHERE id = ?";
+
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, idVaccinazione);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                dataSomministrazione = rs.getDate(1);
+                tipoVaccino = TipoVaccino.valueFromString(rs.getString(2));
+            }
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+
+        eventoAvverso.setDataSomministrazione(dataSomministrazione);
+        eventoAvverso.setTipoVaccino(tipoVaccino);
+        eventoAvverso.setDataAvventimento(new Date(Calendar.getInstance().getTime().getTime()));
+
+        String adverseEventID = Generator.getAlphaNumericString(16);
+
+        // Inserisci l'oggetto evento avverso
+        sql = "INSERT INTO Eventi_Avversi (idEvento, tipoEvento, tipoVaccino, gradoSeverita, dataSomministrazione, dataAvvenimento, note)"+
+              "VALUES (?,?::TipoEvento,?::TipoVaccino,?,?,?,?)";
+
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, adverseEventID);
+            statement.setString(2, eventoAvverso.getTipoEvento().name().toUpperCase());
+            statement.setString(3, eventoAvverso.getTipoVaccino().name().toUpperCase());
+            statement.setInt(4, eventoAvverso.getGradoSeverita());
+            statement.setDate(5, eventoAvverso.getDataSomministrazione());
+            statement.setDate(6, eventoAvverso.getDataAvventimento());
+            statement.setString(7, eventoAvverso.getNote());
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public long getCountEventiAvversi() {
         String sql = "SELECT COUNT(*) FROM Eventi_Avversi";
-        try (
-            Connection connection = connect();
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);
-        ) {
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 return rs.getLong(1);
@@ -405,10 +461,9 @@ public class DBManager {
     public Cittadino autenticaUtente(String email, String plainPassword) {
         String sql = "SELECT * FROM Cittadini_Registrati WHERE email = ?";
         Cittadino res = null;
-        try (
-            Connection connection = connect();
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);
-        ) {
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
@@ -428,5 +483,23 @@ public class DBManager {
         }
 
         return res;
+    }
+
+    public boolean controlloVaccinatoInCentro(String idVaccinazione, String idCentro) {
+        String sql = "SELECT * FROM Vaccinati WHERE id = ? AND idCentro = ?";
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, idVaccinazione);
+            statement.setString(2, idCentro);
+            ResultSet rs = statement.executeQuery();
+            int count = 0;
+            while(rs.next()) { count++; }
+            return count > 0;
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+        }
+        
+        return false;
     }
 }

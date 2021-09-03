@@ -116,6 +116,7 @@ public class FXMLAccessoController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        
+        emailTextField.setText("alexdelarge@theclockworkorange.com");
+        passwordTextField.setText("Lattepiu!00");
     }
 }

@@ -47,12 +47,10 @@ public class FXMLController implements Initializable {
 
         if(hostName != null && dbName != null && userName != null && password != null) {
             if(hostName.trim() != "" && dbName.trim() != "" && userName.trim() != "" && password.trim() != "") {
-                
-                dbManager = DBManager.getInstance(hostName, dbName, userName, password);
 
                 Task<Void> dbConnectTask = new Task<Void>() {
                     protected Void call() throws Exception {
-                        dbManager.connect();
+                        dbManager = DBManager.getInstance(hostName, dbName, userName, password);
                         return null;
                     }
                 };
