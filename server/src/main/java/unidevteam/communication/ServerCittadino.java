@@ -36,21 +36,33 @@ public class ServerCittadino extends UnicastRemoteObject implements CittadiniInt
 
     @Override
     public List<CentroVaccinale> cercaCentroVaccinale(String nomeCentro) throws RemoteException {
-        System.out.println("Cerca centro vaccinale chiamato");
+        try {
+            if(!nomeCentro.equals(""))
+                return DBManager.getInstance().getCentriVaccinaliByNome(nomeCentro);
+            else
+                return DBManager.getInstance().getAllCentriVaccinali();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public List<CentroVaccinale> cercaCentroVaccinale(String comune, TipologiaCentroVaccinale tipologiaCentro)
             throws RemoteException {
-        // TODO Auto-generated method stub
+        try {
+            if(!comune.equals("") && !tipologiaCentro.name().toUpperCase().equals(""))
+                return DBManager.getInstance().getCentriVaccinaliByComuneETipologiaCentro(comune, tipologiaCentro);
+            else
+                return DBManager.getInstance().getAllCentriVaccinali();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public boolean registraCittadino(Cittadino cittadino) throws RemoteException {
-        System.out.println("CHIAMATO METODO REGISTRA CITTADINO SERVER");
-
         try {
             DBManager.getInstance().addCittadino(cittadino);
             return true;

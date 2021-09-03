@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import unidevteam.enumerators.QualificatoreIndirizzo;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
-import unidevteam.util.DBManager;
 
 public class CentroVaccinale implements Serializable {
     // Serializable ID
@@ -19,29 +18,6 @@ public class CentroVaccinale implements Serializable {
     private String provincia;
     private String CAP;
     private TipologiaCentroVaccinale tipologiaCentroVaccinale;
-
-    /**
-     * Custroctor for Debugging porpuse
-     * 
-     * @author AndrewF17
-     */
-    public CentroVaccinale() {
-        try {
-            this.id = DBManager.getInstance().getValidId("id", "centrivaccinali");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.nome = "Drive-through Parco Trenno";
-        this.qualificatoreIndirizzo = QualificatoreIndirizzo.VIA;
-        this.nomeIndirizzo = "Novara";
-        this.numeroCivico = Integer.toString(0);
-        this.comune = "Milano";
-        this.provincia = "MI";
-        this.CAP = "20153";
-        this.tipologiaCentroVaccinale = TipologiaCentroVaccinale.HUB;
-
-    }
-
 
     public CentroVaccinale(String id, String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
             String numeroCivico, String comune, String provincia, String cap, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
@@ -134,8 +110,4 @@ public class CentroVaccinale implements Serializable {
                 + nomeIndirizzo + ", numeroCivico=" + numeroCivico + ", qualificatoreIndirizzo="
                 + qualificatoreIndirizzo + ", tipologiaCentroVaccinale=" + tipologiaCentroVaccinale + "]";
     }
-
-    
-
-    
 }

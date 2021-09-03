@@ -2,8 +2,11 @@ package unidevteam.communication;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
+import java.util.List;
 
+import unidevteam.classes.CentroVaccinale;
 import unidevteam.classes.Cittadino;
+import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.interfaces.CittadiniInterfaccia;
 
 public class Client {
@@ -38,6 +41,32 @@ public class Client {
                 return stub.autenticaUtente(email, plainPassword);
             }
 		} catch (RemoteException e) {}
+
+        return null;
+    }
+
+    public List<CentroVaccinale> cercaCentroVaccinale(String nomeCentro) {
+        try {
+            if(stub != null) {
+                List<CentroVaccinale> res = stub.cercaCentroVaccinale(nomeCentro);
+                return res;
+            }
+		} catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<CentroVaccinale> cercaCentroVaccinale(String comune, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
+        try {
+            if(stub != null) {
+                List<CentroVaccinale> res = stub.cercaCentroVaccinale(comune, tipologiaCentroVaccinale);
+                return res;
+            }
+		} catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }

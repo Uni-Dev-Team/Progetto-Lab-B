@@ -6,8 +6,6 @@ import java.util.List;
 import unidevteam.classes.*;
 import unidevteam.enumerators.*;
 
-//  TODO: Controllare i return dei boolean non sembrano corretti
-
 /**
  * Manager for the Database
  *
@@ -85,8 +83,6 @@ public class DBManager {
         }
        } while(count > 0);
 
-       System.out.println(resl);
-
        return resl;
     }
     /**
@@ -98,7 +94,7 @@ public class DBManager {
      * @author AndrewF17
      */
     public String addCentroVaccinale(CentroVaccinale object) {
-        String sql = "INSERT INTO CentriVaccinali(id, nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia) "
+        String sql = "INSERT INTO CentriVaccinali(id, nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia)"
                 + "VALUES(?,?,?::qualificatoreindirizzo,?,?,?,?,?,?::tipologiacentrovaccinale);";
         try (
             Connection connection = connect();
@@ -114,17 +110,13 @@ public class DBManager {
                 statement.setString(8, object.getCAP());
                 statement.setString(9, object.getTipologiaCentroVaccinale().name());
 
-                System.out.println(statement.toString());
-
                 statement.executeUpdate();
                 return object.getId();
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
                 return null;
             }
-        
     }
-
 
     /**
      * Insert a new Cittadino
@@ -136,8 +128,6 @@ public class DBManager {
      */
     public Boolean addCittadino(Cittadino object) {
         String sql = "INSERT INTO Cittadini_Registrati(codiceFiscale, nome, cognome, email, idVaccinazione, passwd) VALUES (?,?,?,?,?,?)";
-
-        System.out.println("Password hashata: " + object.getHashedPassword());
 
         try (
             Connection connection = connect();
@@ -176,8 +166,6 @@ public class DBManager {
             System.err.println(exception.getMessage());
             return null;
         }
-        
-        
     }
 
     /**
@@ -215,30 +203,63 @@ public class DBManager {
         List<CentroVaccinale> resl = new ArrayList<CentroVaccinale>();
         try (
             Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ) {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
-                                                                        rs.getString("nome"), 
-                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                        rs.getString("nomeIndirizzo"),
-                                                                        rs.getString("numeroCivico"),
-                                                                        rs.getString("comune"),
-                                                                        rs.getString("provincia"),
-                                                                        rs.getString("cap"),
-                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                        CentroVaccinale centro = new CentroVaccinale(
+                            rs.getString("id"),
+                            rs.getString("nome"), 
+                            QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                            rs.getString("nomeIndirizzo"),
+                            rs.getString("numeroCivico"),
+                            rs.getString("comune"),
+                            rs.getString("provincia"),
+                            rs.getString("cap"),
+                            TipologiaCentroVaccinale.valueOf(rs.getString("tipologia"))
+                        );
                         resl.add(centro);
                     }
                 }
-                
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
-
             }
+
         return resl;
     }
     
+    public List<CentroVaccinale> getCentriVaccinaliByNome(String nomeCentro) {
+        String sql = "SELECT * FROM CentriVaccinali WHERE nome ILIKE ?";
+        List<CentroVaccinale> resl =  new ArrayList<CentroVaccinale>();
+        try (
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql);
+        ) {
+            statement.setString(1, "%"+nomeCentro+"%");
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                CentroVaccinale centroVaccinale = new CentroVaccinale(
+                    rs.getString("id"),
+                    rs.getString("nome"), 
+                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                    rs.getString("nomeIndirizzo"),
+                    rs.getString("numeroCivico"),
+                    rs.getString("comune"),
+                    rs.getString("provincia"),
+                    rs.getString("cap"),
+                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia"))
+                );
+
+                resl.add(centroVaccinale);
+            }
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return resl;
+    }
+
     /**
      * Select Centro vaccinale by Comune
      * 
@@ -247,33 +268,36 @@ public class DBManager {
      * @throws java.sql.SQLException
      * @author AndrewF17
      */
-    public List<CentroVaccinale> getCentriVaccinaliByComune(String comune) {
-        String sql = "SELECT * FROM CentriVaccinali WHERE comune = ?";
+    public List<CentroVaccinale> getCentriVaccinaliByComuneETipologiaCentro(String comune, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
+        String sql = "SELECT * FROM CentriVaccinali WHERE comune = ? AND tipologia = ?::TipologiaCentroVaccinale";
         List<CentroVaccinale> resl = new ArrayList<CentroVaccinale>();
         try (
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(sql);) {
                 statement.setString(1, comune);
+                statement.setString(2, tipologiaCentroVaccinale.name().toUpperCase());
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
-                                                                        rs.getString("nome"), 
-                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                        rs.getString("nomeIndirizzo"),
-                                                                        rs.getString("numeroCivico"),
-                                                                        rs.getString("comune"),
-                                                                        rs.getString("provincia"),
-                                                                        rs.getString("cap"),
-                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
+                        CentroVaccinale centro = new CentroVaccinale(
+                            rs.getString("id"),
+                            rs.getString("nome"), 
+                            QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                            rs.getString("nomeIndirizzo"),
+                            rs.getString("numeroCivico"),
+                            rs.getString("comune"),
+                            rs.getString("provincia"),
+                            rs.getString("cap"),
+                            TipologiaCentroVaccinale.valueOf(rs.getString("tipologia"))
+                        );
                         resl.add(centro);
                     }
                 }
                 
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
-
             }
+
         return resl;
     }
 
@@ -295,137 +319,24 @@ public class DBManager {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.wasNull()) {
                     while (rs.next()) {
-                        resl = new CentroVaccinale( rs.getString("id"),
-                                                    rs.getString("nome"), 
-                                                    QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                    rs.getString("nomeIndirizzo"),
-                                                    rs.getString("numeroCivico"),
-                                                    rs.getString("comune"),
-                                                    rs.getString("provincia"),
-                                                    rs.getString("cap"),
-                                                    TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
-                    }
-                }
-                
-            } catch (SQLException exception) {
-                System.err.println(exception.getMessage());
-
-            }
-        return resl;
-    }
-
-    /**
-     * Select Centro vaccinale by Provincia
-     * 
-     * @return List<CentroVaccinale>
-     * @category SELECT
-     * @throws java.sql.SQLException
-     * @author AndrewF17
-     */
-    public List<CentroVaccinale> getCentriVaccinaliByProvincia(String provincia) {
-        String sql = "SELECT * FROM CentriVaccinali WHERE provincia = ?";
-        List<CentroVaccinale> resl = new ArrayList<CentroVaccinale>();
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
-                statement.setString(1, provincia);
-                ResultSet rs = statement.executeQuery();
-                if (!rs.wasNull()) {
-                    while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
-                                                                        rs.getString("nome"), 
-                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                        rs.getString("nomeIndirizzo"),
-                                                                        rs.getString("numeroCivico"),
-                                                                        rs.getString("comune"),
-                                                                        rs.getString("provincia"),
-                                                                        rs.getString("cap"),
-                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
-                                                                        resl.add(centro);
-                    }
-                }
-                
-            } catch (SQLException exception) {
-                System.err.println(exception.getMessage());
-
-            }
-        return resl;
-    }
-
-    /**
-     * Select Centro vaccinale by CAP
-     * 
-     * @return List<CentroVaccinale>
-     * @category SELECT
-     * @throws java.sql.SQLException
-     * @author AndrewF17
-     */
-    public List<CentroVaccinale> getCentriVaccinaliByCAP(String cap) {
-        String sql = "SELECT * FROM CentriVaccinali WHERE cap = ?";
-        List<CentroVaccinale> resl = new ArrayList<CentroVaccinale>();
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
-                statement.setString(1, cap);
-                ResultSet rs = statement.executeQuery();
-                if (!rs.wasNull()) {
-                    while (rs.next()) {
-                        CentroVaccinale centro =new CentroVaccinale(    rs.getString("id"),
-                                                                        rs.getString("nome"), 
-                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                        rs.getString("nomeIndirizzo"),
-                                                                        rs.getString("numeroCivico"),
-                                                                        rs.getString("comune"),
-                                                                        rs.getString("provincia"),
-                                                                        rs.getString("cap"),
-                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
-                                                                        resl.add(centro);
-                                                                        resl.add(centro);
-                    }
-                }
-                
-            } catch (SQLException exception) {
-                System.err.println(exception.getMessage());
-
-            }
-        return resl;
-    }
-
-    /**
-     * Select Centro vaccinale by Tipologia
-     * 
-     * @return List<CentroVaccinale>
-     * @category SELECT
-     * @throws java.sql.SQLException
-     * @author AndrewF17
-     */
-    public List<CentroVaccinale> getCentriVaccinaliByComune(TipologiaCentroVaccinale type) {
-        String sql = "SELECT * FROM CentriVaccinali WHERE tipologia = ?::tipologiacentrovaccinale";
-        List<CentroVaccinale> resl = new ArrayList<CentroVaccinale>();
-        try (
-            Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(sql);) {
-                statement.setString(1, type.name());
-                ResultSet rs = statement.executeQuery();
-                if (!rs.wasNull()) {
-                    while (rs.next()) {
-                        CentroVaccinale centro = new CentroVaccinale(   rs.getString("id"),
-                                                                        rs.getString("nome"), 
-                                                                        QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
-                                                                        rs.getString("nomeIndirizzo"),
-                                                                        rs.getString("numeroCivico"),
-                                                                        rs.getString("comune"),
-                                                                        rs.getString("provincia"),
-                                                                        rs.getString("cap"),
-                                                                        TipologiaCentroVaccinale.valueOf(rs.getString("tipologia")));
-                                                                        resl.add(centro);
-                                                                        resl.add(centro);
+                        resl = new CentroVaccinale(
+                            rs.getString("id"),
+                            rs.getString("nome"), 
+                            QualificatoreIndirizzo.valueOf(rs.getString("qualificatoreIndirizzo")),
+                            rs.getString("nomeIndirizzo"),
+                            rs.getString("numeroCivico"),
+                            rs.getString("comune"),
+                            rs.getString("provincia"),
+                            rs.getString("cap"),
+                            TipologiaCentroVaccinale.valueOf(rs.getString("tipologia"))
+                        );
                     }
                 }
                 
             } catch (SQLException exception) {
                 System.err.println(exception.getMessage());
             }
+
         return resl;
     }
 
