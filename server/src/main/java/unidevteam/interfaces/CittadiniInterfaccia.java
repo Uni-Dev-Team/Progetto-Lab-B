@@ -13,6 +13,7 @@ public interface CittadiniInterfaccia extends Remote {
     // public ? visualizzaInfoCentroVaccinale(String idCentro) throws RemoteException;
     public Cittadino autenticaUtente(String email, String plainPassword) throws RemoteException;
     public boolean registraCittadino(Cittadino cittadino) throws RemoteException;
-    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione) throws RemoteException;
+    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione, String idCentro) throws RemoteException;
     public boolean controlloVaccinatoInCentro(String idVaccinazione, String idCentro) throws RemoteException;
+    public DatiExtraCentroVaccinale getDatiSuEventiAvversi(String idCentro) throws RemoteException;
 }

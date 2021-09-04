@@ -23,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import unidevteam.classes.CentroVaccinale;
 import unidevteam.classes.Cittadino;
+import unidevteam.classes.DatiExtraCentroVaccinale;
 import unidevteam.communication.Client;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.util.JsonReader;
@@ -35,6 +36,7 @@ public class FXMLHomeController implements Initializable {
     List<String> comuni;
     List<CentroVaccinale> centriVaccinali;
     List<CentroVaccinale> ricercaCentriVaccinali;
+    DatiExtraCentroVaccinale datiExtraCentroVaccinale;
 
     @FXML
     private ResourceBundle resources;
@@ -207,8 +209,6 @@ public class FXMLHomeController implements Initializable {
                 Task<Boolean> checkPuoInserireEvento = new Task<Boolean>() {
                     @Override
                     protected Boolean call() throws Exception {
-                        System.out.println(SessionHandler.getUtente().getIdVaccinazione());
-                        System.out.println(centroVaccinale.getId());
                         return new Client().controlloVaccinatoInCentro(SessionHandler.getUtente().getIdVaccinazione(), centroVaccinale.getId());
                     }
                 };
@@ -326,23 +326,36 @@ public class FXMLHomeController implements Initializable {
                         indirizzoCentroLabel.setText(indirizzoCentro);
                         tipoCentroLabel.setText(newValue.getTipologiaCentroVaccinale().getValue());
 
-                        /*Task<Void> getAdverseEventsData = new Task<Void>() {
+                        Task<Void> getAdverseEventsData = new Task<Void>() {
                             @Override
                             protected Void call() throws Exception {
-                                
+                                datiExtraCentroVaccinale = new Client().getDatiSuEventiAvversi(newValue.getId());
                                 return null;
                             }
                         };
 
                         getAdverseEventsData.setOnSucceeded(e -> {
+                            if(datiExtraCentroVaccinale != null) {
+                                numeroEventiLabel.setText(Integer.toString(datiExtraCentroVaccinale.getNumeroEventiAvversi()));
+                                severitaMediaLabel.setText(String.format("%.1f", datiExtraCentroVaccinale.getGradoSeveritaMedio()));
 
+                                if(datiExtraCentroVaccinale.getEventoPiuFrequente() != null)
+                                    eventoPiuFrequenteLabel.setText(datiExtraCentroVaccinale.getEventoPiuFrequente().getValue());
+                                else
+                                    eventoPiuFrequenteLabel.setText("-");
+                            }
                         });
 
                         getAdverseEventsData.setOnFailed(e -> {
-
+                            numeroEventiLabel.setText("-");
+                            severitaMediaLabel.setText("-");
+                            eventoPiuFrequenteLabel.setText("-");
                         });
 
-                        new Thread(getAdverseEventsData).start();*/
+                        new Thread(getAdverseEventsData).start();
+                        numeroEventiLabel.setText("-");
+                        severitaMediaLabel.setText("-");
+                        eventoPiuFrequenteLabel.setText("-");
                     }
                 }
             }

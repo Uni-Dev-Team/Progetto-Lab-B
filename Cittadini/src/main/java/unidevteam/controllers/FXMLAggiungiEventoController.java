@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import unidevteam.classes.CentroVaccinale;
+import unidevteam.classes.DatiExtraCentroVaccinale;
 import unidevteam.communication.Client;
 import unidevteam.enumerators.TipoEvento;
 import unidevteam.classes.EventoAvverso;
@@ -25,6 +26,7 @@ import unidevteam.util.SessionHandler;
 public class FXMLAggiungiEventoController implements Initializable {
 
     private static CentroVaccinale centroVaccinale;
+    DatiExtraCentroVaccinale datiExtraCentroVaccinale;
 
     public static void setCentroVaccinale(CentroVaccinale c) { centroVaccinale = c; }
 
@@ -82,7 +84,6 @@ public class FXMLAggiungiEventoController implements Initializable {
     @FXML
     void onClickInserisciEvento(ActionEvent event) {
         TipoEvento tipoEvento = TipoEvento.valueFromString(tipoEventoComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(tipoEvento.getValue());
         int severita = (int)severitaEventoSlider.getValue();
         String noteOpzionali = noteOpzionaliTextArea.getText();
 
@@ -93,12 +94,43 @@ public class FXMLAggiungiEventoController implements Initializable {
                 eventoAvverso.setTipoEvento(tipoEvento);
                 eventoAvverso.setGradoSeverita(severita);
                 eventoAvverso.setNote(noteOpzionali);
-                new Client().inserisciEventoAvverso(eventoAvverso, SessionHandler.getUtente().getIdVaccinazione());
+                new Client().inserisciEventoAvverso(eventoAvverso, SessionHandler.getUtente().getIdVaccinazione(), centroVaccinale.getId());
                 return null;
             }
         };
 
         addEventoAvversoTask.setOnSucceeded(e -> {
+            Task<Void> getAdverseEventsData = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    datiExtraCentroVaccinale = new Client().getDatiSuEventiAvversi(centroVaccinale.getId());
+                    return null;
+                }
+            };
+    
+            getAdverseEventsData.setOnSucceeded(e1 -> {
+                if(datiExtraCentroVaccinale != null) {
+                    numeroEventiLabel.setText(Integer.toString(datiExtraCentroVaccinale.getNumeroEventiAvversi()));
+                    severitaMediaLabel.setText(String.format("%.1f",datiExtraCentroVaccinale.getGradoSeveritaMedio()));
+    
+                    if(datiExtraCentroVaccinale.getEventoPiuFrequente() != null)
+                        eventoPiuFrequenteLabel.setText(datiExtraCentroVaccinale.getEventoPiuFrequente().getValue());
+                    else
+                        eventoPiuFrequenteLabel.setText("-");
+                }
+            });
+    
+            getAdverseEventsData.setOnFailed(e1 -> {
+                numeroEventiLabel.setText("-");
+                severitaMediaLabel.setText("-");
+                eventoPiuFrequenteLabel.setText("-");
+            });
+    
+            new Thread(getAdverseEventsData).start();
+            numeroEventiLabel.setText("-");
+            severitaMediaLabel.setText("-");
+            eventoPiuFrequenteLabel.setText("-");
+
             inserisciEventoButton.setText("Inserisci evento avverso");
             inserisciEventoButton.setDisable(false);
     
@@ -173,5 +205,36 @@ public class FXMLAggiungiEventoController implements Initializable {
             TipoEvento.LINFOADENOPATIA.getValue()
         );
         tipoEventoComboBox.getSelectionModel().select(0);
+
+        Task<Void> getAdverseEventsData = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                datiExtraCentroVaccinale = new Client().getDatiSuEventiAvversi(centroVaccinale.getId());
+                return null;
+            }
+        };
+
+        getAdverseEventsData.setOnSucceeded(e -> {
+            if(datiExtraCentroVaccinale != null) {
+                numeroEventiLabel.setText(Integer.toString(datiExtraCentroVaccinale.getNumeroEventiAvversi()));
+                severitaMediaLabel.setText(String.format("%.1f",datiExtraCentroVaccinale.getGradoSeveritaMedio()));
+
+                if(datiExtraCentroVaccinale.getEventoPiuFrequente() != null)
+                    eventoPiuFrequenteLabel.setText(datiExtraCentroVaccinale.getEventoPiuFrequente().getValue());
+                else
+                    eventoPiuFrequenteLabel.setText("-");
+            }
+        });
+
+        getAdverseEventsData.setOnFailed(e -> {
+            numeroEventiLabel.setText("-");
+            severitaMediaLabel.setText("-");
+            eventoPiuFrequenteLabel.setText("-");
+        });
+
+        new Thread(getAdverseEventsData).start();
+        numeroEventiLabel.setText("-");
+        severitaMediaLabel.setText("-");
+        eventoPiuFrequenteLabel.setText("-");
     }
 }

@@ -142,12 +142,12 @@
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="eventoPiuFrequenteLabel" alignment="TOP_LEFT" layoutX="887.0" layoutY="456.0" prefHeight="21.0" prefWidth="56.0" text="-" wrapText="true">
+      <Label fx:id="eventoPiuFrequenteLabel" alignment="TOP_LEFT" layoutX="887.0" layoutY="456.0" prefHeight="21.0" prefWidth="338.0" text="-" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="inserisciEventoButton" layoutX="589.0" layoutY="496.0" mnemonicParsing="false" onAction="#onClickInserisciEvento" prefHeight="40.0" prefWidth="326.0" style="-fx-background-color: #75B85B; -fx-color: white; -fx-text-fill: #FFF; -fx-border-radius: 5px;" text="Inserisci evento avverso">
+      <Button fx:id="inserisciEventoButton" layoutX="589.0" layoutY="496.0" mnemonicParsing="false" onAction="#onClickInserisciEvento" prefHeight="40.0" prefWidth="431.0" style="-fx-background-color: #75B85B; -fx-color: white; -fx-text-fill: #FFF; -fx-border-radius: 5px;" text="Inserisci evento avverso">
          <font>
             <Font name="Montserrat Regular" size="15.0" />
          </font>

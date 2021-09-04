@@ -9,6 +9,7 @@ import java.util.List;
 
 import unidevteam.classes.CentroVaccinale;
 import unidevteam.classes.Cittadino;
+import unidevteam.classes.DatiExtraCentroVaccinale;
 import unidevteam.classes.EventoAvverso;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.interfaces.CittadiniInterfaccia;
@@ -73,9 +74,9 @@ public class ServerCittadino extends UnicastRemoteObject implements CittadiniInt
     }
 
     @Override
-    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione) throws RemoteException {
+    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione, String idCentro) throws RemoteException {
         try {
-            return DBManager.getInstance().inserisciEventoAvverso(eventoAvverso, idVaccinazione);
+            return DBManager.getInstance().inserisciEventoAvverso(eventoAvverso, idVaccinazione, idCentro);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,5 +111,15 @@ public class ServerCittadino extends UnicastRemoteObject implements CittadiniInt
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public DatiExtraCentroVaccinale getDatiSuEventiAvversi(String idCentro) throws RemoteException {
+        try {
+            return DBManager.getInstance().getDatiSuEventiAvversi(idCentro);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

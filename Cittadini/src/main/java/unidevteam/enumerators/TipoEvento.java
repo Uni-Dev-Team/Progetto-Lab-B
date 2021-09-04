@@ -19,21 +19,27 @@ public enum TipoEvento {
     public static TipoEvento valueFromString(String value) {
         switch(value) {
             case "Mal di testa":
+            case "MAL_DI_TESTA":
                 return TipoEvento.MAL_DI_TESTA;
 
             case "Febbre":
+            case "FEBBRE":
                 return TipoEvento.FEBBRE;
             
             case "Dolori muscolari articolari":
+            case "DOLORI_MUSCOLARI_ARTICOLARI":
                 return TipoEvento.DOLORI_MUSCOLARI_ARTICOLARI;
 
             case "Linfoadenopatia":
+            case "LINFOADENOPATIA":
                 return TipoEvento.LINFOADENOPATIA;
 
             case "Tachicardia":
+            case "TACHICARDIA":
                 return TipoEvento.TACHICARDIA;
 
             case "Crisi ipertensiva":
+            case "CRISI_IPERTENSIVA":
                 return TipoEvento.CRISI_IPERTENSIVA;
         }
 

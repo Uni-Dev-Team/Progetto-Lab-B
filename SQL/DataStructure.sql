@@ -60,7 +60,12 @@ CREATE TABLE Eventi_Avversi (
     gradoSeverita SMALLINT CHECK (gradoSeverita < 5 AND gradoSeverita > 1) NOT NULL,
     dataSomministrazione DATE CHECK (dataAvvenimento > dataSomministrazione) NOT NULL,
     dataAvvenimento DATE CHECK (dataAvvenimento > dataSomministrazione) NOT NULL,
-    note VARCHAR(256)
+    note VARCHAR(256),
+    idCentro CHAR(16) NOT NULL,
+
+    FOREIGN KEY (idCentro) REFERENCES CentriVaccinali(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 

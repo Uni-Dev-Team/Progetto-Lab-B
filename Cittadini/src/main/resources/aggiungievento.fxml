@@ -114,7 +114,7 @@
             <Font name="Montserrat Regular" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="eventoPiuFrequenteLabel" alignment="TOP_LEFT" layoutX="359.0" layoutY="467.0" prefHeight="21.0" prefWidth="56.0" text="-" wrapText="true">
+      <Label fx:id="eventoPiuFrequenteLabel" alignment="TOP_LEFT" layoutX="359.0" layoutY="467.0" prefHeight="21.0" prefWidth="264.0" text="-" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>

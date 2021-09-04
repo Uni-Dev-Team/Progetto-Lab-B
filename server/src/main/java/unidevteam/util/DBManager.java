@@ -393,7 +393,7 @@ public class DBManager {
         return 0;
     }
 
-    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione) {
+    public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione, String idCentro) {
         // Ottieni tutte le informazioni
         TipoVaccino tipoVaccino = null;
         Date dataSomministrazione = null;
@@ -421,8 +421,8 @@ public class DBManager {
         String adverseEventID = Generator.getAlphaNumericString(16);
 
         // Inserisci l'oggetto evento avverso
-        sql = "INSERT INTO Eventi_Avversi (idEvento, tipoEvento, tipoVaccino, gradoSeverita, dataSomministrazione, dataAvvenimento, note)"+
-              "VALUES (?,?::TipoEvento,?::TipoVaccino,?,?,?,?)";
+        sql = "INSERT INTO Eventi_Avversi (idEvento, tipoEvento, tipoVaccino, gradoSeverita, dataSomministrazione, dataAvvenimento, note, idCentro)"+
+              "VALUES (?,?::TipoEvento,?::TipoVaccino,?,?,?,?,?)";
 
         try {
             if(connection == null && !connection.isClosed()) connection = connect();
@@ -434,6 +434,7 @@ public class DBManager {
             statement.setDate(5, eventoAvverso.getDataSomministrazione());
             statement.setDate(6, eventoAvverso.getDataAvventimento());
             statement.setString(7, eventoAvverso.getNote());
+            statement.setString(8, idCentro);
             statement.executeUpdate();
         } catch(SQLException e) {
             System.err.println(e.getMessage());
@@ -501,5 +502,59 @@ public class DBManager {
         }
         
         return false;
+    }
+
+    public DatiExtraCentroVaccinale getDatiSuEventiAvversi(String idCentro) {
+        // Numero totale eventi avversi
+        int numOfEventiAvversi = 0;
+        String sql1 = "SELECT COUNT(*) FROM Eventi_Avversi WHERE idCentro = ?";
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql1);
+            statement.setString(1, idCentro);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                numOfEventiAvversi = rs.getInt(1);
+            }
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+            return null;
+        }
+
+        // Severita' media
+        double gradoSeveritaMedio = 0.0;
+        String sql2 = "SELECT AVG(gradoSeverita) FROM Eventi_Avversi WHERE idCentro = ?";
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql2);
+            statement.setString(1, idCentro);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                gradoSeveritaMedio = rs.getDouble(1);
+            }
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+            return null;
+        }
+
+        // Tipologia evento piu' frequente
+        TipoEvento tipoPiuFrequente = null;
+        String sql3 = "SELECT tipoEvento, COUNT(tipoEvento) AS occorrenze " +
+        "FROM (SELECT * FROM Eventi_Avversi WHERE idCentro = ?) AS sq GROUP BY tipoEvento ORDER BY occorrenze DESC LIMIT 1";
+        try {
+            if(connection == null && !connection.isClosed()) connection = connect();
+            PreparedStatement statement = connection.prepareStatement(sql3);
+            statement.setString(1, idCentro);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                tipoPiuFrequente = TipoEvento.valueFromString(rs.getString(1));
+                System.out.println(tipoPiuFrequente.getValue());
+            }
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+            return null;
+        }
+
+        return new DatiExtraCentroVaccinale(numOfEventiAvversi, gradoSeveritaMedio, tipoPiuFrequente);
     }
 }
