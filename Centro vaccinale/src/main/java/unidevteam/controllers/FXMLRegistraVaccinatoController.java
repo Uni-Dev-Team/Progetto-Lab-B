@@ -120,6 +120,12 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                                         errorMessage.setText("Registrazione andata a buon fine!");
                                         errorMessage.setTextFill(Color.GREEN);
 
+                                        nomeCentroComboBox.getSelectionModel().select(0);
+                                        nomeCittadinoTextField.setText(null);
+                                        cognomeCittadinoTextField.setText(null);
+                                        codiceFiscaleTextField.setText(null);
+                                        tipoVaccinoComboBox.getSelectionModel().select(0);
+
                                         String res = addVaccinatoTask.getValue();
                                         Alert alert = new Alert(Alert.AlertType.WARNING);
                                         alert.setTitle("Registrazione andata a buon fine!");
@@ -140,6 +146,12 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                                         dataSomministrazioneDatePicker.setDisable(false);
                                         tipoVaccinoComboBox.setDisable(false);
 
+                                        nomeCentroComboBox.getSelectionModel().select(0);
+                                        nomeCittadinoTextField.setText(null);
+                                        cognomeCittadinoTextField.setText(null);
+                                        codiceFiscaleTextField.setText(null);
+                                        tipoVaccinoComboBox.getSelectionModel().select(0);
+
                                         errorMessage.setVisible(true);
                                         errorMessage.setText("Errore nella registrazione.");
                                         errorMessage.setTextFill(Color.RED);
@@ -148,12 +160,6 @@ public class FXMLRegistraVaccinatoController implements Initializable {
                                     new Thread(addVaccinatoTask).start();
                                     registerButton.setText("Caricamento...");
                                     registerButton.setDisable(true);
-
-                                    nomeCentroComboBox.getSelectionModel().select(0);
-                                    nomeCittadinoTextField.setText(null);
-                                    cognomeCittadinoTextField.setText(null);
-                                    codiceFiscaleTextField.setText(null);
-                                    tipoVaccinoComboBox.getSelectionModel().select(0);
 
                                     nomeCentroComboBox.setDisable(true);
                                     nomeCittadinoTextField.setDisable(true);
