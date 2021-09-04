@@ -22,6 +22,8 @@ public class App extends Application
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(new File("src/main/resources/scene.fxml").toURI().toURL());
         stage.setScene(new Scene(root));
+        stage.setTitle("Client: Cittadini");
+        stage.setResizable(false);
         stage.show();
     }
 }

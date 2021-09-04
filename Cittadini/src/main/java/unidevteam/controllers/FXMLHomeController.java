@@ -1,5 +1,6 @@
 package unidevteam.controllers;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import unidevteam.classes.CentroVaccinale;
@@ -217,6 +219,7 @@ public class FXMLHomeController implements Initializable {
                     try {
                         if(checkPuoInserireEvento.get()) {
                             FXMLAggiungiEventoController.setCentroVaccinale(risultatiRicercaListView.getSelectionModel().getSelectedItem());
+                            FXMLAggiungiEventoController.setFotoProfiloURI(fotoUtenteImageView.getImage());
                             new SceneManager().switchToNewScene(event, "aggiungievento");
                         } else {
                             // Errore: Non ti sei vaccinato in questo centro
@@ -297,6 +300,12 @@ public class FXMLHomeController implements Initializable {
         if(SessionHandler.getUtente() != null) {
             Cittadino utente = SessionHandler.getUtente();
             nomeUtenteLabel.setText(String.format("%s %s", utente.getNome(), utente.getCognome()));
+
+            boolean isMale = Integer.parseInt(utente.getCodiceFiscale().subSequence(9, 11).toString()) < 41;
+
+            File file = new File(isMale ? "src/main/resources/male.png" : "src/main/resources/female.png");
+            Image image = new Image(file.toURI().toString());
+            fotoUtenteImageView.setImage(image);
         }
 
         jsonReader = new JsonReader();
@@ -313,6 +322,10 @@ public class FXMLHomeController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends CentroVaccinale> observableValue, CentroVaccinale oldValue, CentroVaccinale newValue) {
                     if(newValue != null) {
+                        File file = new File(String.format("src/main/resources/%s.png", newValue.getTipologiaCentroVaccinale().getValue().toLowerCase()));
+                        Image image = new Image(file.toURI().toString());
+                        fotoCentroImageView.setImage(image);
+
                         nomeCentroLabel.setText(newValue.getNome());
                         String indirizzoCentro = String.format(
                             "%s, %s %s %s - %s (%s)", 

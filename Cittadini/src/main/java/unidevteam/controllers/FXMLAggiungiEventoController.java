@@ -1,5 +1,6 @@
 package unidevteam.controllers;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -26,9 +28,11 @@ import unidevteam.util.SessionHandler;
 public class FXMLAggiungiEventoController implements Initializable {
 
     private static CentroVaccinale centroVaccinale;
+    private static Image fotoProfilo;
     DatiExtraCentroVaccinale datiExtraCentroVaccinale;
 
     public static void setCentroVaccinale(CentroVaccinale c) { centroVaccinale = c; }
+    public static void setFotoProfiloURI(Image i) { fotoProfilo = i; }
 
     @FXML
     private ResourceBundle resources;
@@ -181,6 +185,14 @@ public class FXMLAggiungiEventoController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         resultMessage.setVisible(false);
+
+        File file = new File(String.format("src/main/resources/%s.png", centroVaccinale.getTipologiaCentroVaccinale().getValue().toLowerCase()));
+        Image image = new Image(file.toURI().toString());
+        fotoCentroImageView.setImage(image);
+
+        if(fotoProfilo != null)
+            fotoUtenteImageView.setImage(fotoProfilo);
+
         nomeCentroLabel.setText(centroVaccinale.getNome());
         String indirizzoCentro = String.format(
                             "%s, %s %s %s - %s (%s)", 
