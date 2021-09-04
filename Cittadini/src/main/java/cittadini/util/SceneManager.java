@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package cittadini.util;
 
 import java.io.File;
@@ -6,14 +13,12 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
- * Gestione scene
+ * Classe che ci permette di cambiare scena
  */
 public class SceneManager {
     private Stage stage;
@@ -21,9 +26,9 @@ public class SceneManager {
     private Parent root;
 
     /**
-     * Metodo per cambiare scene
+     * Permette di cambiare scena
      * @param event
-     * @param fileName nome della scena a cui si vuole arrivare
+     * @param fileName scena su cui vuoi andare
      */
     public void switchToNewScene(ActionEvent event, String fileName) {
         try {
@@ -45,9 +50,9 @@ public class SceneManager {
     }
 
     /**
-     * Metodo per cambiare scene
-     * @param event
-     * @param fileName nome della scena a cui si vuole arrivare
+     * Permette di cambiare scena
+     * @param event 
+     * @param fileName scena su cui vuoi andare
      */
     public void switchToNewScene(MouseEvent event, String fileName) {
         try {

@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package cittadini.communication;
 
 import java.rmi.RemoteException;
@@ -12,25 +19,37 @@ import cittadini.enumerators.TipologiaCentroVaccinale;
 import cittadini.interfaces.CittadiniInterfaccia;
 
 /**
- * Classe utilizzata per la connessione tramite RMI e per la gestione dei dati dei cittadini.
- * @see cittadini.classes.Cittadino#Cittadino()
+ * Serve per connettersi al server utilizzando RMI
+ * Include:
+ * <ul>
+ * <li>Costruttore per la connession con RMI</li>
+ * <li>Registrazione cittadino</li>
+ * <li>Un metodo di autenticazione di un utente</li>
+ * <li>Un metodo per cercare centri vaccinali</li>
+ * <li>Un metodo per inserire un evento avverso</li>
+ * <li>Un metodo per controllare se un utente può inserire un dato evento avverso in un centro vaccinale</li>
+ * <li>Un metodo per ottenere dati su eventi avversi</li>
+ * </ul>
  */
 public class Client {
     static final int port = 2099;
     private CittadiniInterfaccia stub;
-
+    
     public Client() {
         try {
             Registry registry = LocateRegistry.getRegistry(port);
             stub = (CittadiniInterfaccia) registry.lookup("Server_cittadini");
+
+            
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
         }
     }
 
     /**
-     * @param cittadino
-     * @return boolean
+     * Permette di registrare un cittadino
+     * @param cittadino utente
+     * @return il risultato dell'operazione, true se il cittadino si è registrato con successo, altrimenti false
      * @throws Exception
      */
     public boolean registraCittadino(Cittadino cittadino) throws Exception {
@@ -45,10 +64,10 @@ public class Client {
     }
 
     /**
-     * Metodo per autenticare l'utente
-     * @param email
-     * @param plainPassword
-     * @return Cittadino
+     * Permette di autenticare un utente
+     * @param email email dell'utente
+     * @param plainPassword password dell'utente non hashata
+     * @return il cittadino se l'operazione è andata a buon fine, altrimenti false
      */
     public Cittadino autenticaUtente(String email, String plainPassword) {
         try {
@@ -61,9 +80,9 @@ public class Client {
     }
 
     /**
-     * Metodo per cercare il centro vaccinale
-     * @param nomeCentro
-     * @return List<CentroVaccinale>
+     * Permette di cercare un centro vaccinale
+     * @param nomeCentro nome del centro vaccinale 
+     * @return una lista di centri vacciali che matchano la stringa
      */
     public List<CentroVaccinale> cercaCentroVaccinale(String nomeCentro) {
         try {
@@ -79,10 +98,10 @@ public class Client {
     }
 
     /**
-     * Metodo per cercare il centro vaccinale
+     * Permette di cercare un centro vaccinale
      * @param comune
-     * @param tipologiaCentroVaccinale
-     * @return List<CentroVaccinale>
+     * @param tipologiaCentroVaccinale tipologia del centro vaccinale
+     * @return una lista di centri vaccinali
      */
     public List<CentroVaccinale> cercaCentroVaccinale(String comune, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
         try {
@@ -93,16 +112,15 @@ public class Client {
 		} catch (RemoteException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
     /**
-     * Metodo per inserire evento avverso
-     * @param eventoAvverso
-     * @param idVaccinazione
-     * @param idCentro
-     * @return boolean
+     * Permette l'inserimento di un evento avverso
+     * @param eventoAvverso evento avverso
+     * @param idVaccinazione id di vaccinazione
+     * @param idCentro id del centro
+     * @return il risultato dell'operazione
      */
     public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione, String idCentro) {
         try {
@@ -117,10 +135,10 @@ public class Client {
     }
 
     /**
-     * Metodo per vedere se un vaccinato ha inserito gli eventi avversi nel centro giusto
-     * @param idVaccinazione
-     * @param idCentro
-     * @return boolean
+     * Permette di controllare se un vaccinato può scrivere eventi avversi in un dato centro vaccinale
+     * @param idVaccinazione id di vaccinazione
+     * @param idCentro id del centro vaccinale
+     * @return il risutato dell'operazione
      */
     public boolean controlloVaccinatoInCentro(String idVaccinazione, String idCentro) {
         try {
@@ -135,9 +153,9 @@ public class Client {
     }
 
     /**
-     * Metodo che ritorna dati su eventi avversi
-     * @param idCentro
-     * @return DatiExtraCentroVaccinale
+     * Permette di ottenere dati statistici sui centri vaccinali {@link cittadini.classes.DatiExtraCentroVaccinale#DatiExtraCentroVaccinale(int, double, cittadini.enumerators.TipoEvento) DatiExtraCentroVaccinale}
+     * @param idCentro id del centro
+     * @return istanza di DatiExtraCentroVaccinale
      */
     public DatiExtraCentroVaccinale getDatiSuEventiAvversi(String idCentro) {
         try {
