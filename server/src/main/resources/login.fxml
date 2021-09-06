@@ -70,7 +70,7 @@
             <Font name="Montserrat Regular" size="30.0" />
          </font>
       </Label>
-      <Label alignment="TOP_CENTER" layoutX="243.0" layoutY="200.0" prefHeight="50.0" prefWidth="795.0" text="Il servizio è attualmente offline e le funzionalità saranno disponibiliper gli utenti soltanto dopo che verrà effettuato l'accesso al database" textAlignment="CENTER" wrapText="true">
+      <Label alignment="TOP_CENTER" layoutX="243.0" layoutY="200.0" prefHeight="50.0" prefWidth="795.0" text="Il servizio è attualmente offline e le funzionalità saranno disponibili per gli utenti soltanto dopo che verrà effettuato l'accesso al database" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
