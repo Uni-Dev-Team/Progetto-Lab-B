@@ -1,17 +1,22 @@
-package unidevteam.util;
 /**
-     * Generator Class
-     *
-     * @category Random
-     * @author AndrewF17
-     */
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
+package unidevteam.util;
+
+/**
+ * Classe per generare valori
+ */
 public class Generator {
+    
      /**
-     * generate AlphaNumericString
+     * Genera stringa alfanumerica
      * 
-     * @param int dimention of the random string
-     * @return a String
-     * @author AndrewF17
+     * @param int dimensione della stringa random
+     * @return la stringa ottenuta
      */
     public static String getAlphaNumericString(int length) 
     { 

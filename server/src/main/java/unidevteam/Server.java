@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam;
 
 import java.io.File;
@@ -10,6 +17,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Classe per la gestione del centro vaccinale
+ * Possiede getter e setter per impostare i valori chiave della classe
+ * Serializzabile in quanto utilizzata assieme all'RMI
+ */
 public class Server extends Application
 {
     public static void main( String[] args ){

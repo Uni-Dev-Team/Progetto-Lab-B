@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.classes;
 
 import java.io.Serializable;
@@ -5,6 +12,11 @@ import java.sql.Date;
 import unidevteam.enumerators.TipoEvento;
 import unidevteam.enumerators.TipoVaccino;
 
+/**
+ * Struttura dati per la gestione degli eventi avversi
+ * Possiede getter e setter per impostare i valori chiave della classe
+ * Serializzabile in quanto utilizzata assieme all'RMI
+ */
 public class EventoAvverso implements Serializable {
     // Serializable ID
     private static final long serialVersionUID = 1;

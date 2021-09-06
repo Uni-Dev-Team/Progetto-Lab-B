@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import unidevteam.util.DBManager;
@@ -15,7 +22,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
-
+/**
+ * Classe per gestire elementi grafici
+ * Permette di:
+ * <ul>
+ * <li>Accedere</li>
+ * </ul>
+ */
 public class FXMLController implements Initializable {
 
     DBManager dbManager;
@@ -38,6 +51,10 @@ public class FXMLController implements Initializable {
     @FXML
     private Label errorMessageLabel;
 
+    /**
+     * Permette di autenticarsi a sistema
+     * @param event
+     */
     @FXML
     void onClickLoginButton(ActionEvent event) {
         String hostName = hostNameTextField.getText();

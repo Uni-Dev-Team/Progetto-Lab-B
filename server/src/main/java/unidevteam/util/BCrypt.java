@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.util;
 
 import java.io.UnsupportedEncodingException;
@@ -7,17 +14,14 @@ import java.security.SecureRandom;
 /**
  * Usage is really simple. To hash a password for the first time,
  * call the hashpw method with a random salt, like this:
-
  * String pw_hash = BCrypt.hashpw(plain_password, BCrypt.gensalt()); <br />
  
  * To check whether a plaintext password matches one that has been
  * hashed previously, use the checkpw method:
-
  * if (BCrypt.checkpw(candidate_password, stored_hash))<br />
  * &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("It matches");<br />
  * else
  * System.out.println("It does not match");
-
  * The gensalt() method takes an optional parameter (log_rounds)
  * that determines the computational complexity of the hashing:
  * <p>

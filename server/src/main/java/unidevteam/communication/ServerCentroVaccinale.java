@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.communication;
 
 import java.rmi.RemoteException;
@@ -13,10 +20,19 @@ import unidevteam.enumerators.TipoVaccino;
 import unidevteam.interfaces.CentroVaccinaleInterfaccia;
 import unidevteam.util.DBManager;
 
+/**
+ * Classe per gestire le funzionalità del server per quanto riguarda i centri vaccinali
+ * Estende UnicastRemoteObject in quanto usiamo questa classe per creare il collegamento con l'RMI
+ * Implementa l'interfaccia remota {@link server.interfaces.CentroVaccinaleInterfaccia CentroVaccinaleInterfaccia}
+ */
 public class ServerCentroVaccinale extends UnicastRemoteObject implements CentroVaccinaleInterfaccia {
     static final int port = 1099;
     Registry registry;
 
+    /**
+     * Creazione collegamento tramite RMI
+     * @throws RemoteException
+     */
     public ServerCentroVaccinale() throws RemoteException {
         super();
         System.out.println("RMI Server Starting");
@@ -33,6 +49,13 @@ public class ServerCentroVaccinale extends UnicastRemoteObject implements Centro
         }
     }
 
+    /**
+     * Ottiene un nuovo ID univoco
+     * @param columnName
+     * @param tableName
+     * @return Id generato
+     * @throws RemoteException
+     */
     @Override
     public String getValidId(String columnName, String tableName) throws RemoteException {
         try {
@@ -42,6 +65,12 @@ public class ServerCentroVaccinale extends UnicastRemoteObject implements Centro
         }
     }
 
+    /**
+     * Ottiene l'oggetto CentroVaccinale con id uguale a quello passato come parametro
+     * @param id id del centro vaccinale
+     * @return Oggetto CentroVaccinale se la ricerca va a buon fine, null altrimenti
+     * @throws RemoteException 
+     */
     @Override
     public CentroVaccinale getCentroVaccinaleById(String id) throws RemoteException {
         try {
@@ -51,6 +80,12 @@ public class ServerCentroVaccinale extends UnicastRemoteObject implements Centro
         }
     }
 
+    /**
+     * Registra un nuovo centro vaccinale e ritorna l'id generato
+     * @param centro oggetto centro vaccinale da registrare
+     * @return ID del centro appena registrato
+     * @throws RemoteException
+     */
     @Override
 	public String registraCentroVaccinale(CentroVaccinale centro) throws RemoteException {
         try {
@@ -62,6 +97,17 @@ public class ServerCentroVaccinale extends UnicastRemoteObject implements Centro
         }
 	}
 
+    /**
+     * Registra un nuovo vaccinato
+     * @param nomeCittadino nome del vaccinato
+     * @param cognomeCittadino cognome del vaccinato
+     * @param codiceFiscale codice fiscale del vaccinato
+     * @param dataSomministrazione data di somministrazione del vaccino
+     * @param typeVaccino tipologia di vaccino
+     * @param idCentro id del centro in cui si sta registrando il vaccino
+     * @return id vaccinazione, da fornire al cittadino appena vaccinato
+     * @throws RemoteException
+     */
     @Override
     public String addVaccinato(String nomeCittadino, String cognomeCittadino,
             String codiceFiscale, Date dataSomministrazione, TipoVaccino typeVaccino, String idCentro) throws RemoteException {
@@ -74,6 +120,11 @@ public class ServerCentroVaccinale extends UnicastRemoteObject implements Centro
         }
     }
 
+    /**
+     * Ottiene una lista di tutti i centri vaccinali registrati a sistema
+     * @return lista di oggetti CentroVaccinale
+     * @throws RemoteException
+     */
     @Override
 	public List<CentroVaccinale> getAllCentriVaccinali() throws RemoteException {
         try {
@@ -83,7 +134,10 @@ public class ServerCentroVaccinale extends UnicastRemoteObject implements Centro
 		}
 	}
     
-
+    /**
+     * Chiude il registry RMI
+     * @throws RemoteException
+     */
     public void exit() throws RemoteException {
     try{
         registry.unbind("Server_centroVaccinale");

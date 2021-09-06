@@ -1,4 +1,12 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.util;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,11 +16,7 @@ import unidevteam.classes.*;
 import unidevteam.enumerators.*;
 
 /**
- * Manager for the Database
- *
- * @version 1.0
- * @category Database Comunicaion
- * @author AndrewF17
+ * Gestore del Database
  */
 public class DBManager {
     private String url;
@@ -22,11 +26,23 @@ public class DBManager {
     private static DBManager instance = null;
     private Connection connection = null;
 
+    /**
+     * Design pattern singleton per l'istanza del manager
+     * @return istanza del DB
+     * @throws Exception
+     */
     public static DBManager getInstance() throws Exception {
         if(instance != null) return instance;
         throw new Exception("Database manager is not initialized.");
     }
 
+    /**
+     * @param hostname hostname DB
+     * @param dbName nome del DB
+     * @param user utente del DB
+     * @param password password del DB
+     * @return istanza del DB
+     */
     public static DBManager getInstance(String hostname, String dbName, String user, String password) {
         if(instance == null) instance = new DBManager(hostname, dbName, user, password);
 
@@ -45,13 +61,11 @@ public class DBManager {
         }
     }
 
-   /**
-     * Connect to the PostgreSQL database
+    /**
+     * Collegamento al database postgre
      *
-     * @return a Connection object
-     * @category connection
+     * @return una connessione
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public Connection connect() throws SQLException {
         try {
@@ -64,11 +78,10 @@ public class DBManager {
     }
 
      /**
-     * It gets a valid id
-     * 
-     * @return String
-     * @category INSERT
-     * @author AndrewF17
+     * Ottiene un ID valido
+     * @param columnName nome della colonna
+     * @param tableName nome della tabella
+     * @return id valido
      */
     public String getValidId(String columnName, String tableName) {
        String sql = "SELECT COUNT("+ columnName +") FROM "+ tableName + " WHERE " + columnName +"=?";
@@ -93,13 +106,12 @@ public class DBManager {
 
        return resl;
     }
+
     /**
-     * Insert a new Centro vaccinale
-     * 
-     * @return a String
-     * @category INSERT
+     * Inserisce nel DB un nuovo centro vaccinale
+     * @param object centro vaccinale
+     * @return id dell'oggetto aggiunto al DB
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public String addCentroVaccinale(CentroVaccinale object) {
         String sql = "INSERT INTO CentriVaccinali(id, nome, qualificatoreIndirizzo, nomeIndirizzo, numeroCivico, comune, provincia, CAP, tipologia)"
@@ -127,12 +139,10 @@ public class DBManager {
     }
 
     /**
-     * Insert a new Cittadino
-     * 
-     * @return a Boolean
-     * @category INSERT
+     * Inserisce nel DB un nuovo cittadino
+     * @param object centro vaccinale
+     * @return il risultato dell'operazione
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public Boolean addCittadino(Cittadino object) {
         String sql = "INSERT INTO Cittadini_Registrati(codiceFiscale, nome, cognome, email, idVaccinazione, passwd) VALUES (?,?,?,?,?,?)";
@@ -156,6 +166,17 @@ public class DBManager {
         }   
     }
 
+    /**
+     * Inserisce nel DB un nuovo vaccinato
+     * @param idVaccinazione id di vaccinazione
+     * @param nomeCittadino nome del cittadino
+     * @param cognomeCittadino cognome del cittadino
+     * @param codiceFiscale codice fiscale del cittadino
+     * @param dataSomministrazione data somministrazione del vaccino
+     * @param typeVaccino tipo di vaccino
+     * @param idCentro id del centro
+     * @return id di vaccinazione del vaccinato aggiunto
+     */
     public String addVaccinato(String idVaccinazione, String nomeCittadino, String cognomeCittadino, 
                                 String codiceFiscale, Date dataSomministrazione, TipoVaccino typeVaccino, String idCentro) {
         String sql = "INSERT INTO Vaccinati(id, nomeCittadino, cognomeCittadino, codiceFiscale, dataSomministrazione, tipoVaccino, idCentro) VALUES (?,?,?,?,?,?::TipoVaccino,?)";
@@ -178,12 +199,10 @@ public class DBManager {
     }
 
     /**
-     * Delete Centro vaccinale
-     * 
-     * @return a Boolean
-     * @category DELETE
+     * Elimina centro vaccinale
+     * @param object centro vaccinale
+     * @return il risultato dell'operazione
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public Boolean deleteCentroVaccinale(CentroVaccinale object) {
         String sql = "DELETE FROM CentriVaccinali WHERE nome = ?";
@@ -200,12 +219,10 @@ public class DBManager {
     }
 
     /**
-     * Get all Centri vaccinali
+     * Ottenimento di tutti i centri vaccinali
      * 
-     * @return List<CentroVaccinale>
-     * @category SELECT
+     * @return una lista di tutti i centri vaccinali
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public List<CentroVaccinale> getAllCentriVaccinali() {
         String sql = "SELECT * FROM CentriVaccinali";
@@ -237,6 +254,11 @@ public class DBManager {
         return resl;
     }
     
+    /**
+     * Ottenimento dei centri vaccinali per nome
+     * @param nomeCentro nome del centro che si sta cercando
+     * @return una lista di centri vaccinali che matchano la string in input
+     */
     public List<CentroVaccinale> getCentriVaccinaliByNome(String nomeCentro) {
         String sql = "SELECT * FROM CentriVaccinali WHERE nome ILIKE ?";
         List<CentroVaccinale> resl =  new ArrayList<CentroVaccinale>();
@@ -268,12 +290,10 @@ public class DBManager {
     }
 
     /**
-     * Select Centro vaccinale by Comune
-     * 
-     * @return List<CentroVaccinale>
-     * @category SELECT
-     * @throws java.sql.SQLException
-     * @author AndrewF17
+     * Ottenimento dei centri vaccinali per comune e tipologia del centro
+     * @param comune nome del comune per filtrare i centri vaccinali
+     * @param tipologiaCentroVaccinale nome della tipologia di centro per filtrare i centri vaccinali
+     * @return una lista di centri vaccinali che matchano la string in input
      */
     public List<CentroVaccinale> getCentriVaccinaliByComuneETipologiaCentro(String comune, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
         String sql = "SELECT * FROM CentriVaccinali WHERE comune = ? AND tipologia = ?::TipologiaCentroVaccinale";
@@ -309,12 +329,10 @@ public class DBManager {
     }
 
     /**
-     * Select Centro vaccinale by id (nome)
+     * Ottenimento dei centri vaccinali per ID
      * 
-     * @return CentroVaccinale
-     * @category SELECT
+     * @return una lista di centri vaccinali che matchano la string in input
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public CentroVaccinale getCentroVaccinaleById(String id) {
         String sql = "SELECT * FROM CentriVaccinali WHERE id = ?";
@@ -348,12 +366,10 @@ public class DBManager {
     }
 
     /**
-     * get Numbers of CentriVaccinali
+     * Ottenimento del numero di centri vaccinali
      * 
-     * @return long
-     * @category COUNT
+     * @return numero dei centri vaccinali in long
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public long getCountCentriVaccinali() {
         String sql = "SELECT COUNT(nome) FROM CentriVaccinali";
@@ -371,12 +387,10 @@ public class DBManager {
     }
 
     /**
-     * get Numbers of Cittadini
+     * Ottenimento del numero di cittadini
      * 
-     * @return long
-     * @category COUNT
+     * @return numero dei cittadini in long
      * @throws java.sql.SQLException
-     * @author AndrewF17
      */
     public long getCountCittadini() {
         String sql = "SELECT COUNT(codiceFiscale) FROM Cittadini_Registrati";
@@ -393,6 +407,13 @@ public class DBManager {
         return 0;
     }
 
+    /**
+     * Inserisce nel DB l'evento avverso
+     * @param eventoAvverso evento avverso
+     * @param idVaccinazione id della vaccinazione
+     * @param idCentro id del centro
+     * @return il risultato dell'operazione
+     */
     public boolean inserisciEventoAvverso(EventoAvverso eventoAvverso, String idVaccinazione, String idCentro) {
         // Ottieni tutte le informazioni
         TipoVaccino tipoVaccino = null;
@@ -444,6 +465,10 @@ public class DBManager {
         return true;
     }
 
+    /**
+     * Ottenimento del numero di eventi avversi
+     * @return il numero degli eventi avversi
+     */
     public long getCountEventiAvversi() {
         String sql = "SELECT COUNT(*) FROM Eventi_Avversi";
         try {
@@ -459,6 +484,12 @@ public class DBManager {
         return 0;
     }
 
+    /**
+     * Autenticazione utente
+     * @param email email
+     * @param plainPassword password non hashata dell'utente
+     * @return il cittadino autenticato
+     */
     public Cittadino autenticaUtente(String email, String plainPassword) {
         String sql = "SELECT * FROM Cittadini_Registrati WHERE email = ?";
         Cittadino res = null;
@@ -486,6 +517,12 @@ public class DBManager {
         return res;
     }
 
+    /**
+     * Controllo se l'id vaccinazione dato e' presente tra quelli di un centro vaccinale
+     * @param idVaccinazione id vaccinazione da controllare
+     * @param idCentro id centro vaccinale in cui controllare
+     * @return esito dell'operazione di controllo
+     */
     public boolean controlloVaccinatoInCentro(String idVaccinazione, String idCentro) {
         String sql = "SELECT * FROM Vaccinati WHERE id = ? AND idCentro = ?";
         try {
@@ -504,6 +541,12 @@ public class DBManager {
         return false;
     }
 
+    /**
+     * Ottenimento dei dati sugli eventi avversi di un dato centro vaccinale
+     * @param idCentro id del centro vaccinale di cui si vogliono ottenere i dati riguardo gli eventi avversi
+     * @return oggetto DatiExtraCentroVaccinale contenente le informazioni sugli eventi avversi registrati
+     * @throws RemoteException
+     */
     public DatiExtraCentroVaccinale getDatiSuEventiAvversi(String idCentro) {
         // Numero totale eventi avversi
         int numOfEventiAvversi = 0;

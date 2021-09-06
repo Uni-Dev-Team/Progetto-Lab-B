@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import unidevteam.communication.*;
@@ -16,6 +23,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette di:
+ * <ul>
+ * <li>Uccidere il server</li>
+ * <li>Attuare un update delle metrics</li>
+ * </ul>
+ */
 public class FXMLMetricsController {
 
     ServerCentroVaccinale rmiServerCentroVaccinale;
@@ -49,6 +64,10 @@ public class FXMLMetricsController {
     @FXML
     private Button killServerButton;
 
+    /**
+     * Permette di uccidere il server
+     * @param event
+     */
     @FXML
     void onClickKillServer(ActionEvent event) {
         try {
@@ -60,6 +79,10 @@ public class FXMLMetricsController {
         }
     }
 
+    /**
+     * Permette di aggiornare i dati mostrati nella finestra
+     * @param event
+     */
     @FXML
     void onClickUpdateMetrics(MouseEvent event) {
 
