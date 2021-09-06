@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import java.net.URL;
@@ -22,6 +29,15 @@ import unidevteam.util.JsonReader;
 import unidevteam.util.Regex;
 import unidevteam.util.SceneManager;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette:
+ * <ul>
+ * <li>Registrazione centro</li>
+ * <li>Muoversi alla schermata precedente</li>
+ * <li>Ottenere comuni</li>
+ * </ul>
+ */
 public class FXMLRegistraCentroController implements Initializable {
 
     JsonReader jsonReader;
@@ -66,6 +82,10 @@ public class FXMLRegistraCentroController implements Initializable {
     @FXML
     private Label errorMessage;
 
+    /**
+     * Permette la registrazione di un centro
+     * @param event
+     */
     @FXML
     void onClickRegistraCentro(ActionEvent event) {
         registerButton.setText("Caricamento...");
@@ -191,11 +211,19 @@ public class FXMLRegistraCentroController implements Initializable {
         }
     }
 
+    /**
+     * Permette di tornare alla scena precedente
+     * @param event
+     */
     @FXML
     void onClickGoBack(MouseEvent event) {
         new SceneManager().switchToNewScene(event, "scene");
     }
 
+    /**
+     * Ottiene i comuni e li inserisce nella combobox
+     * @param event
+     */
     @FXML
     void onActionProvincia(ActionEvent event) {
         String fullProvincia = provinciaComboBox.getValue();

@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import java.net.URL;
@@ -26,6 +33,14 @@ import unidevteam.communication.Client;
 import unidevteam.enumerators.TipoVaccino;
 import unidevteam.util.*;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette:
+ * <ul>
+ * <li>Registrazione vaccinato</li>
+ * <li>Muoversi alla schermata precedente</li>
+ * </ul>
+ */
 public class FXMLRegistraVaccinatoController implements Initializable {
 
     List<CentroVaccinale> centriVaccinali;
@@ -64,11 +79,19 @@ public class FXMLRegistraVaccinatoController implements Initializable {
     @FXML
     private DatePicker dataSomministrazioneDatePicker;
 
+    /**
+     * Permette di tornare alla scena precedente 
+     * @param event
+     */
     @FXML
     void onClickGoBack(MouseEvent event) {
         new SceneManager().switchToNewScene(event, "scene");
     }
 
+    /**
+     * Permette di registrare un vaccinato ottenendo i dati dalla GUI
+     * @param event
+     */
     @FXML
     void onClickRegistraVaccinato(ActionEvent event) {
         String nomeCentro = nomeCentroComboBox.getSelectionModel().getSelectedItem().getNome();

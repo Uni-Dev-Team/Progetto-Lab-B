@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.util;
 
 import java.io.FileReader;
@@ -10,7 +17,11 @@ import org.json.simple.parser.*;
 
 import java.io.FileNotFoundException;
 
-
+/**
+ * Classe per leggere e lavorare da file JSON
+ * Usato per il file italia.json e per italia_comuni.json
+ * Questi file ci permettono di ottenere informazioni sui comuni e province italiane 
+ */
 public class JsonReader {
     JSONParser parser;
 
@@ -18,6 +29,10 @@ public class JsonReader {
         parser = new JSONParser();
     }
 
+    /**
+     * 
+     * @return Una lista di tutte le province italiane già ordinate
+     */
     public List<String> getProvince() {
         List<String> province = new ArrayList<String>();
 
@@ -55,6 +70,11 @@ public class JsonReader {
             return province;
     }
 
+    /**
+     * Ottiene comuni tramite la sigla della provincia
+     * @param siglaProvincia sigla della provincia 
+     * @return una lista di comuni sotto forma di stringa
+     */
     public List<String> getComuniByProvincia(String siglaProvincia) {
         List<String> comuni = new ArrayList<String>();
 
@@ -99,6 +119,10 @@ public class JsonReader {
         return null;
     }
 
+    /**
+     * @param nomeComune nome del comune
+     * @return il CAP sotto forma di stringa
+     */
     public String getCAPfromComune(String nomeComune) {
         try {
             Object object;
