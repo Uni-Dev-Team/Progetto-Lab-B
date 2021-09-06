@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-Il progetto e' Un sistema di segnalazione eventi avversi da vaccinazione covid19
+Il progetto e' un sistema di segnalazione eventi avversi da vaccinazione covid19
 
 ## Development enviroment
 | Strumenti utilizzate | Link |
