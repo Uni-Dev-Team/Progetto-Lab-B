@@ -65,7 +65,7 @@ cd target/
 ```
 5. Eseguire il file jar specificando i moduli di javafx da utilizzare
 ``` 
-java --module-path ../../Sdk/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml -jar .\server-1.0-SNAPSHOT-jar-with-dependencies.jar
+java --module-path ../../Sdk/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml -jar .\[applicazzione_da_compilare]-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 ## Dipendencies utilizzate:
