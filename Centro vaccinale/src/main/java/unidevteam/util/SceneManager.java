@@ -34,9 +34,9 @@ public class SceneManager {
     public void switchToNewScene(MouseEvent event, String fileName) {
         try {
             try{
-                root = FXMLLoader.load(new File("Centro vaccinale/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+                root = FXMLLoader.load(getClass().getClassLoader().getResource(fileName+".fxml"));
             } catch (FileNotFoundException e) {
-                root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+                root = FXMLLoader.load(getClass().getClassLoader().getResource(fileName+".fxml"));
             } finally {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 scene = new Scene(root);

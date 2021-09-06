@@ -30,7 +30,7 @@ public class CentroVaccinale extends Application{
     public void start(Stage stage) throws Exception {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("Centro vaccinale/src/main/resources/scene.fxml").toURI().toURL());
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("scene.fxml"));
         } catch (Exception e) {
             root = FXMLLoader.load(new File("src/main/resources/scene.fxml").toURI().toURL());
         } finally {

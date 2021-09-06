@@ -35,9 +35,9 @@ public class SceneManager {
     public void switchToNewScene(ActionEvent event, String fileName) {
         try {
             try{
-                root = FXMLLoader.load(new File("Server/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+                root = FXMLLoader.load(getClass().getClassLoader().getResource(fileName+".fxml"));
             } catch (FileNotFoundException e) {
-                root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("../"+ fileName + ".fxml").toURI().toURL());
             } finally {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 if(fileName.equals("metrics")) {

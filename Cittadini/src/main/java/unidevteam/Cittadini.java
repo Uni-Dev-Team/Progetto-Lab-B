@@ -8,7 +8,6 @@
 
 package unidevteam;
 
-import java.io.File;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +23,7 @@ public class Cittadini extends Application
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(new File("src/main/resources/scene.fxml").toURI().toURL());
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("scene.fxml"));
         stage.setScene(new Scene(root));
         stage.setTitle("Client: Cittadini");
         stage.setResizable(false);

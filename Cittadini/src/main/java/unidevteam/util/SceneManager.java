@@ -18,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import unidevteam.classes.CentroVaccinale;
 
 /**
  * Classe che ci permette di cambiare scena
@@ -36,7 +35,7 @@ public class SceneManager {
     public void switchToNewScene(ActionEvent event, String fileName) {
         try {
             try{
-                root = FXMLLoader.load(new File("Cittadini/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+                root = FXMLLoader.load(getClass().getClassLoader().getResource(fileName+".fxml"));
             } catch (FileNotFoundException e) {
                 root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
             } finally {
@@ -52,26 +51,6 @@ public class SceneManager {
         }        
     }
 
-    public void switchToAddEventScene(ActionEvent event, String fileName, CentroVaccinale centroVaccinale) {
-        try {
-            try{
-                root = FXMLLoader.load(new File("Cittadini/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
-            } catch (FileNotFoundException e) {
-                root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
-            } finally {
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-
-                stage.show();
-                root.requestFocus();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-
     /**
      * Permette di cambiare scena
      * @param event 
@@ -80,7 +59,7 @@ public class SceneManager {
     public void switchToNewScene(MouseEvent event, String fileName) {
         try {
             try{
-                root = FXMLLoader.load(new File("Cittadini/src/main/resources/"+ fileName + ".fxml").toURI().toURL());
+                root = FXMLLoader.load(getClass().getClassLoader().getResource(fileName+".fxml"));
             } catch (FileNotFoundException e) {
                 root = FXMLLoader.load(new File("src/main/resources/"+ fileName + ".fxml").toURI().toURL());
             } finally {
