@@ -57,7 +57,7 @@ mvn package
 ```
 3. Creare un secondo jar che include tutte le dipendenze nel file
 ```
-mvn assembly:assembly-DdescriptorId=jar-with-dependencies
+mvn assembly:assembly -DdescriptorId=jar-with-dependencies
 ```
 4. Spostarsi nella cartella contenente il file eseguibile jar
 ``` sh
