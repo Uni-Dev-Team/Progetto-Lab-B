@@ -32,11 +32,12 @@ public class Server extends Application
     public void start(Stage stage) throws IOException {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("Server/src/main/resources/login.fxml").toURI().toURL());
-            stage.getIcons().add(new Image(new File("Server/src/main/resources/primula.png").toURI().toURL().toString()));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
+            System.out.println(getClass().getClassLoader().getResource("primula.png").toString());
+            stage.getIcons().add(new Image(getClass().getClassLoader().getResource("primula.png").toString()));
         } catch (FileNotFoundException e) {
-            root = FXMLLoader.load(new File("src/main/resources/login.fxml").toURI().toURL());
-            stage.getIcons().add(new Image(new File("src/main/resources/primula.png").toURI().toURL().toString()));
+            root = FXMLLoader.load(new File("../login.fxml").toURI().toURL());
+            stage.getIcons().add(new Image(new File("../primula.png").toURI().toURL().toString()));
         } finally {
             stage.setResizable(false);
             stage.setScene(new Scene(root));

@@ -7,7 +7,6 @@
 
 package unidevteam.controllers;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -332,8 +331,10 @@ public class FXMLHomeController implements Initializable {
 
             boolean isMale = Integer.parseInt(utente.getCodiceFiscale().subSequence(9, 11).toString()) < 41;
 
-            File file = new File(isMale ? "src/main/resources/male.png" : "src/main/resources/female.png");
-            Image image = new Image(file.toURI().toString());
+            Image image = new Image(isMale ? 
+            getClass().getClassLoader().getResource("male.png").toString() 
+            : 
+            getClass().getClassLoader().getResource("female.png").toString());
             fotoUtenteImageView.setImage(image);
         }
 
@@ -351,8 +352,7 @@ public class FXMLHomeController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends CentroVaccinale> observableValue, CentroVaccinale oldValue, CentroVaccinale newValue) {
                     if(newValue != null) {
-                        File file = new File(String.format("src/main/resources/%s.png", newValue.getTipologiaCentroVaccinale().getValue().toLowerCase()));
-                        Image image = new Image(file.toURI().toString());
+                        Image image = new Image(getClass().getClassLoader().getResource(String.format("%s.png", newValue.getTipologiaCentroVaccinale().getValue().toLowerCase())).toString());
                         fotoCentroImageView.setImage(image);
 
                         nomeCentroLabel.setText(newValue.getNome());

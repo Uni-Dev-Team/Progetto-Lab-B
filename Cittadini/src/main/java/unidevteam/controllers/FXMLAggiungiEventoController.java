@@ -7,7 +7,6 @@
 
 package unidevteam.controllers;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -205,8 +204,7 @@ public class FXMLAggiungiEventoController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         resultMessage.setVisible(false);
 
-        File file = new File(String.format("src/main/resources/%s.png", centroVaccinale.getTipologiaCentroVaccinale().getValue().toLowerCase()));
-        Image image = new Image(file.toURI().toString());
+        Image image = new Image(getClass().getClassLoader().getResource(String.format("%s.png", centroVaccinale.getTipologiaCentroVaccinale().getValue().toLowerCase())).toString());
         fotoCentroImageView.setImage(image);
 
         if(fotoProfilo != null)

@@ -8,6 +8,7 @@
 package unidevteam.util;
 
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
 /**
@@ -40,9 +42,9 @@ public class JsonReader {
             {
                 Object object;
                 try{
-                    object = parser.parse(new FileReader("Centro vaccinale/src/main/resources/italia.json"));
+                    object = parser.parse(new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("italia.json"))));
                 } catch (FileNotFoundException e) {
-                    object = parser.parse(new FileReader("src/main/resources/italia.json"));
+                    object = parser.parse(new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("italia.json"))));
                 }
                 //convert Object to JSONObject
                 JSONObject jsonObject = (JSONObject)object;
@@ -82,9 +84,9 @@ public class JsonReader {
             {
                 Object object;
                 try{
-                    object = parser.parse(new FileReader("Centro vaccinale/src/main/resources/italia_comuni.json"));
+                    object = parser.parse(new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("italia_comuni.json"))));
                 } catch (FileNotFoundException e) {
-                    object = parser.parse(new FileReader("src/main/resources/italia_comuni.json"));
+                    object = parser.parse(new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("italia_comuni.json"))));
                 }
                 //convert Object to JSONObject
                 JSONObject jsonObject = (JSONObject)object;
@@ -127,9 +129,9 @@ public class JsonReader {
         try {
             Object object;
             try{
-                object = parser.parse(new FileReader("Centro vaccinale/src/main/resources/italia_comuni.json"));
+                object = parser.parse(new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("italia_comuni.json"))));
             } catch (FileNotFoundException e) {
-                object = parser.parse(new FileReader("src/main/resources/italia_comuni.json"));
+                object = parser.parse(new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("italia_comuni.json"))));
             }
             //convert Object to JSONObject
             JSONObject jsonObject = (JSONObject)object;
