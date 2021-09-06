@@ -7,7 +7,6 @@ import java.util.List;
 import unidevteam.classes.CentroVaccinale;
 import unidevteam.classes.Cittadino;
 import unidevteam.classes.DatiExtraCentroVaccinale;
-import unidevteam.enumerators.TipoEvento;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 import unidevteam.interfaces.CittadiniInterfaccia;
 import unidevteam.classes.EventoAvverso;

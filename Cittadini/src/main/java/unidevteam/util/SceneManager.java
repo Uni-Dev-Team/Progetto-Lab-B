@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import unidevteam.classes.CentroVaccinale;
-import unidevteam.controllers.FXMLAggiungiEventoController;
 
 public class SceneManager {
     private Stage stage;
