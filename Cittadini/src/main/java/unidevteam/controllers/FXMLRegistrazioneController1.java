@@ -1,3 +1,9 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
 package unidevteam.controllers;
 
 import java.net.URL;
@@ -14,6 +20,14 @@ import unidevteam.util.Regex;
 import unidevteam.util.RegistrationHandler;
 import unidevteam.util.SceneManager;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette di:
+ * <ul>
+ * <li>Passare alla seconda parte della registrazione</li>
+ * <li>Muoversi alla schermata precedente</li>
+ * </ul>
+ */
 public class FXMLRegistrazioneController1 implements Initializable {
 
     @FXML
@@ -43,6 +57,10 @@ public class FXMLRegistrazioneController1 implements Initializable {
     @FXML
     private TextField cognomeTextField;
 
+    /**
+     * Permette di andare alla seconda parte della registrazione
+     * @param event
+     */
     @FXML
     void onClickAvanti(ActionEvent event) {
         String nome = nomeTextField.getText();
@@ -92,6 +110,10 @@ public class FXMLRegistrazioneController1 implements Initializable {
         }
     }
 
+    /**
+     * Permette di tornare alla pagina precedente
+     * @param event
+     */
     @FXML
     void onClickGoBack(MouseEvent event) {
         new SceneManager().switchToNewScene(event, "scene");

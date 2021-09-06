@@ -1,3 +1,11 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
+
 package unidevteam;
 
 import java.io.File;
@@ -8,10 +16,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * Hello world!
- *
- */
 public class Cittadini extends Application
 {
     public static void main( String[] args ){

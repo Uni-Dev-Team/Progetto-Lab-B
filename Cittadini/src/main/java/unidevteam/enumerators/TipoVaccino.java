@@ -1,5 +1,15 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.enumerators;
 
+/**
+ * Enum per gestire i tipi di vaccino
+ */
 public enum TipoVaccino {
     PFIZER("Pfizer"),
     ASTRAZENECA("Astrazeneca"),
@@ -15,10 +25,6 @@ public enum TipoVaccino {
     }
 
     public static TipoVaccino valueFromString(String value) {
-        /*return Arrays.stream(values())
-        .filter(q -> q.value == value)
-        .findFirst();*/
-
         switch(value) {
             case "PFIZER": return TipoVaccino.PFIZER;
             case "ASTRAZENECA": return TipoVaccino.ASTRAZENECA;

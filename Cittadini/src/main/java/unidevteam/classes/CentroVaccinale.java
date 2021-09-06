@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.classes;
 
 import java.io.Serializable;
@@ -5,6 +12,11 @@ import java.io.Serializable;
 import unidevteam.enumerators.QualificatoreIndirizzo;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 
+/**
+ * Classe per la gestione del centro vaccinale
+ * Possiede getter e setter per impostare i valori chiave della classe
+ * Serializzabile in quanto utilizzata assieme all'RMI
+ */
 public class CentroVaccinale implements Serializable {
     // Serializable ID
     private static final long serialVersionUID = 1;
@@ -19,6 +31,17 @@ public class CentroVaccinale implements Serializable {
     private String CAP;
     private TipologiaCentroVaccinale tipologiaCentroVaccinale;
 
+    /**
+     * 
+     * @param nome nome centro vaccinale
+     * @param qualificatoreIndirizzo tipo di indirizzo {@link cittadini.enumerators.QualificatoreIndirizzo#QualificatoreIndirizzo() QualficatoreIndirizzo}
+     * @param nomeIndirizzo indirizzo
+     * @param numeroCivico numero civico
+     * @param comune 
+     * @param provincia
+     * @param cap
+     * @param tipologiaCentroVaccinale tipologia del centro vaccinale {@link cittadini.enumerators.TipologiaCentroVaccinale#TipologiaCentroVaccinale() TipologiaCentroVaccinale}
+     */
     public CentroVaccinale(String id, String nome, QualificatoreIndirizzo qualificatoreIndirizzo, String nomeIndirizzo,
             String numeroCivico, String comune, String provincia, String cap, TipologiaCentroVaccinale tipologiaCentroVaccinale) {
         this.id = id;

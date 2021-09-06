@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.interfaces;
 
 import java.rmi.*;
@@ -6,6 +13,10 @@ import java.util.List;
 import unidevteam.classes.*;
 import unidevteam.enumerators.TipologiaCentroVaccinale;
 
+/**
+ * Interfaccia remota per RMI
+ * Gestisce quali metodi possono essere lanciati remotamente dal client
+ */
 public interface CittadiniInterfaccia extends Remote {
     
     public List<CentroVaccinale> cercaCentroVaccinale(String nomeCentro) throws RemoteException;

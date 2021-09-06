@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import java.net.URL;
@@ -19,6 +26,14 @@ import unidevteam.communication.Client;
 import unidevteam.util.SceneManager;
 import unidevteam.util.SessionHandler;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette di:
+ * <ul>
+ * <li>Accedere</li>
+ * <li>Tornare alla pagina precedente</li>
+ * </ul>
+ */
 public class FXMLAccessoController implements Initializable {
 
     @FXML
@@ -42,6 +57,10 @@ public class FXMLAccessoController implements Initializable {
     @FXML
     private PasswordField passwordTextField;
 
+    /**
+     * Permette l'accesso al cittadino se i valori prelevati dai campi sono corretti
+     * @param event
+     */
     @FXML
     void onClickAccedi(ActionEvent event) {
         // Prelievo valori campi
@@ -109,6 +128,10 @@ public class FXMLAccessoController implements Initializable {
         }
     }
 
+    /**
+     * Permette di andare alla scena precedente
+     * @param event
+     */
     @FXML
     void onClickGoBack(MouseEvent event) {
         new SceneManager().switchToNewScene(event, "scene");

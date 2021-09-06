@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import java.io.File;
@@ -5,7 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-// import java.util.stream.Collectors;
 import java.util.concurrent.ExecutionException;
 
 import javafx.beans.value.ChangeListener;
@@ -32,6 +38,17 @@ import unidevteam.util.JsonReader;
 import unidevteam.util.SceneManager;
 import unidevteam.util.SessionHandler;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette:
+ * <ul>
+ * <li>Ricerca centro vaccinale per nome</li>
+ * <li>Ricerca centro vaccinale per comune e tipo centro</li>
+ * <li>Effettuare il logout</li>
+ * <li>Aggiungere evento avverso</li>
+ * <li>Ottenere comuni</li>
+ * </ul>
+ */
 public class FXMLHomeController implements Initializable {
 
     JsonReader jsonReader;
@@ -97,19 +114,13 @@ public class FXMLHomeController implements Initializable {
     @FXML
     private ImageView logoutButton;
 
+    /**
+     * Ricerca per nome di un centro vaccinale
+     * @param event
+     */
     @FXML
     void onClickRicercaPerNome(ActionEvent event) {
         String nomeCentro = ricercaNomeCentroTextField.getText();
-
-        /*ricercaCentriVaccinali = centriVaccinali
-            .stream()
-            .filter(cv -> 
-                cv.getNome().toLowerCase()
-                .contains(nomeCentro.toLowerCase()
-            ))
-            .collect(Collectors.toList());
-            
-        risultatiRicercaListView.getItems().setAll(ricercaCentriVaccinali);*/
 
         Task<Void> getCentriVaccinaliTask = new Task<Void>() {
             @Override
@@ -144,6 +155,10 @@ public class FXMLHomeController implements Initializable {
         ricercaNomeCentroTextField.setDisable(true);
     }
 
+    /**
+     * Ricerca per comune e tipo di un centro vaccinale
+     * @param event
+     */
     @FXML
     void onClickRicercaPerComuneETipoCentro(ActionEvent event) {
         String comune = comuneComboBox.getSelectionModel().getSelectedItem();
@@ -190,12 +205,20 @@ public class FXMLHomeController implements Initializable {
         }
     }
 
+    /**
+     * Permette il logout
+     * @param event
+     */
     @FXML
     void onClickLogout(MouseEvent event) {
         SessionHandler.logout();
         new SceneManager().switchToNewScene(event, "accesso");
     }
 
+    /**
+     * Permette di inserire un evento avverso
+     * @param event
+     */
     @FXML
     void onClickInserisciEvento(ActionEvent event) {
         if(SessionHandler.getUtente() == null) {
@@ -249,6 +272,9 @@ public class FXMLHomeController implements Initializable {
         }
     }
 
+    /**
+     * Imposta la combobox dei comuni usando il {@link cittadini.util.JSONReader#JSONReader() JSONReader}
+     */
     public void setComuniComboBox() {
         Task<Void> getComuniTask = new Task<Void>() {
             protected Void call() throws Exception {
@@ -271,6 +297,9 @@ public class FXMLHomeController implements Initializable {
         ricercaPerComuneETipoButton.setDisable(true);
     }
 
+    /**
+     * Riempie la lista dei centri vaccinali
+     */
     public void setListaCentriVaccinali() {
         Task<Void> getCentriVaccinaliTask = new Task<Void>() {
             @Override

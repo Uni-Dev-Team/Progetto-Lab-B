@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import java.net.URL;
@@ -18,6 +25,14 @@ import unidevteam.util.*;
 import unidevteam.classes.*;
 import unidevteam.communication.*;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette:
+ * <ul>
+ * <li>Registrazione del cittadino</li>
+ * <li>Muoversi alla schermata precedente</li>
+ * </ul>
+ */
 public class FXMLRegistrazioneController2 implements Initializable {
 
     @FXML
@@ -47,11 +62,19 @@ public class FXMLRegistrazioneController2 implements Initializable {
     @FXML
     private Label errorMessage11;
 
+    /**
+     * Permette di tornare alla pagina precedente
+     * @param event
+     */
     @FXML
     void onClickGoBack(MouseEvent event) {
         new SceneManager().switchToNewScene(event, "scene");
     }
 
+    /**
+     * Permette di registrare il cittadino ottenendo i dati dalla GUI
+     * @param event
+     */
     @FXML
     void onClickRegistraCittadino(ActionEvent event) {
         String idVaccinazione = idVaccinazioneTextField.getText();

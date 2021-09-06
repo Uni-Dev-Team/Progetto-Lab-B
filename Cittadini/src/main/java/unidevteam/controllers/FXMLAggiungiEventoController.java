@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.controllers;
 
 import java.io.File;
@@ -25,6 +32,14 @@ import unidevteam.classes.EventoAvverso;
 import unidevteam.util.SceneManager;
 import unidevteam.util.SessionHandler;
 
+/**
+ * Classe per gestire elementi grafici
+ * Permette di:
+ * <ul>
+ * <li>Inserire evento avverso</li>
+ * <li>Tornare alla pagina precedente</li>
+ * </ul>
+ */
 public class FXMLAggiungiEventoController implements Initializable {
 
     private static CentroVaccinale centroVaccinale;
@@ -177,6 +192,10 @@ public class FXMLAggiungiEventoController implements Initializable {
         noteOpzionaliTextArea.setDisable(true);
     }
 
+    /**
+     * Permette di tornare alla scena precedente
+     * @param event
+     */
     @FXML
     public void onClickGoBack(MouseEvent event) {
         new SceneManager().switchToNewScene(event, "home");

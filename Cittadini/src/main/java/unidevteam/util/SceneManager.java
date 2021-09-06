@@ -1,3 +1,10 @@
+/**
+ * Christian Loschiavo 739894 VA
+ * Ivan Giubilei 739892 VA
+ * Nicolò Rossi 742626 VA
+ * Andrea Ferrario 740485 VA
+ */
+
 package unidevteam.util;
 
 import java.io.File;
@@ -13,11 +20,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import unidevteam.classes.CentroVaccinale;
 
+/**
+ * Classe che ci permette di cambiare scena
+ */
 public class SceneManager {
     private Stage stage;
     private Scene scene;
     private Parent root;
 
+    /**
+     * Permette di cambiare scena
+     * @param event
+     * @param fileName scena su cui vuoi andare
+     */
     public void switchToNewScene(ActionEvent event, String fileName) {
         try {
             try{
@@ -57,6 +72,11 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Permette di cambiare scena
+     * @param event 
+     * @param fileName scena su cui vuoi andare
+     */
     public void switchToNewScene(MouseEvent event, String fileName) {
         try {
             try{
