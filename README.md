@@ -17,7 +17,7 @@ Il progetto e' Un sistema di segnalazione eventi avversi da vaccinazione covid19
 ## Programmi sviluppati:
 
 - Server
--- Applicazione RMI usata come PROXY per gestire la comunicazione con il database POSGRES SQL.
+-- Applicazione RMI usata come PROXY per gestire la comunicazione con il database POSTGRES SQL.
 - Centri Vaccinali
 -- Client per gli operatori per registrare un nuovo centrovaccinale oppure registrare un nuovo vaccinato.
 - Cittadini 
